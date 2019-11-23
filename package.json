@@ -1,0 +1,16 @@
+{
+  "name": "simple-cms",
+  "version": "0.0.2",
+  "description": "",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/operan38/simple-cms.git"
+  },
+  "author": "operan38",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/operan38/simple-cms/issues"
+  },
+  "homepage": "https://github.com/operan38/simple-cms#readme",
+}
