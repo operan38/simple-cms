@@ -1,20 +1,30 @@
 const mysql = require('mysql');
+const config = require('./config');
 
 let connection;
 
-exports.connect = (config) => new Promise((resolve, reject) => {
+exports.connect = () => new Promise((resolve, reject) => {
     
     let mysqlConnection = mysql.createConnection(config.db);
 
     mysqlConnection.connect((err) => {
-        if (!err) {
+        if (err) {
+            return reject('Ошибка при подключении к базе данных\n Ошибка: ' + JSON.stringify(err));
+        }
+        else {
             connection = mysqlConnection;
             return resolve(`Соединение с базой данных установлено на порту ${connection.config.port}`);
         }
-        else {
-            return reject('Ошибка при подключении к базе данных\n Ошибка: ' + JSON.stringify(err));
-        }
     });
+
+    mysqlConnection.on('error', error => {
+        if (error.code === 'PROTOCOL_CONNECTION_LOST') {
+            console.error('Соединение с базой данных потеряно, попытка переподключиться...');
+            return setTimeout(() => exports.connect(), 1000);
+        }
+
+        throw error;
+    })
 
     // Формат запроса
 
