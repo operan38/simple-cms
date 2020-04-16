@@ -19,7 +19,7 @@ exports.connect = () => new Promise((resolve, reject) => {
 
     mysqlConnection.on('error', error => {
         if (error.code === 'PROTOCOL_CONNECTION_LOST') {
-            console.error('Соединение с базой данных потеряно, попытка переподключиться...');
+            console.error('Соединение с базой данных потеряно. Переподключение...');
             return setTimeout(() => exports.connect(), 1000);
         }
 
