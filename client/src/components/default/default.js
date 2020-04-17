@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Home extends Component {
+export default class Default extends Component {
 
   /*componentDidMount() {
     fetch('/')
@@ -9,17 +9,16 @@ class Home extends Component {
 
   constructor(props) {
     super(props);
+
+    console.log(props);
   }
 
   render () {
 
     return (
-      <h1>
-        Home
-      </h1>
-      
+        <h3>
+            {this.props.location.pathname}
+        </h3>
     );
   }
 }
-
-export default Home;

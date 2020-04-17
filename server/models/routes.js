@@ -13,5 +13,5 @@ exports.add = (title, url) => {
 }
 
 exports.del = (id) => {
-    return 0;
+    return db.execQuery('DELETE FROM routes WHERE id = :id', {id: id});
 }

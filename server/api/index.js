@@ -53,6 +53,21 @@ router.post('/routes/add', (req, res, next) => {
     });
 });
 
+router.post('/routes/del', (req, res, next) => {
+
+    const route = {
+        id: req.body.id,
+    };
+
+    model.routes.del(route.id).then((data) => {
+        res.send(true);
+    }).catch(err => {
+        res.status(500).send({
+            message: err
+        });
+    });
+});
+
 /*router.post(['/:ctrl','/:ctrl/:action'], (req, res, next) => {
     console.log(req.params);
     res.send(req.params);
