@@ -1,9 +1,9 @@
 const express = require('express');
 const urlApi = require('url');
 const router = express.Router();
-const config = require('./config');
+const config = require('../config');
 
-const model = require('./models');
+const model = require('../models');
 
 let routesMap = [];
 
@@ -13,7 +13,7 @@ let isRouteExsists = (url) => {
     return Object.values(routesMap).find(route => getURLPattern(route.url.replace(/:id/gi, '([a-zA-Z0-9-]+)')).test(url));
 }
 
-let getUrlParams = (url) => {
+/*let getUrlParams = (url) => {
     let urlVar = url // получаем параметры из урла
     let arrayVar = []; // массив для хранения переменных
     let valueAndKey = []; // массив для временного хранения значения и имени переменной
@@ -36,20 +36,19 @@ let getUrlParams = (url) => {
     {
         return false;
     }
-}
+}*/
 
 router.use(async (req, res, next) => {
 
     try {
 
         let decodePath = decodeURI(req.path);
-
         let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
         let fragmentsUrl = urlApi.parse(fullUrl);
 
         //console.log(getUrlParams(fragmentsUrl.search));
 
-        let routesList = await model.routes.get();
+        let routesList = await model.routes.getAll();
         //let componetsList = await model.componets.get();
 
         //console.log(componetsList);
@@ -99,7 +98,7 @@ router.use(async (req, res, next) => {
 
 let getSection = (res, route) => {
 
-    return model.sections.getId(route.id).then((section) => {
+    return model.sections.getById(route.id).then((section) => {
         let dataView = {};
 
         dataView.route = route;
@@ -131,13 +130,18 @@ router.use((req, res, next) => {
 
 router.use((err, req, res, next) => {
     
-    res.status(err.status || 500);
-    res.render('error', {
+    res.status(err.status || 500).send({
+        message: 'Not Found',
+        status: err.status,
+        stack: config.developerMode ? err.stack : '',
+        title: 'Oops...'
+    });
+    /*res.render('error', {
         message: err.message,
         status: err.status,
         stack: !config.IS_PRODUCTION ? err.stack : '',
         title: 'Oops...'
-    });
+    });*/
 });
 
 module.exports = router;

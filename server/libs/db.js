@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const config = require('./config');
+const config = require('../config');
 
 let connection;
 
@@ -13,7 +13,7 @@ exports.connect = () => new Promise((resolve, reject) => {
         }
         else {
             connection = mysqlConnection;
-            return resolve(`Соединение с базой данных установлено на порту ${connection.config.port}`);
+            return resolve(`Соединение с базой данных установлено. Порт: ${connection.config.port}`);
         }
     });
 
@@ -22,7 +22,6 @@ exports.connect = () => new Promise((resolve, reject) => {
             console.error('Соединение с базой данных потеряно. Переподключение...');
             return setTimeout(() => exports.connect(), 1000);
         }
-
         throw error;
     })
 

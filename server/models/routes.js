@@ -1,13 +1,17 @@
-const db = require('../db');
+const db = require('../libs/db');
 
-exports.get = () => {
+exports.getAll = () => {
     return db.execQuery('SELECT * FROM routes');
 }
 
-exports.getId = (id) => {
+exports.getById = (id) => {
     return db.execQuery('SELECT * FROM routes WHERE id = :id', {id: id});
 }
 
 exports.add = (title, url) => {
-    return db.execQuery('INSERT INTO routes (title, url) VALUES(:title,:url)', {title: title, url: url});
+    return db.execQuery('INSERT INTO routes (title, url) VALUES(:title, :url)', {title: title, url: url});
+}
+
+exports.del = (id) => {
+    return 0;
 }

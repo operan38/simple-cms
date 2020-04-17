@@ -1,11 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const path = require('path');
 
 const api = require('./api');
-const db = require('./db');
-const router = require('./router');
+const db = require('./libs/db');
+const router = require('./libs/router');
 const config = require('./config');
 
 const app = express();
@@ -14,18 +13,19 @@ var corsOptions = {
     origin: "http://localhost:3000"
 };
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+/*app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');*/
 
 app.use(morgan('dev'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
+
 app.use(cors(corsOptions));
 
 app.use('/api', api);
-app.use('/', router);
+app.use('/ajax', router);
 
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: (', p, 'reason:', reason, ')');
@@ -34,9 +34,9 @@ process.on('unhandledRejection', (reason, p) => {
 db.connect(config)
     .then((result) => {
 
-        app.listen(config.PORT, (err) => {
+        app.listen(config.port, (err) => {
             if (!err)
-                console.log(`Сервер запущен на порту ${config.PORT}`);
+                console.log(`API cервер запущен. Порт: ${config.port}`);
             else
                 console.log(err);
         })

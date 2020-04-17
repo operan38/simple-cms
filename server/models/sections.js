@@ -1,10 +1,10 @@
-const db = require('../db');
+const db = require('../libs/db');
 
-exports.get = () => {
+exports.getAll = () => {
     return db.execQuery('SELECT * FROM sections');
 }
 
-exports.getId = (id) => {
+exports.getById = (id) => {
     return db.execQuery('SELECT * FROM sections WHERE routes_id = :id', {id: id});
 }
 

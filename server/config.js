@@ -5,6 +5,6 @@ module.exports = {
         password: '',
         database: 'simple_cms'
     },
-    PORT: 3001,
-    IS_PRODUCTION: false,
+    port: 3001,
+    developerMode: true,
 }
