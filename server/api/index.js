@@ -60,6 +60,7 @@ router.post('/routes/del', (req, res, next) => {
     };
 
     model.routes.del(route.id).then((data) => {
+        console.log('12345');
         res.send(true);
     }).catch(err => {
         res.status(500).send({

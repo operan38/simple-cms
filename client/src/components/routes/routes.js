@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import RoutesDataService from "../../services/routes.service";
 
+import { NavLink } from 'react-router-dom';
+
 import './routes.css';
 
 
@@ -39,11 +41,11 @@ export default class Routes extends Component {
     routesList = this.state.routes.map((route, index) => {
       return (
         <li key={ index } className="mb-3 border p-2">
-          <b>title:</b> { route.title }
+          <b>title:</b> <NavLink to={ route.url }>{ route.title }</NavLink>
           <br></br>
-          <span><b>url:</b> { route.url }</span>
+          <span><b>url:</b><NavLink to={ route.url }>{ route.url }</NavLink></span>
           <br></br>
-          <span><b>component:</b> { route.component }</span>
+          <span><b>component:</b> { route.component }</span><br></br>
           <form method="POST" action="/api/routes/del">
             <input type="hidden" name="id" value={ route.id }></input>
             <button className="btn btn-danger" type="submit">Удалить</button>
@@ -55,6 +57,7 @@ export default class Routes extends Component {
     return (
       <div>
         <h3>Список маршрутов:</h3>
+        <NavLink to="/">Главная</NavLink>
         <ul>
           { routesList }
         </ul>

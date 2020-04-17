@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default class App extends Component {
 
   componentDidMount() {
-    fetch('/api/routes',{ method: 'POST' })
+    fetch('/api/routes', { method: 'POST' })
       .then(res => res.json())
       .then(res => this.setState({ routes: res }))
   }
@@ -42,7 +42,7 @@ export default class App extends Component {
 
           {routesList}
 
-          <Route path="" component={NotFound} />
+          <Route exact path="" component={NotFound} />
         </Switch>
       </div>
     )
