@@ -24,25 +24,29 @@ export default class App extends Component {
     }
   }
 
+  updateRoutesList() {
+    return this.state.routes.map((route, index) => {
+      return (
+          <Route key={index} path={route.url} component={Default} updateRoutesList={this.updateRoutesList}/>
+      )
+    })
+  }
+
   render() {
 
     let routesList = [];
 
-    routesList = this.state.routes.map((route, index) => {
-      return (
-          <Route key={index} path={route.url} component={Default}/>
-      )
-    })
+    routesList = this.updateRoutesList(routesList);
 
     return (
       <div className="App">
         <Switch>
-          <Route exact path='/' component={Home}/>
-          <Route path='/routes' component={Routes}/>
+          <Route exact path='/' component={Home} updateRoutesList={this.updateRoutesList}/>
+          <Route path='/routes' component={Routes} updateRoutesList={this.updateRoutesList}/>
 
           {routesList}
 
-          <Route exact path="" component={NotFound} />
+          <Route exact path="" component={NotFound} updateRoutesList={this.updateRoutesList}/>
         </Switch>
       </div>
     )

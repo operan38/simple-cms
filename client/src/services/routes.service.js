@@ -11,15 +11,15 @@ class RoutesDataService {
   }
 
   add(data) {
-    return http.post("/routes", data);
+    return http.post("/routes/add", data);
   }
 
   update(id, data) {
     return http.put(`/routes/${id}`, data);
   }
 
-  del(id) {
-    return http.delete(`/routes/${id}`);
+  del(data) {
+    return http.post('/routes/del', data);
   }
 }
 

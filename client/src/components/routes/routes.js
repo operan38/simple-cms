@@ -18,11 +18,14 @@ export default class Routes extends Component {
     super(props);
 
     this.state = {
-      routes: []
+      routes: [],
+      title: '',
+      url: ''
     }
   }
 
-  componentDidMount() {
+  getData() {
+
     RoutesDataService.getAll().then(response => {
       this.setState({
         routes: response.data
@@ -32,6 +35,39 @@ export default class Routes extends Component {
     .catch(e => {
       console.log(e);
     });
+  }
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  handleAdd = (title, url) => {
+    RoutesDataService.add({'title': title, 'url': url}).then(response => {
+      console.log(response.data);
+      this.setState({title: '', url: ''})
+      this.getData();
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  } 
+
+  handleDelete = (id) => {
+    RoutesDataService.del({'id': id}).then(response => {
+      console.log(response.data);
+      this.getData();
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  }
+  
+  onTitleChange = (e) => {
+    this.setState({ title: e.target.value, });
+  }
+
+  onUrlChange = (e) => {
+    this.setState({ url: e.target.value, });
   }
 
   render () {
@@ -46,10 +82,11 @@ export default class Routes extends Component {
           <span><b>url:</b><NavLink to={ route.url }>{ route.url }</NavLink></span>
           <br></br>
           <span><b>component:</b> { route.component }</span><br></br>
-          <form method="POST" action="/api/routes/del">
+          <button type="button" className="btn btn-danger" onClick={() => this.handleDelete(route.id)}>Удалить</button>
+          {/*<form method="POST" action="/api/routes/del">
             <input type="hidden" name="id" value={ route.id }></input>
             <button className="btn btn-danger" type="submit">Удалить</button>
-          </form>
+          </form>*/}
         </li>
       )
     })
@@ -62,13 +99,13 @@ export default class Routes extends Component {
           { routesList }
         </ul>
         <div>
-            <form method="POST" action="/api/routes/add">
+            {/*<form method="POST" action="/api/routes/add">*/}
               <div className="d-inline-flex flex-column p-2">
-                <input name="title" className="mb-2" type="text" placeholder="title"></input>
-                <input name="url" className="mb-2" type="text" placeholder="url"></input>
-                <button className="btn btn-success" type="submit">Добавить</button>
+                <input name="title" className="mb-2" type="text" placeholder="title" value={this.state.title} onChange={this.onTitleChange}></input>
+                <input name="url" className="mb-2" type="text" placeholder="url" value={this.state.url} onChange={this.onUrlChange}></input>
+                <button className="btn btn-success" onClick={() => this.handleAdd(this.state.title, this.state.url)} type="submit">Добавить</button>
               </div>
-            </form>
+            {/*</form>*/}
         </div>
       </div>
     );
