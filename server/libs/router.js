@@ -3,7 +3,8 @@ const urlApi = require('url');
 const router = express.Router();
 const config = require('../config');
 
-const model = require('../models');
+const routes = require('../models/routes');
+const sections = require('../models/sections');
 
 let routesMap = [];
 
@@ -48,7 +49,7 @@ router.use(async (req, res, next) => {
 
         //console.log(getUrlParams(fragmentsUrl.search));
 
-        let routesList = await model.routes.getAll();
+        let routesList = await routes.getOnlyAll();
         //let componetsList = await model.componets.get();
 
         //console.log(componetsList);
@@ -98,7 +99,7 @@ router.use(async (req, res, next) => {
 
 let getSection = (res, route) => {
 
-    return model.sections.getById(route.id).then((section) => {
+    return sections.getById(route.id).then((section) => {
         let dataView = {};
 
         dataView.route = route;
@@ -136,12 +137,7 @@ router.use((err, req, res, next) => {
         stack: config.developerMode ? err.stack : '',
         title: 'Oops...'
     });
-    /*res.render('error', {
-        message: err.message,
-        status: err.status,
-        stack: !config.IS_PRODUCTION ? err.stack : '',
-        title: 'Oops...'
-    });*/
+
 });
 
 module.exports = router;

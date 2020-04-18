@@ -11,3 +11,7 @@ exports.getById = (id) => {
 exports.add = (routes_id) => {
     return db.execQuery('INSERT INTO sections (routes_id) VALUES(:routes_id)', {routes_id: routes_id});
 }
+
+exports.del = (id) => {
+    return db.execQuery('DELETE FROM sections WHERE id = :id', {id: id});
+}

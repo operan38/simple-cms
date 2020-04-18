@@ -1,6 +1,6 @@
 {
   "name": "simple-cms",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "",
   "scripts": {},
   "repository": {
@@ -12,5 +12,5 @@
   "bugs": {
     "url": "https://github.com/operan38/simple-cms/issues"
   },
-  "homepage": "https://github.com/operan38/simple-cms#readme",
+  "homepage": "https://github.com/operan38/simple-cms#readme"
 }

@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 export default class Default extends Component {
 
   componentDidMount() {
-    fetch('/ajax' + this.props.location.pathname, { method: 'POST' })
+    fetch('/custom' + this.props.location.pathname, { method: 'POST' })
       .then(res => res.json())
       .then(res => this.setState({ data: res, isLoadData: true }))
   }

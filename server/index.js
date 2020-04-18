@@ -1,20 +1,15 @@
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
 
-const api = require('./api');
 const db = require('./libs/db');
 const router = require('./libs/router');
 const config = require('./config');
 
-const app = express();
-
 var corsOptions = {
     origin: "http://localhost:3000"
 };
-
-/*app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');*/
 
 app.use(morgan('dev'));
 
@@ -24,8 +19,8 @@ app.use(express.static('public'));
 
 app.use(cors(corsOptions));
 
-app.use('/api', api);
-app.use('/ajax', router);
+require('./api')(app);
+app.use('/custom', router);
 
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: (', p, 'reason:', reason, ')');
