@@ -40,6 +40,13 @@ export default class App extends Component {
 
     return (
       <div className="App">
+        <header>
+          <div className="d-flex align-items-center">
+            <img src="logo.svg" alt=""></img>
+            <h4>simple cms</h4>
+          </div>
+          
+        </header>
         <Switch>
           <Route exact path='/' component={Home} updateRoutesList={this.updateRoutesList}/>
           <Route path='/routes' component={Routes} updateRoutesList={this.updateRoutesList}/>
