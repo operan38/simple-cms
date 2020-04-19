@@ -18,14 +18,12 @@ export default class Routes extends Component {
     super(props);
 
     this.state = {
-      routes: [],
       title: '',
       url: ''
     }
   }
 
-  getData() {
-
+  /*getData() {
     RoutesDataService.getAll().then(response => {
       this.setState({
         routes: response.data
@@ -35,17 +33,17 @@ export default class Routes extends Component {
     .catch(e => {
       console.log(e);
     });
-  }
+  }*/
 
   componentDidMount() {
-    this.getData();
+    //this.getData();
   }
 
   handleAdd = (title, url) => {
     RoutesDataService.add({'title': title, 'url': url}).then(response => {
       console.log(response.data);
       this.setState({title: '', url: ''})
-      this.getData();
+      this.props.getData();
     })
     .catch(e => {
       console.log(e);
@@ -55,7 +53,7 @@ export default class Routes extends Component {
   handleDelete = (id) => {
     RoutesDataService.del({'id': id}).then(response => {
       console.log(response.data);
-      this.getData();
+      this.props.getData();
     })
     .catch(e => {
       console.log(e);
@@ -74,7 +72,7 @@ export default class Routes extends Component {
 
     let routesList = [];
 
-    routesList = this.state.routes.map((route, index) => {
+    routesList = this.props.routes.map((route, index) => {
       return (
         <li key={ index } className="mb-3 border p-2">
           <b>title:</b> <NavLink to={ route.url }>{ route.title }</NavLink>
@@ -83,13 +81,9 @@ export default class Routes extends Component {
           <br></br>
           <span><b>component:</b> { route.component }</span><br></br>
           <button type="button" className="btn btn-danger" onClick={() => this.handleDelete(route.id)}>Удалить</button>
-          {/*<form method="POST" action="/api/routes/del">
-            <input type="hidden" name="id" value={ route.id }></input>
-            <button className="btn btn-danger" type="submit">Удалить</button>
-          </form>*/}
         </li>
       )
-    })
+    });
 
     return (
       <div>

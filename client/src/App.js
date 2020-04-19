@@ -11,9 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default class App extends Component {
 
   componentDidMount() {
-    fetch('/api/routes', { method: 'POST' })
-      .then(res => res.json())
-      .then(res => this.setState({ routes: res }))
+    this.getData();
   }
 
   constructor(props) {
@@ -24,10 +22,16 @@ export default class App extends Component {
     }
   }
 
+  getData = () => {
+    fetch('/api/routes', { method: 'POST' })
+      .then(res => res.json())
+      .then(res => this.setState({ routes: res }))
+  }
+
   updateRoutesList() {
     return this.state.routes.map((route, index) => {
       return (
-          <Route key={index} path={route.url} component={Default} updateRoutesList={this.updateRoutesList}/>
+          <Route key={index} path={route.url} component={Default}/>
       )
     })
   }
@@ -48,12 +52,12 @@ export default class App extends Component {
           
         </header>
         <Switch>
-          <Route exact path='/' component={Home} updateRoutesList={this.updateRoutesList}/>
-          <Route path='/routes' component={Routes} updateRoutesList={this.updateRoutesList}/>
+          <Route exact path='/' component={Home}/>
+          <Route path='/routes' render={(props) => <Routes {...props} routes={this.state.routes} getData={this.getData} />}/>
 
           {routesList}
 
-          <Route exact path="" component={NotFound} updateRoutesList={this.updateRoutesList}/>
+          <Route exact path="" component={NotFound}/>
         </Switch>
       </div>
     )
