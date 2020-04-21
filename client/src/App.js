@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import {Route, Switch} from 'react-router-dom';
 
 import Routes from './components/routes/routes';
@@ -8,7 +9,7 @@ import Default from './components/default/default';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default class App extends Component {
+class App extends Component {
 
   componentDidMount() {
     this.getData();
@@ -38,6 +39,8 @@ export default class App extends Component {
 
   render() {
 
+    //console.log('App', this.props);
+
     let routesList = [];
 
     routesList = this.updateRoutesList(routesList);
@@ -63,3 +66,17 @@ export default class App extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    customRoutes: state.customRoutes
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getRoutes: () => dispatch({type: 'GET_ROUTES'})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

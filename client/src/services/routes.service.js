@@ -1,25 +1,21 @@
-import http from "../http-common";
+import httpApi from "../http-common-api";
 
 class RoutesDataService {
   
   getAll() {
-    return http.post("/routes");
-  }
-
-  getById(id) {
-    return http.get(`/routes/${id}`);
+    return httpApi.post("/routes");
   }
 
   add(data) {
-    return http.post("/routes/add", data);
+    return httpApi.post("/routes/add", data);
   }
 
-  update(id, data) {
-    return http.put(`/routes/${id}`, data);
+  update(data) {
+    return httpApi.post(`/routes/upd`, data);
   }
 
   del(data) {
-    return http.post('/routes/del', data);
+    return httpApi.post('/routes/del', data);
   }
 }
 
