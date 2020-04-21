@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 19 2020 г., 09:08
+-- Время создания: Апр 21 2020 г., 08:50
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.1.32
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `routes` (
   `id` int(11) UNSIGNED NOT NULL,
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Заголовок',
-  `url` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URL',
+  `path` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URL',
   `component` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -39,11 +39,12 @@ CREATE TABLE `routes` (
 -- Дамп данных таблицы `routes`
 --
 
-INSERT INTO `routes` (`id`, `title`, `url`, `component`) VALUES
-(1, 'Тестовая страница', '/test', 'Test'),
+INSERT INTO `routes` (`id`, `title`, `path`, `component`) VALUES
 (22, '1234', '/a134', NULL),
 (25, '1234fafas', '/1234567', NULL),
-(26, 'dffdsds', '/45678', NULL);
+(28, 'kjhghhjhj', '/876786', NULL),
+(29, 'kjhghhjhj', '/sdfgh', NULL),
+(30, 'sdgdsg', '/12345', NULL);
 
 -- --------------------------------------------------------
 
@@ -81,7 +82,7 @@ ALTER TABLE `sections`
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT для таблицы `sections`

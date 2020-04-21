@@ -8,6 +8,7 @@ exports.getAll = (req, res) => {
     return db.execQuery('SELECT * FROM routes').then((data) => {
         res.send(data);
     }).catch(err => {
+        console.error(err);
         res.status(500).send({
             message: err
         });
@@ -26,6 +27,7 @@ exports.getById = (req, res) => {
         else
             next(err);
     }).catch(err => {
+        console.error(err);
         res.status(500).send({
             message: "Not found id=" + id
         });
@@ -36,12 +38,13 @@ exports.add = (req, res) => {
 
     const route = {
         title: req.body.title,
-        url: req.body.url,
+        path: req.body.path,
     };
 
-    return db.execQuery('INSERT INTO routes (title, url) VALUES(:title, :url)', {title: route.title, url: route.url}).then((data) => {
+    return db.execQuery('INSERT INTO routes (title, path) VALUES(:title, :path)', {title: route.title, path: route.path}).then((data) => {
         res.send(true);
     }).catch(err => {
+        console.error(err);
         res.status(500).send({
             message: err
         });
@@ -57,6 +60,7 @@ exports.del = (req, res) => {
     return db.execQuery('DELETE FROM routes WHERE id = :id', {id: route.id}).then((data) => {
         res.send(true);
     }).catch(err => {
+        console.error(err);
         res.status(500).send({
             message: err
         });

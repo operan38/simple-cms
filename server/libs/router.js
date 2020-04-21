@@ -8,10 +8,10 @@ const sections = require('../models/sections');
 
 let routesMap = [];
 
-let getURLPattern = url => new RegExp(`^${url}/?$`, 'g');
+let getURLPattern = path => new RegExp(`^${path}/?$`, 'g');
 
-let isRouteExsists = (url) => {
-    return Object.values(routesMap).find(route => getURLPattern(route.url.replace(/:id/gi, '([a-zA-Z0-9-]+)')).test(url));
+let isRouteExsists = (path) => {
+    return Object.values(routesMap).find(route => getURLPattern(route.path.replace(/:id/gi, '([a-zA-Z0-9-]+)')).test(path));
 }
 
 /*let getUrlParams = (url) => {
@@ -63,8 +63,8 @@ router.use(async (req, res, next) => {
         }
             
         [...routesList].reduce((object, item) => {
-            item.urlKey = item.url;
-            item.url = item.url.replace(/:id/g, '([a-zA-Z0-9\-]+)');
+            item.urlKey = item.path;
+            item.path = item.path.replace(/:id/g, '([a-zA-Z0-9\-]+)');
             object[item.urlKey] = item;
             return object;
         }, routesMap);
@@ -78,7 +78,7 @@ router.use(async (req, res, next) => {
 
         if (route)
         {
-            let param = getURLPattern(route.url).exec(decodePath).slice(1);
+            let param = getURLPattern(route.path).exec(decodePath).slice(1);
 
             if (param)
             {
