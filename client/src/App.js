@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Route, Switch} from 'react-router-dom';
 
-import Routes from './components/routes/routes';
-import Home from './components/home/home';
-import NotFound from './components/notFound/notFound';
-import Default from './components/default/default';
+import {fetchRoutes} from './store/actions/routes';
+
+import Home from './containers/Home/Home';
+import NotFound from './containers/NotFound/NotFound';
+import Routes from './containers/Routes/Routes';
+import Default from './containers/Default/Default';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 class App extends Component {
 
-  componentDidMount() {
+  /*componentDidMount() {
     this.getData();
   }
 
@@ -35,47 +37,52 @@ class App extends Component {
           <Route key={index} path={route.url} component={Default}/>
       )
     })
+  }*/
+
+  updateCustomRoutesList = () => {
+    return this.props.customRoutes.map((route, index) => {
+      return (
+          <Route key={index} path={route.path} component={Default}/>
+      )
+    })
+  }
+
+  componentDidMount() {
+    this.props.fetchRoutes();
   }
 
   render() {
 
-    //console.log('App', this.props);
+    let routes = (
+      <Switch>
+        <Route exact path='/' component={Home}/>
 
-    let routesList = [];
+        <Route path='/routes' component={Routes} />}/>
 
-    routesList = this.updateRoutesList(routesList);
+        { this.props.customRoutes.length !== 0 ? this.updateCustomRoutesList() : ''}
+
+        <Route exact path="" component={NotFound}/>
+      </Switch>
+    );
 
     return (
-      <div className="App">
-        <header>
-          <div className="d-flex align-items-center">
-            <img src="logo.svg" alt=""></img>
-            <h4>simple cms</h4>
-          </div>
-          
-        </header>
-        <Switch>
-          <Route exact path='/' component={Home}/>
-          <Route path='/routes' render={(props) => <Routes {...props} routes={this.state.routes} getData={this.getData} />}/>
-
-          {routesList}
-
-          <Route exact path="" component={NotFound}/>
-        </Switch>
+      <div className='app'>
+          { routes }
       </div>
     )
+
   }
 }
 
 function mapStateToProps(state) {
   return {
-    customRoutes: state.customRoutes
+    customRoutes: state.routes.customRoutes,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getRoutes: () => dispatch({type: 'GET_ROUTES'})
+    fetchRoutes: () => dispatch(fetchRoutes())
   }
 }
 
