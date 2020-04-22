@@ -3,19 +3,19 @@ import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import Loader from '../../../components/UI/Loader/Loader';
-import {fetchCustomContainers} from '../../../store/actions/customContainers';
+import {fetchCustomContainerByPath} from '../../../store/actions/customContainer';
 
 class Default extends Component {
 
     componentDidMount() {
-        this.props.fetchCustomContainers(this.props.match.path);
+        this.props.fetchCustomContainerByPath(this.props.match.path);
     }
 
     render() {
         return (
             <div>
                 <h1>Default контейнер</h1>
-                { !this.props.loading && this.props.customContainersList.length !== 0 ? <h3>Title: {this.props.customContainersList.route.title}</h3> : <Loader /> }
+                { !this.props.loading && this.props.list.length !== 0 ? <h3>Title: {this.props.list.route.title}</h3> : <Loader /> }
                 <button>Добавить секцию</button><br></br>
                 <NavLink to='/admin/routes'>К списку маршрутов</NavLink>
             </div>
@@ -26,15 +26,15 @@ class Default extends Component {
 
 function mapStateToProps(state) {
     return {
-        customContainersList: state.customContainers.customContainersList,
-        loading: state.customContainers.loading,
-        error: state.customContainers.error
+        list: state.customContainer.list,
+        loading: state.customContainer.loading,
+        error: state.customContainer.error
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchCustomContainers: (path) => dispatch(fetchCustomContainers(path)),
+        fetchCustomContainerByPath: (path) => dispatch(fetchCustomContainerByPath(path)),
     }
 }
 

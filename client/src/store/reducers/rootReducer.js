@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux';
 import routesReducer from './routes';
 import containersReducer from './containers';
-import customContainersReducer from './customContainers';
+import customContainerReducer from './customContainer';
 
 export default combineReducers({
     routes: routesReducer,
     containers: containersReducer,
-    customContainers: customContainersReducer
+    customContainer: customContainerReducer
 })

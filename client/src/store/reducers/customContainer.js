@@ -1,22 +1,22 @@
-import { FETCH_CUSTOM_CONTAINERS_START, FETCH_CUSTOM_CONTAINERS_SUCCESS, FETCH_CUSTOM_CONTAINERS_ERROR } from '../actions/type';
+import { FETCH_CUSTOM_CONTAINER_START, FETCH_CUSTOM_CONTAINER_SUCCESS, FETCH_CUSTOM_CONTAINER_ERROR } from '../actions/type';
 
 const initalState = {
-    customContainersList: [],
+    list: [],
     loading: false,
     error: null
 }
 
 export default function customContainerReducer(state = initalState, action) {
     switch (action.type) {
-        case FETCH_CUSTOM_CONTAINERS_START:
+        case FETCH_CUSTOM_CONTAINER_START:
             return {
                 ...state, loading: true
             }
-        case FETCH_CUSTOM_CONTAINERS_SUCCESS:
+        case FETCH_CUSTOM_CONTAINER_SUCCESS:
             return {
-                ...state, loading: false, customContainersList: action.customContainersList
+                ...state, loading: false, list: action.list
             }
-        case FETCH_CUSTOM_CONTAINERS_ERROR:
+        case FETCH_CUSTOM_CONTAINER_ERROR:
             return {
                 ...state, loading: false, error: action.error
             }
