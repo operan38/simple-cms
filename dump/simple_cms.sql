@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 22 2020 г., 12:34
+-- Время создания: Апр 22 2020 г., 16:13
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.1.32
 
@@ -51,8 +51,8 @@ CREATE TABLE `containers` (
 --
 
 INSERT INTO `containers` (`id`, `title`, `path`) VALUES
-(1, 'Default', './containers/Default/Default'),
-(2, 'Dynamic', './containers/Dynamic/Dynamic');
+(1, 'Default', './Default/Default'),
+(2, 'Dynamic', './Dynamic/Dynamic');
 
 -- --------------------------------------------------------
 
@@ -72,9 +72,8 @@ CREATE TABLE `routes` (
 --
 
 INSERT INTO `routes` (`id`, `title`, `path`, `container_id`) VALUES
-(2, 'Тестовый маршрут', '/test', 1),
-(3, 'Тестовый маршрут 2', '/test2', 2),
-(5, 'Test', '/1234', 1);
+(9, 'Тестовый1', '/test', 1),
+(10, 'Testt', '/test2', 2);
 
 -- --------------------------------------------------------
 
@@ -137,7 +136,7 @@ ALTER TABLE `containers`
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `sections`

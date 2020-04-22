@@ -34,7 +34,8 @@ class Routes extends Component {
         return (
             <div>
                 <h1>Список маршрутов</h1>
-                { this.props.loading && this.props.customRoutes.length !== 0 ? <Loader /> : this.showRoutes() }
+                { this.props.loading && this.props.customRoutes.length === 0 ? <Loader /> : this.showRoutes() }
+                { !this.props.loading && this.props.customRoutes.length === 0 ? <div className="w-100 text-center">Список пуст</div> : ''}
                 <RouteCreator />
                 <NavLink to='/'>Главная страница</NavLink>
             </div>

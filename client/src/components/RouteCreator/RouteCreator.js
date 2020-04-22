@@ -28,8 +28,6 @@ class RouteCreator extends Component {
             container_id
         }
 
-        console.log(container_id);
-
         this.props.fetchAddRoute(route);
 
         this.setState({
@@ -66,10 +64,10 @@ class RouteCreator extends Component {
         return (
             <div>
                 <div className="d-inline-flex flex-column p-2">
-                    <input className="mb-2" type="text" placeholder="title" value={this.state.title} onChange={this.onTitleChange}></input>
-                    <input className="mb-2" type="text" placeholder="path" value={this.state.path} onChange={this.onPathChange}></input>
-                    <select className="mb-2" onChange={this.onContainerChange}>
-                        <option selected></option>
+                    <input className="form-control mb-2" type="text" placeholder="title" value={this.state.title} onChange={this.onTitleChange}></input>
+                    <input className="form-control mb-2" type="text" placeholder="path" value={this.state.path} onChange={this.onPathChange}></input>
+                    <select className="form-control mb-2" onChange={this.onContainerChange}>
+                        <option></option>
                         { this.props.loading && this.props.customRoutes.length !== 0 ? <option disabled selected>загрузка...</option> : this.showContainers() }
                     </select>
                     <button className="btn btn-success" type="submit" onClick={() => this.addRouteHandler(this.state.title, this.state.path, this.state.container_id)}>Добавить</button>

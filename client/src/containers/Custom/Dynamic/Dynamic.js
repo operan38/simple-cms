@@ -11,7 +11,7 @@ class Dynamic extends Component {
         return (
             <div>
                 <h1>Dynamic контейнер</h1>
-                <NavLink to='/routes'>К списку маршрутов</NavLink>
+                <NavLink to='/admin/routes'>К списку маршрутов</NavLink>
             </div>
         )
     }
