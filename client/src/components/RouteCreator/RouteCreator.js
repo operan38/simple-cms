@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {fetchAddRoute} from '../../store/actions/routes';
+import {fetchContainers} from '../../store/actions/containers';
 
 class RouteCreator extends Component {
 
@@ -10,23 +11,45 @@ class RouteCreator extends Component {
     
         this.state = {
             title: '',
-            path: ''
+            path: '',
+            container_id: ''
         }
     }
 
-    addRouteHandler = (title, path) => {
+    componentDidMount() {
+        this.props.fetchContainers();
+    }
+
+    addRouteHandler = (title, path, container_id) => {
 
         let route = {
             title,
-            path
+            path,
+            container_id
         }
 
-        this.props.fetchAddRoute(route)
+        console.log(container_id);
+
+        this.props.fetchAddRoute(route);
 
         this.setState({
             title: '',
-            path: ''
+            path: '',
+            container_id: ''
         })
+    }
+
+    showContainers() {
+        return this.props.containersList.map((container, index) => {
+            return (
+                <option key={index} value={container.id}>{container.title}</option>
+            )
+        })
+    }
+
+    onContainerChange = (e) => {
+        e.preventDefault();
+        this.setState({ container_id: e.target.value })
     }
 
     onTitleChange = (e) => {
@@ -43,9 +66,13 @@ class RouteCreator extends Component {
         return (
             <div>
                 <div className="d-inline-flex flex-column p-2">
-                    <input name="title" className="mb-2" type="text" placeholder="title" value={this.state.title} onChange={this.onTitleChange}></input>
-                    <input name="path" className="mb-2" type="text" placeholder="path" value={this.state.path} onChange={this.onPathChange}></input>
-                    <button className="btn btn-success" type="submit" onClick={() => this.addRouteHandler(this.state.title, this.state.path)}>Добавить</button>
+                    <input className="mb-2" type="text" placeholder="title" value={this.state.title} onChange={this.onTitleChange}></input>
+                    <input className="mb-2" type="text" placeholder="path" value={this.state.path} onChange={this.onPathChange}></input>
+                    <select className="mb-2" onChange={this.onContainerChange}>
+                        <option selected></option>
+                        { this.props.loading && this.props.customRoutes.length !== 0 ? <option disabled selected>загрузка...</option> : this.showContainers() }
+                    </select>
+                    <button className="btn btn-success" type="submit" onClick={() => this.addRouteHandler(this.state.title, this.state.path, this.state.container_id)}>Добавить</button>
                 </div>
             </div>
         )
@@ -54,13 +81,14 @@ class RouteCreator extends Component {
 
 function mapStateToProps(state) {
     return {
-
+        containersList: state.containers.containersList,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchAddRoute: (route) => dispatch(fetchAddRoute(route))
+        fetchAddRoute: (route) => dispatch(fetchAddRoute(route)),
+        fetchContainers: () => dispatch(fetchContainers())
     }
 }
 

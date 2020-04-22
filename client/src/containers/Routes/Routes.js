@@ -23,7 +23,7 @@ class Routes extends Component {
                 <div key={ index } className="mb-3 border p-2">
                     <b>Title: </b> <NavLink to={ route.path }>{ route.title } </NavLink>
                     <span><b>Path: </b> <NavLink to={ route.path }>{ route.path } </NavLink></span>
-                    <span><b>Component: </b> { route.component } </span>
+                    <span><b>Сontainer: </b> { route.container_title } </span>
                     <button type="button" className="btn btn-danger" onClick={() => this.delRouteHandler(route.id)}>Удалить</button>
                 </div>
             )

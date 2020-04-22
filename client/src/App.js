@@ -1,48 +1,31 @@
-import React, {Component} from 'react';
+import React, {Component, Suspense, lazy} from 'react';
 import {connect} from 'react-redux';
 import {Route, Switch} from 'react-router-dom';
 
 import {fetchRoutes} from './store/actions/routes';
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import Loader from './components/UI/Loader/Loader';
+
 import Home from './containers/Home/Home';
 import NotFound from './containers/NotFound/NotFound';
-import Routes from './containers/Routes/Routes';
-import Default from './containers/Default/Default';
 
-import "bootstrap/dist/css/bootstrap.min.css";
+const Default = lazy(() => import('./containers/Default/Default'));
+const Dynamic = lazy(() => import('./containers/Dynamic/Dynamic'));
+const Routes = lazy(() => import('./containers/Routes/Routes'));
 
 class App extends Component {
 
-  /*componentDidMount() {
-    this.getData();
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      routes: []
-    }
-  }
-
-  getData = () => {
-    fetch('/api/routes', { method: 'POST' })
-      .then(res => res.json())
-      .then(res => this.setState({ routes: res }))
-  }
-
-  updateRoutesList() {
-    return this.state.routes.map((route, index) => {
-      return (
-          <Route key={index} path={route.url} component={Default}/>
-      )
-    })
-  }*/
-
   updateCustomRoutesList = () => {
+
+    const containersList = {
+      'Default' : Default,
+      'Dynamic' : Dynamic
+    }
+
     return this.props.customRoutes.map((route, index) => {
       return (
-          <Route key={index} path={route.path} component={Default}/>
+          <Route key={index} path={route.path} component={containersList[route.container_title]}/>
       )
     })
   }
@@ -54,15 +37,17 @@ class App extends Component {
   render() {
 
     let routes = (
-      <Switch>
-        <Route exact path='/' component={Home}/>
+      <Suspense fallback={<Loader />}>
+        <Switch>
+          <Route exact path='/' component={Home}/>
 
-        <Route path='/routes' component={Routes} />}/>
+          <Route path='/routes' component={Routes} />}/>
 
-        { this.props.customRoutes.length !== 0 ? this.updateCustomRoutesList() : ''}
+          { this.props.customRoutes.length !== 0 ? this.updateCustomRoutesList() : ''}
 
-        <Route exact path="" component={NotFound}/>
-      </Switch>
+          <Route exact path="" component={NotFound}/>
+        </Switch>
+      </Suspense>
     );
 
     return (

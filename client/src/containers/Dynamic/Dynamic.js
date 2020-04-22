@@ -1,17 +1,20 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 
-class Default extends Component {
+class Dynamic extends Component {
+
+    test() {
+        return true;
+    }
 
     render() {
         return (
             <div>
-                <h1>Default контейнер</h1>
-                <button>Добавить секцию</button><br></br>
+                <h1>Dynamic контейнер</h1>
                 <NavLink to='/routes'>К списку маршрутов</NavLink>
             </div>
         )
     }
 }
 
-export default Default
+export default Dynamic

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 21 2020 г., 08:50
+-- Время создания: Апр 22 2020 г., 12:34
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.1.32
 
@@ -25,26 +25,56 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `components`
+--
+
+CREATE TABLE `components` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(80) CHARACTER SET utf8 NOT NULL,
+  `value` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `containers`
+--
+
+CREATE TABLE `containers` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(80) CHARACTER SET utf8 NOT NULL,
+  `path` varchar(80) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `containers`
+--
+
+INSERT INTO `containers` (`id`, `title`, `path`) VALUES
+(1, 'Default', './containers/Default/Default'),
+(2, 'Dynamic', './containers/Dynamic/Dynamic');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `routes`
 --
 
 CREATE TABLE `routes` (
   `id` int(11) UNSIGNED NOT NULL,
-  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Заголовок',
-  `path` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URL',
-  `component` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `title` varchar(100) CHARACTER SET utf8 NOT NULL COMMENT 'Заголовок',
+  `path` varchar(100) CHARACTER SET utf8 NOT NULL COMMENT 'Путь',
+  `container_id` int(11) UNSIGNED NOT NULL COMMENT 'id контейнера'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `routes`
 --
 
-INSERT INTO `routes` (`id`, `title`, `path`, `component`) VALUES
-(22, '1234', '/a134', NULL),
-(25, '1234fafas', '/1234567', NULL),
-(28, 'kjhghhjhj', '/876786', NULL),
-(29, 'kjhghhjhj', '/sdfgh', NULL),
-(30, 'sdgdsg', '/12345', NULL);
+INSERT INTO `routes` (`id`, `title`, `path`, `container_id`) VALUES
+(2, 'Тестовый маршрут', '/test', 1),
+(3, 'Тестовый маршрут 2', '/test2', 2),
+(5, 'Test', '/1234', 1);
 
 -- --------------------------------------------------------
 
@@ -62,10 +92,23 @@ CREATE TABLE `sections` (
 --
 
 --
+-- Индексы таблицы `components`
+--
+ALTER TABLE `components`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `containers`
+--
+ALTER TABLE `containers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `routes`
 --
 ALTER TABLE `routes`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `container_id` (`container_id`);
 
 --
 -- Индексы таблицы `sections`
@@ -79,10 +122,22 @@ ALTER TABLE `sections`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `components`
+--
+ALTER TABLE `components`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `containers`
+--
+ALTER TABLE `containers`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `sections`

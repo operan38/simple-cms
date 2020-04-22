@@ -44,8 +44,8 @@ router.use(async (req, res, next) => {
     try {
 
         let decodePath = decodeURI(req.path);
-        let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-        let fragmentsUrl = urlApi.parse(fullUrl);
+        let fullPath = req.protocol + '://' + req.get('host') + req.originalUrl;
+        let fragmentsPath = urlApi.parse(fullPath);
 
         //console.log(getUrlParams(fragmentsUrl.search));
 
@@ -63,9 +63,9 @@ router.use(async (req, res, next) => {
         }
             
         [...routesList].reduce((object, item) => {
-            item.urlKey = item.path;
+            item.pathKey = item.path;
             item.path = item.path.replace(/:id/g, '([a-zA-Z0-9\-]+)');
-            object[item.urlKey] = item;
+            object[item.pathKey] = item;
             return object;
         }, routesMap);
 
@@ -85,7 +85,12 @@ router.use(async (req, res, next) => {
                 route.param = param;
             }
 
-            getSection(res, route);
+            let dataView = {};
+
+            dataView.route = route;
+            return res.send({...dataView});
+
+            //getSection(res, route);
         }
         else
         {
@@ -97,7 +102,7 @@ router.use(async (req, res, next) => {
     }
 });
 
-let getSection = (res, route) => {
+/*let getSection = (res, route) => {
 
     return sections.getById(route.id).then((section) => {
         let dataView = {};
@@ -110,16 +115,10 @@ let getSection = (res, route) => {
 
         return res.send({...dataView});
 
-        /*return res.json([{
-            route: dataView.route,
-            section: dataView.section
-        },]);*/
-
-
     }).catch((e) => {
         return res.send("Section: " + e);
     });;
-}
+}*/
 
 router.use((req, res, next) => {
 
