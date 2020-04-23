@@ -5,6 +5,7 @@ import {fetchAddRoute} from '../../store/actions/routes';
 import {fetchContainers} from '../../store/actions/containers';
 
 import Input from '../UI/Input/Input';
+import Select from '../UI/Select/Select';
 
 class RouteCreator extends Component {
 
@@ -47,6 +48,16 @@ class RouteCreator extends Component {
         })
     }
 
+    /*renderSelectContainer() {
+        return <select className="form-control mb-2" onChange={this.onChangeContainer}>
+            return (
+                <option></option>
+                { this.props.loading && this.props.customRoutes.length !== 0 ? <option disabled selected>загрузка...</option> : this.showContainers() }
+            )
+
+        </select>
+    }*/
+
     onChangeContainer = (e) => {
         e.preventDefault();
         this.setState({ container_id: e.target.value })
@@ -63,15 +74,20 @@ class RouteCreator extends Component {
     }
 
     render() {
+
+        const select = <Select
+            className="mb-2"
+            onChange={this.onChangeContainer}
+            keyOptions={{value: 'id', text: 'title'}}
+            options={this.props.containersList}
+        />
+
         return (
             <div>
                 <div className="d-inline-flex flex-column p-2">
                     <Input className="mb-3" placeholder="title" onChange={this.onChangeTitle} value={this.state.title}></Input>
                     <Input className="mb-3" placeholder="path" onChange={this.onChangePath} value={this.state.path}></Input>
-                    <select className="form-control mb-2" onChange={this.onChangeContainer}>
-                        <option></option>
-                        { this.props.loading && this.props.customRoutes.length !== 0 ? <option disabled selected>загрузка...</option> : this.showContainers() }
-                    </select>
+                    { select }
                     <button className="btn btn-success" type="submit" onClick={() => this.addRouteHandler(this.state.title, this.state.path, this.state.container_id)}>Добавить</button>
                 </div>
             </div>
