@@ -1,12 +1,12 @@
 import { FETCH_CONTAINERS_START, FETCH_CONTAINERS_SUCCESS, FETCH_CONTAINERS_ERROR } from '../actions/type';
 
-const initalState = {
+const initialState = {
     containersList: [],
     loading: false,
     error: null
 }
 
-export default function containersReducer(state = initalState, action) {
+export default function containersReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_CONTAINERS_START:
             return {

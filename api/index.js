@@ -1,9 +1,10 @@
 module.exports = app => {
     const router = require('express').Router();
     const bcrypt = require('bcryptjs');
-    const config = require('../config');
     const jwt = require('jsonwebtoken');
     const { check, validationResult } = require('express-validator');
+
+    const config = require('../config');
 
     const routes = require('../models/routes');
     const containers = require('../models/containers');
@@ -47,7 +48,6 @@ module.exports = app => {
             await users.add(req, res, user);
 
             return res.status(201).json();
-            //return 
         }
         catch (err) {
             res.status(500).json({
@@ -74,27 +74,34 @@ module.exports = app => {
 
             const { login, password } = req.body;
             const user = await users.getByLogin(req, res, login);
-            const isMath = await bcrypt.compare(password, user.password);
 
-            console.log(user);
+            if (!user.length) {
+                return res.status(400).json({message: 'Неверный логин или пароль'});
+            }
 
-            if (!user.length || !isMath) {
+            const isMath = await bcrypt.compare(password, user[0].password);
+
+            if (!isMath.length) {
                 return res.status(400).json({message: 'Неверный логин или пароль'});
             }
 
             const token = jwt.sign(
-                { userId: user.id },
+                { userId: user[0].id },
                 config.jwtSecret,
                 { expiresIn: '1h'}
             )
 
-            return res.status(200).json({ token, userId: user.id});
+            return res.status(200).json({ token, userId: user[0].id});
         }
         catch (err) {
             res.status(500).json({
-                message: 'Что то пошло не так, попробуйте снова :' + err
+                message: 'Что то пошло не так, попробуйте снова: ' + err
             });
         }
+    })
+
+    router.post('/users/logout', () =>{
+        
     })
 
     app.use('/api', router);

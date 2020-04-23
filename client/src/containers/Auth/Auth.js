@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
+import {auth, logout} from '../../store/actions/auth';
 
 import Input from '../../components/UI/Input/Input';
 
@@ -92,7 +95,9 @@ class Auth extends Component {
     }
 
     loginHandler = () => {
-        
+        this.props.auth(this.state.formControls.login.value, 
+                        this.state.formControls.password.value
+        );
     }
 
     render() {
@@ -109,4 +114,17 @@ class Auth extends Component {
     }
 }
 
-export default Auth
+function mapStateToProps(state) {
+    return {
+
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        auth: (login, password) => dispatch(auth(login, password)),
+        logout: () => dispatch(logout())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth)

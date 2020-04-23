@@ -34,7 +34,7 @@ class App extends Component {
 
   render() {
 
-    let view = (
+    let routes = (
       <Suspense fallback={<Loader />}>
         <Switch>
           <Route exact path='/' component={Home}/>
@@ -54,7 +54,7 @@ class App extends Component {
         <Container>
           <Row>
             <Col>
-              { view }
+              { routes }
             </Col>
           </Row>
         </Container>

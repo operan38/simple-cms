@@ -1,12 +1,12 @@
 import { FETCH_CUSTOM_CONTAINER_START, FETCH_CUSTOM_CONTAINER_SUCCESS, FETCH_CUSTOM_CONTAINER_ERROR } from '../actions/type';
 
-const initalState = {
+const initialState = {
     list: [],
     loading: false,
     error: null
 }
 
-export default function customContainerReducer(state = initalState, action) {
+export default function customContainerReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_CUSTOM_CONTAINER_START:
             return {
