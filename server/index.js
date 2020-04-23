@@ -18,7 +18,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 app.use(cors(corsOptions));
-
 require('./api')(app);
 app.use('/custom', router);
 
@@ -31,7 +30,7 @@ db.connect(config)
 
         app.listen(config.port, (err) => {
             if (!err)
-                console.log(`API cервер запущен. Порт: ${config.port}`);
+                console.log(`Сервер запущен. (Порт: ${config.port})`);
             else
                 console.log(err);
         })

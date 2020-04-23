@@ -88,7 +88,7 @@ router.use(async (req, res, next) => {
             let dataView = {};
 
             dataView.route = route;
-            return res.send({...dataView});
+            return res.json({...dataView});
 
             //getSection(res, route);
         }
@@ -113,10 +113,10 @@ router.use(async (req, res, next) => {
         //return res.render('index', { ...dataView });
 
 
-        return res.send({...dataView});
+        return res.json({...dataView});
 
     }).catch((e) => {
-        return res.send("Section: " + e);
+        return res.json("Section: " + e);
     });;
 }*/
 
@@ -130,7 +130,7 @@ router.use((req, res, next) => {
 
 router.use((err, req, res, next) => {
     
-    res.status(err.status || 500).send({
+    res.status(err.status || 500).json({
         message: 'Not Found',
         status: err.status,
         stack: config.developerMode ? err.stack : '',

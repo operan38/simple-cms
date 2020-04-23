@@ -13,7 +13,7 @@ exports.connect = () => new Promise((resolve, reject) => {
         }
         else {
             connection = mysqlConnection;
-            return resolve(`Соединение с базой данных установлено. Порт: ${connection.config.port}`);
+            return resolve(`Соединение с базой данных установлено. (Порт: ${connection.config.port})`);
         }
     });
 

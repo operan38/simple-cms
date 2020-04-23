@@ -11,10 +11,10 @@ exports.getAll = (req, res) => {
     FROM routes JOIN containers ON routes.container_id = containers.id`;
 
     return db.execQuery(sql).then((data) => {
-        res.send(data);
+        res.json(data);
     }).catch(err => {
         console.error(err);
-        res.status(500).send({
+        res.status(500).json({
             message: err
         });
     });;
@@ -28,12 +28,12 @@ exports.getById = (req, res) => {
 
     return db.execQuery('SELECT * FROM routes WHERE id = :id', {id: route.id}).then((data) => {
         if (data.length != 0)
-            res.send(data);
+            res.json(data);
         else
             next(err);
     }).catch(err => {
         console.error(err);
-        res.status(500).send({
+        res.status(500).json({
             message: "Not found id=" + id
         });
     });;
@@ -48,10 +48,10 @@ exports.add = (req, res) => {
     };
 
     return db.execQuery('INSERT INTO routes (title, path, container_id) VALUES(:title, :path, :container_id)', {title: route.title, path: route.path, container_id: route.container_id}).then((data) => {
-        res.send(true);
+        res.json(true);
     }).catch(err => {
         console.error(err);
-        res.status(500).send({
+        res.status(500).json({
             message: err
         });
     });;
@@ -64,10 +64,10 @@ exports.del = (req, res) => {
     };
 
     return db.execQuery('DELETE FROM routes WHERE id = :id', {id: route.id}).then((data) => {
-        res.send(true);
+        res.json(true);
     }).catch(err => {
         console.error(err);
-        res.status(500).send({
+        res.status(500).json({
             message: err
         });
     });;
