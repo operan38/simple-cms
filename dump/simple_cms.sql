@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 22 2020 г., 16:13
+-- Время создания: Апр 23 2020 г., 13:47
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.1.32
 
@@ -73,7 +73,10 @@ CREATE TABLE `routes` (
 
 INSERT INTO `routes` (`id`, `title`, `path`, `container_id`) VALUES
 (9, 'Тестовый1', '/test', 1),
-(10, 'Testt', '/test2', 2);
+(10, 'Testt', '/test2', 2),
+(12, 'adrw', '/12345', 1),
+(13, '1234', '/123456', 1),
+(14, 'test', '/123456', 1);
 
 -- --------------------------------------------------------
 
@@ -85,6 +88,29 @@ CREATE TABLE `sections` (
   `id` int(10) UNSIGNED NOT NULL,
   `routes_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `surname` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
+  `firstname` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
+  `patronymic` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
+  `login` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `mail` varchar(80) CHARACTER SET utf8 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`id`, `surname`, `firstname`, `patronymic`, `login`, `password`, `mail`) VALUES
+(1, NULL, NULL, NULL, 'test', '$2a$04$R/Ew51bt4yuXrM7sHkYMFe5L1V3fdhrF0oxY.JltD.x1ugmvrtFJq', NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -117,6 +143,12 @@ ALTER TABLE `sections`
   ADD KEY `routes_id` (`routes_id`);
 
 --
+-- Индексы таблицы `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -136,13 +168,19 @@ ALTER TABLE `containers`
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT для таблицы `sections`
 --
 ALTER TABLE `sections`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
