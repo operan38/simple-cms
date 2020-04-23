@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import {fetchAddRoute} from '../../store/actions/routes';
 import {fetchContainers} from '../../store/actions/containers';
 
+import Input from '../UI/Input/Input';
+
 class RouteCreator extends Component {
 
     constructor(props) {
@@ -45,17 +47,17 @@ class RouteCreator extends Component {
         })
     }
 
-    onContainerChange = (e) => {
+    onChangeContainer = (e) => {
         e.preventDefault();
         this.setState({ container_id: e.target.value })
     }
 
-    onTitleChange = (e) => {
+    onChangeTitle = (e) => {
         e.preventDefault();
         this.setState({ title: e.target.value, });
     }
     
-    onPathChange = (e) => {
+    onChangePath = (e) => {
         e.preventDefault();
         this.setState({ path: e.target.value, });
     }
@@ -64,9 +66,9 @@ class RouteCreator extends Component {
         return (
             <div>
                 <div className="d-inline-flex flex-column p-2">
-                    <input className="form-control mb-2" type="text" placeholder="title" value={this.state.title} onChange={this.onTitleChange}></input>
-                    <input className="form-control mb-2" type="text" placeholder="path" value={this.state.path} onChange={this.onPathChange}></input>
-                    <select className="form-control mb-2" onChange={this.onContainerChange}>
+                    <Input className="mb-3" placeholder="title" onChange={this.onChangeTitle} value={this.state.title}></Input>
+                    <Input className="mb-3" placeholder="path" onChange={this.onChangePath} value={this.state.path}></Input>
+                    <select className="form-control mb-2" onChange={this.onChangeContainer}>
                         <option></option>
                         { this.props.loading && this.props.customRoutes.length !== 0 ? <option disabled selected>загрузка...</option> : this.showContainers() }
                     </select>

@@ -51,7 +51,7 @@ export function fetchAddRoute(route) {
 
         try {
             const response = await httpAPI.post('/routes/add', route);
-            dispath(fetchAddRouteSuccess());
+            dispath(fetchAddRouteSuccess(response));
             dispath(fetchRoutes());
 
         } catch (e) {
@@ -66,7 +66,7 @@ export function fetchAddRouteStart() {
     }
 }
 
-export function fetchAddRouteSuccess() {
+export function fetchAddRouteSuccess(response) {
     return {
         type: FETCH_ADD_ROUTE_SUCCESS
     }
@@ -87,7 +87,7 @@ export function fetchDelRoute(id) {
 
         try {
             const response = await httpAPI.post('/routes/del', {'id': id});
-            dispath(fetchDelRouteSuccess());
+            dispath(fetchDelRouteSuccess(response));
             dispath(fetchRoutes());
 
         } catch (e) {
@@ -102,7 +102,7 @@ export function fetchDelRouteStart() {
     }
 }
 
-export function fetchDelRouteSuccess() {
+export function fetchDelRouteSuccess(response) {
     return {
         type: FETCH_DEL_ROUTE_SUCCESS
     }

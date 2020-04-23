@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { Spinner } from 'react-bootstrap';
 
 const Loader = props => (
-    <div className="w-100 text-center">
-        <div className="spinner-border" role="status">
-            <span className="sr-only">Загрузка...</span>
-        </div>
+    <div className="w-100 text-center mt-2">
+        <Spinner animation="border" role="status">
+            <span className="sr-only">Loading...</span>
+        </Spinner>
     </div>
 )
 

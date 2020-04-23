@@ -1,16 +1,21 @@
 import React, {Component, Suspense, lazy} from 'react';
 import {connect} from 'react-redux';
-import {Route, Switch, NavLink} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
+
+import { Container, Row, Col } from 'react-bootstrap';
 
 import {fetchRoutes} from './store/actions/routes';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
+
 import Loader from './components/UI/Loader/Loader';
+import Header from './containers/Layout/Header/Header';
 
 const Custom = lazy(() => import('./containers/Custom/Custom'));
 const Routes = lazy(() => import('./containers/Routes/Routes'));
 const Home = lazy(() => import('./containers/Home/Home'));
+const Auth = lazy(() => import('./containers/Auth/Auth'));
 const NotFound = lazy(() => import('./containers/NotFound/NotFound'));
 
 class App extends Component {
@@ -33,7 +38,8 @@ class App extends Component {
       <Suspense fallback={<Loader />}>
         <Switch>
           <Route exact path='/' component={Home}/>
-          <Route path='/admin/routes' component={Routes} />}/>
+          <Route path='/auth' component={Auth} />
+          <Route path='/admin/routes' component={Routes} />
 
           { this.props.customRoutes.length !== 0 ? this.updateCustomRoutesList() : ''}
 
@@ -44,38 +50,14 @@ class App extends Component {
 
     return (
       <div className='app'>
-          <header style={{boxShadow: '7px 7px 5px rgba(0,0,0,0.1)'}}>
-            <div className="container">
-              <div className="row">
-                <div className="col-4">
-                  <div className="d-flex align-items-center">
-                    <div>
-                      <NavLink to='/'><img src="/logo.svg" alt=""></img></NavLink>
-                    </div>
-                    <div className="pl-2">
-                      <h4>simple-cms</h4>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-4">
-
-                </div>
-                <div className="col-4">
-
-                </div>
-              </div>
-            </div>
-          </header>
-          <main className="container">
-            <div className="row">
-              <div className="col-12">
-                { view }
-              </div>
-            </div>
-          </main>
-          <footer className="container">
-
-          </footer>
+        <Header />
+        <Container>
+          <Row>
+            <Col>
+              { view }
+            </Col>
+          </Row>
+        </Container>
       </div>
     )
 
