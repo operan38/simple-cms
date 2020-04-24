@@ -3,26 +3,22 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 export default class Home extends Component {
-
-  /*componentDidMount() {
+	/*componentDidMount() {
     fetch('/')
       .then(res => res.json())
   }*/
 
-  /*constructor(props) {
+	/*constructor(props) {
     super(props);
   }*/
 
-  render () {
+	render() {
+		return (
+			<div>
+				<h2>Home</h2>
 
-    return (
-      <div>
-        <h2>Home</h2>
-
-        <NavLink to="/routes">Список маршрутов</NavLink>
-        
-      </div>
-      
-    );
-  }
+				<NavLink to='/routes'>Список маршрутов</NavLink>
+			</div>
+		);
+	}
 }

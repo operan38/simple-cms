@@ -1,54 +1,54 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import {fetchAddRoute} from '../../store/actions/routes';
-import {fetchContainers} from '../../store/actions/containers';
+import { fetchAddRoute } from '../../store/actions/routes';
+import { fetchContainers } from '../../store/actions/containers';
 
 import Input from '../UI/Input/Input';
 import Select from '../UI/Select/Select';
 
 class RouteCreator extends Component {
+	constructor(props) {
+		super(props);
 
-    constructor(props) {
-        super(props);
-    
-        this.state = {
-            title: '',
-            path: '',
-            container_id: ''
-        }
-    }
+		this.state = {
+			title: '',
+			path: '',
+			container_id: '',
+		};
+	}
 
-    componentDidMount() {
-        this.props.fetchContainers();
-    }
+	componentDidMount() {
+		this.props.fetchContainers();
+	}
 
-    addRouteHandler = (title, path, container_id) => {
+	addRouteHandler = (title, path, container_id) => {
+		let route = {
+			title,
+			path,
+			container_id,
+		};
 
-        let route = {
-            title,
-            path,
-            container_id
-        }
+		this.props.fetchAddRoute(route);
 
-        this.props.fetchAddRoute(route);
+		this.setState({
+			title: '',
+			path: '',
+			container_id: '',
+		});
+	};
 
-        this.setState({
-            title: '',
-            path: '',
-            container_id: ''
-        })
-    }
+	showContainers() {
+		return this.props.containersList.map((container, index) => {
+			return (
+				<option key={index} value={container.id}>
+					{container.title}
+				</option>
+			);
+		});
+	}
 
-    showContainers() {
-        return this.props.containersList.map((container, index) => {
-            return (
-                <option key={index} value={container.id}>{container.title}</option>
-            )
-        })
-    }
-
-    /*renderSelectContainer() {
+	/*renderSelectContainer() {
         return <select className="form-control mb-2" onChange={this.onChangeContainer}>
             return (
                 <option></option>
@@ -58,54 +58,77 @@ class RouteCreator extends Component {
         </select>
     }*/
 
-    onChangeContainer = (e) => {
-        e.preventDefault();
-        this.setState({ container_id: e.target.value })
-    }
+	onChangeContainer = (e) => {
+		e.preventDefault();
+		this.setState({ container_id: e.target.value });
+	};
 
-    onChangeTitle = (e) => {
-        e.preventDefault();
-        this.setState({ title: e.target.value, });
-    }
-    
-    onChangePath = (e) => {
-        e.preventDefault();
-        this.setState({ path: e.target.value, });
-    }
+	onChangeTitle = (e) => {
+		e.preventDefault();
+		this.setState({ title: e.target.value });
+	};
 
-    render() {
+	onChangePath = (e) => {
+		e.preventDefault();
+		this.setState({ path: e.target.value });
+	};
 
-        const select = <Select
-            className="mb-2"
-            onChange={this.onChangeContainer}
-            keyOptions={{value: 'id', text: 'title'}}
-            options={this.props.containersList}
-        />
+	render() {
+		const select = (
+			<Select
+				className='mb-2'
+				onChange={this.onChangeContainer}
+				keyOptions={{ value: 'id', text: 'title' }}
+				options={this.props.containersList}
+			/>
+		);
 
-        return (
-            <div>
-                <div className="d-inline-flex flex-column p-2">
-                    <Input className="mb-3" placeholder="title" onChange={this.onChangeTitle} value={this.state.title}></Input>
-                    <Input className="mb-3" placeholder="path" onChange={this.onChangePath} value={this.state.path}></Input>
-                    { select }
-                    <button className="btn btn-success" type="submit" onClick={() => this.addRouteHandler(this.state.title, this.state.path, this.state.container_id)}>Добавить</button>
-                </div>
-            </div>
-        )
-    }
+		return (
+			<div>
+				<div className='d-inline-flex flex-column p-2'>
+					<Input
+						className='mb-3'
+						placeholder='title'
+						onChange={this.onChangeTitle}
+						value={this.state.title}
+					></Input>
+					<Input
+						className='mb-3'
+						placeholder='path'
+						onChange={this.onChangePath}
+						value={this.state.path}
+					></Input>
+					{select}
+					<button
+						className='btn btn-success'
+						type='submit'
+						onClick={() =>
+							this.addRouteHandler(
+								this.state.title,
+								this.state.path,
+								this.state.container_id
+							)
+						}
+					>
+						Добавить
+					</button>
+				</div>
+			</div>
+		);
+	}
 }
 
 function mapStateToProps(state) {
-    return {
-        containersList: state.containers.containersList,
-    }
+	return {
+		containersList: state.containers.containersList,
+	};
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        fetchAddRoute: (route) => dispatch(fetchAddRoute(route)),
-        fetchContainers: () => dispatch(fetchContainers())
-    }
+	return {
+		fetchAddRoute: (route) => dispatch(fetchAddRoute(route)),
+		fetchContainers: () => dispatch(fetchContainers()),
+	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RouteCreator)
+export default connect(mapStateToProps, mapDispatchToProps)(RouteCreator);
