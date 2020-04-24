@@ -1,13 +1,10 @@
 import React, {Component, Suspense, lazy} from 'react';
 import {connect} from 'react-redux';
-import {Route, Switch} from 'react-router-dom';
-
+import {Route, Switch, NavLink} from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import {fetchRoutes} from './store/actions/routes';
-
-import "bootstrap/dist/css/bootstrap.min.css";
-import "font-awesome/css/font-awesome.min.css";
+import {autoLogin, logout} from './store/actions/auth';
 
 import Loader from './components/UI/Loader/Loader';
 import Header from './containers/Layout/Header/Header';
@@ -29,6 +26,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.props.autoLogin();
     this.props.fetchRoutes();
   }
 
@@ -48,12 +46,16 @@ class App extends Component {
       </Suspense>
     );
 
+    const exitBtn = this.props.isAuthenticated ? <NavLink className="btn btn-danger mr-2" to='/' onClick={this.props.logout}>Выйти</NavLink> : ''
+
     return (
       <div className='app'>
-        <Header />
+        <Header isAuthenticated={this.props.isAuthenticated}/>
         <Container>
           <Row>
             <Col>
+              { 'Auth:' + this.props.isAuthenticated }
+              { exitBtn }
               { routes }
             </Col>
           </Row>
@@ -67,12 +69,15 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     customRoutes: state.routes.customRoutes,
+    isAuthenticated: !!state.auth.token
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchRoutes: () => dispatch(fetchRoutes())
+    fetchRoutes: () => dispatch(fetchRoutes()),
+    autoLogin: () => dispatch(autoLogin()),
+    logout: () => dispatch(logout())
   }
 }
 

@@ -5,7 +5,7 @@ module.exports = {
         password: '',
         database: 'simple_cms'
     },
-    jwtSecret: 'testJw123',
+    jwtSecret: 'testJwt123',
     port: 3001,
     developerMode: true,
 }

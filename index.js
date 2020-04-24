@@ -7,7 +7,7 @@ const db = require('./libs/db');
 const router = require('./libs/router');
 const config = require('./config');
 
-var corsOptions = {
+const corsOptions = {
     origin: "http://localhost:3000"
 };
 
@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.use(cors(corsOptions));
+
 require('./api')(app);
 app.use('/custom', router);
 
@@ -25,19 +26,23 @@ process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: (', p, 'reason:', reason, ')');
 });
 
-db.connect(config)
-    .then((result) => {
+async function start() {
+    try {
+        const dbConnect = await db.connect();
 
         app.listen(config.port, (err) => {
             if (!err)
                 console.log(`Сервер запущен. (Порт: ${config.port})`);
             else
-                console.log(err);
+                console.error(err);
         })
-        console.log(result);
-        
-    })
-    .catch((error) => {
-        console.error(error);
+
+        console.log(dbConnect);
+    }
+    catch (err) {
+        console.error(err);
         process.exit(1);
-    });
+    }
+}
+
+start();

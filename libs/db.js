@@ -9,7 +9,7 @@ exports.connect = () => new Promise((resolve, reject) => {
 
     mysqlConnection.connect((err) => {
         if (err) {
-            return reject('Ошибка при подключении к базе данных\n Ошибка: ' + JSON.stringify(err));
+            return reject(err);
         }
         else {
             connection = mysqlConnection;
@@ -30,11 +30,12 @@ exports.connect = () => new Promise((resolve, reject) => {
     mysqlConnection.config.queryFormat = function (query, values) {
         if (!values) return query;
         return query.replace(/\:(\w+)/g, function (txt, key) {
+
             if (values.hasOwnProperty(key)) {
                 return this.escape(values[key]);
             }
-
             return txt;
+            
         }.bind(this));
     };
 });

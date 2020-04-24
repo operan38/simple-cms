@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../../../logo.svg';
 import { NavLink } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -9,7 +10,7 @@ const Header = props => (
                 <Col xs={4}>
                     <div className="d-flex align-items-center">
                         <div>
-                            <NavLink to='/'><img src="/logo.svg" alt=""></img></NavLink>
+                            <NavLink to='/'><img src={logo} alt=""></img></NavLink>
                         </div>
                         <div className="pl-2">
                             <h4>simple-cms</h4>

@@ -23,6 +23,19 @@ export function auth(login, password) {
     }
 }
 
+export function autoLogin() {
+    return dispatch => {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        if (!token) {
+            dispatch(logout());
+        }
+        else {
+            dispatch(authSuccess(token, userId));
+        }
+    }
+}
+
 export function authSuccess(token, userId) {
     return {
         type: AUTH_SUCCESS,
