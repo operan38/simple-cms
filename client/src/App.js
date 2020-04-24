@@ -1,10 +1,10 @@
 import React, {Component, Suspense, lazy} from 'react';
 import {connect} from 'react-redux';
-import {Route, Switch, NavLink} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import {fetchRoutes} from './store/actions/routes';
-import {autoLogin, logout} from './store/actions/auth';
+import {autoLogin} from './store/actions/auth';
 
 import Loader from './components/UI/Loader/Loader';
 import Header from './containers/Layout/Header/Header';
@@ -36,7 +36,9 @@ class App extends Component {
       <Suspense fallback={<Loader />}>
         <Switch>
           <Route exact path='/' component={Home}/>
-          <Route path='/auth' component={Auth} />
+
+          { !this.props.isAuthenticated ? <Route path='/auth' component={Auth} /> : <Redirect from='/auth' to='/' />} 
+
           <Route path='/admin/routes' component={Routes} />
 
           { this.props.customRoutes.length !== 0 ? this.updateCustomRoutesList() : ''}
@@ -46,16 +48,12 @@ class App extends Component {
       </Suspense>
     );
 
-    const exitBtn = this.props.isAuthenticated ? <NavLink className="btn btn-danger mr-2" to='/' onClick={this.props.logout}>Выйти</NavLink> : ''
-
     return (
       <div className='app'>
-        <Header isAuthenticated={this.props.isAuthenticated}/>
+        <Header />
         <Container>
           <Row>
             <Col>
-              { 'Auth:' + this.props.isAuthenticated }
-              { exitBtn }
               { routes }
             </Col>
           </Row>
@@ -77,7 +75,6 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchRoutes: () => dispatch(fetchRoutes()),
     autoLogin: () => dispatch(autoLogin()),
-    logout: () => dispatch(logout())
   }
 }
 
