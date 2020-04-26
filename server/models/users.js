@@ -6,11 +6,11 @@ exports.getAll = (req, res) => {
 	return db
 		.execQuery(sql)
 		.then((data) => {
-			res.send(data);
+			res.json(data);
 		})
 		.catch((err) => {
 			console.error(err);
-			res.status(500).send({
+			res.status(500).json({
 				message: err,
 			});
 		});
@@ -21,7 +21,7 @@ exports.getByLogin = (req, res, login) => db
 	.then((data) => data)
 	.catch((err) => {
 		console.error(err);
-		res.status(500).send({
+		res.status(500).json({
 			message: err,
 		});
 	});
@@ -39,11 +39,11 @@ exports.add = (req, res, user) => db
 		},
 	)
 	.then((data) => {
-		res.send(true);
+		res.json(true);
 	})
 	.catch((err) => {
 		console.error(err);
-		res.status(500).send({
+		res.status(500).json({
 			message: err,
 		});
 	});

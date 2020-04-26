@@ -6,7 +6,7 @@ export function auth(login, password) {
 
 	return async (dispath) => {
 		try {
-			const response = await httpAPI.post('/users/login', authData);
+			const response = await httpAPI.post('/users/auth', authData);
 			const data = response.data;
 
 			if (data) {

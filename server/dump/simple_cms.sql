@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 23 2020 г., 13:47
+-- Время создания: Апр 26 2020 г., 21:48
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.1.32
 
@@ -73,10 +73,11 @@ CREATE TABLE `routes` (
 
 INSERT INTO `routes` (`id`, `title`, `path`, `container_id`) VALUES
 (9, 'Тестовый1', '/test', 1),
-(10, 'Testt', '/test2', 2),
 (12, 'adrw', '/12345', 1),
 (13, '1234', '/123456', 1),
-(14, 'test', '/123456', 1);
+(15, '21345', '/asdf', 1),
+(16, 'testasdf', '/123456', 1),
+(17, 'Dynamic', '/1234', 2);
 
 -- --------------------------------------------------------
 
@@ -110,7 +111,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `surname`, `firstname`, `patronymic`, `login`, `password`, `mail`) VALUES
-(1, NULL, NULL, NULL, 'test', '$2a$04$R/Ew51bt4yuXrM7sHkYMFe5L1V3fdhrF0oxY.JltD.x1ugmvrtFJq', NULL);
+(1, NULL, NULL, NULL, 'test', '$2a$04$R/Ew51bt4yuXrM7sHkYMFe5L1V3fdhrF0oxY.JltD.x1ugmvrtFJq', NULL),
+(2, NULL, NULL, NULL, 'test2', '$2a$04$G3nk2H8yQel4j.PTW851.ukTPjx1uZ9G0djUnMeC1xb.dndh9Pe5e', NULL),
+(3, NULL, NULL, NULL, 'test4', '$2a$04$shjDmoBgHJVpKyqLOkLk9eeEfYXoI/MYb1MaoZ2CImf0.k4GfHCjy', NULL),
+(4, NULL, NULL, NULL, 'test5', '$2a$04$0jFOpBFqVtNh/V6eMgD9qOqIV5AXy1DXG/XVT1cRr6Nf8h.hBDJRi', NULL),
+(5, '123', '123', '123', '123', '$2a$04$vfQVphdxueeF.9dUoptW6u9ZYrLst.Rd7BoNRUcQu6MNElR3P.IRm', NULL),
+(6, 'qwer', 'qwert', 'qwerty', 'test6', '$2a$04$TepqX.Tg35ywQdlUR.QAd.ex3.RZPRcBCKeV3MKeULfer1r8f7uva', NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -168,7 +174,7 @@ ALTER TABLE `containers`
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `sections`
@@ -180,7 +186,7 @@ ALTER TABLE `sections`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

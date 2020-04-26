@@ -10,8 +10,9 @@ module.exports = (app) => {
 	router.post('/routes/del', routes.del);
 
 	router.post('/containers', containers.getAll);
+	router.post('/users', users.getUsers);
 	router.post('/users/register', users.validRegister(), users.register);
-	router.post('/users/login', users.validLogin(), users.login);
+	router.post('/users/auth', users.validLogin(), users.auth);
 
 	app.use('/api', router);
 };

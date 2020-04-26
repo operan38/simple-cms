@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { auth } from '../../store/actions/auth';
+import { register } from '../../store/actions/register';
+
 import {
 	createControl,
 	validateControl,
@@ -10,13 +11,37 @@ import {
 
 import Input from '../../components/UI/Input/Input';
 
-class Auth extends Component {
+class Register extends Component {
 	state = {
 		isFormValid: false,
 		formControls: {
+			surname: createControl(
+				{
+					placeholder: 'Фамилия',
+					type: 'text',
+					className: 'mb-2',
+				},
+				{ required: false }
+			),
+			firstname: createControl(
+				{
+					placeholder: 'Имя',
+					type: 'text',
+					className: 'mb-2',
+				},
+				{ required: false }
+			),
+			patronymic: createControl(
+				{
+					placeholder: 'Отчество',
+					type: 'text',
+					className: 'mb-2',
+				},
+				{ required: false }
+			),
 			login: createControl(
 				{
-					placeholder: 'Логин',
+					placeholder: 'Логин*',
 					type: 'text',
 					className: 'mb-2',
 				},
@@ -24,7 +49,7 @@ class Auth extends Component {
 			),
 			password: createControl(
 				{
-					placeholder: 'Пароль',
+					placeholder: 'Пароль*',
 					type: 'password',
 					className: 'mb-2',
 				},
@@ -50,6 +75,11 @@ class Auth extends Component {
 		});
 	}
 
+	registerHandler = () => {
+		const registerData = { ...this.state.formControls };
+		this.props.register(registerData);
+	};
+
 	renderInputs() {
 		return Object.keys(this.state.formControls).map((controlName, index) => {
 			const control = this.state.formControls[controlName];
@@ -69,13 +99,6 @@ class Auth extends Component {
 		});
 	}
 
-	loginHandler = () => {
-		this.props.auth(
-			this.state.formControls.login.value,
-			this.state.formControls.password.value
-		);
-	};
-
 	render() {
 		return (
 			<div>
@@ -85,10 +108,10 @@ class Auth extends Component {
 						<button
 							className='btn btn-success mt-2 w-100'
 							disabled={!this.state.isFormValid}
-							onClick={this.loginHandler}
+							onClick={this.registerHandler}
 							type='button'
 						>
-							Войти
+							Зарегистрироваться
 						</button>
 					</div>
 				</div>
@@ -99,8 +122,8 @@ class Auth extends Component {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		auth: (login, password) => dispatch(auth(login, password)),
+		register: (registerData) => dispatch(register(registerData)),
 	};
 }
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(null, mapDispatchToProps)(Register);
