@@ -17,7 +17,8 @@
         "semi": true,
         "jsxSingleQuote": true,
         "singleQuote": true,
-        "useTabs": true
+        "useTabs": true,
+        "endOfLine": "crlf"
       }
     ]
   }

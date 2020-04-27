@@ -39,6 +39,7 @@ const isRouteExsists = (path) => Object.values(routesMap).find((route) => getURL
     }
 } */
 
+// eslint-disable-next-line consistent-return
 router.use(async (req, res, next) => {
 	try {
 		const decodePath = decodeURI(req.path);
@@ -59,8 +60,11 @@ router.use(async (req, res, next) => {
 		}
 
 		[...routesList].reduce((object, item) => {
+			// eslint-disable-next-line no-param-reassign
 			item.pathKey = item.path;
+			// eslint-disable-next-line no-param-reassign
 			item.path = item.path.replace(/:id/g, '([a-zA-Z0-9-]+)');
+			// eslint-disable-next-line no-param-reassign
 			object[item.pathKey] = item;
 			return object;
 		}, routesMap);
