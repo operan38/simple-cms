@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 26 2020 г., 21:48
+-- Время создания: Апр 27 2020 г., 13:18
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.1.32
 
@@ -57,6 +57,28 @@ INSERT INTO `containers` (`id`, `title`, `path`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `posts`
+--
+
+CREATE TABLE `posts` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `subtitle` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `text` text CHARACTER SET utf8 NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `posts`
+--
+
+INSERT INTO `posts` (`id`, `title`, `subtitle`, `text`, `created`) VALUES
+(1, 'Тестовый пост', 'Краткое описание', 'Подробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.', '2020-04-27 06:16:59'),
+(2, 'Тестовый пост 2', 'Краткое описание', 'Подробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.', '2020-04-27 09:42:01');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `routes`
 --
 
@@ -76,7 +98,6 @@ INSERT INTO `routes` (`id`, `title`, `path`, `container_id`) VALUES
 (12, 'adrw', '/12345', 1),
 (13, '1234', '/123456', 1),
 (15, '21345', '/asdf', 1),
-(16, 'testasdf', '/123456', 1),
 (17, 'Dynamic', '/1234', 2);
 
 -- --------------------------------------------------------
@@ -116,7 +137,9 @@ INSERT INTO `users` (`id`, `surname`, `firstname`, `patronymic`, `login`, `passw
 (3, NULL, NULL, NULL, 'test4', '$2a$04$shjDmoBgHJVpKyqLOkLk9eeEfYXoI/MYb1MaoZ2CImf0.k4GfHCjy', NULL),
 (4, NULL, NULL, NULL, 'test5', '$2a$04$0jFOpBFqVtNh/V6eMgD9qOqIV5AXy1DXG/XVT1cRr6Nf8h.hBDJRi', NULL),
 (5, '123', '123', '123', '123', '$2a$04$vfQVphdxueeF.9dUoptW6u9ZYrLst.Rd7BoNRUcQu6MNElR3P.IRm', NULL),
-(6, 'qwer', 'qwert', 'qwerty', 'test6', '$2a$04$TepqX.Tg35ywQdlUR.QAd.ex3.RZPRcBCKeV3MKeULfer1r8f7uva', NULL);
+(6, 'qwer', 'qwert', 'qwerty', 'test6', '$2a$04$TepqX.Tg35ywQdlUR.QAd.ex3.RZPRcBCKeV3MKeULfer1r8f7uva', NULL),
+(7, '123', '123', '123', 'test7', '$2a$04$zP4QLb15OI8TBZUZbVngQ.0qu/Cl7Q8oXQxNYJ4BsTxsLhijnGsNa', NULL),
+(8, 'Fe', 'EFE', 'EFDE', 'test9', '$2a$04$fYzayEEfdgU69GHwgDkjJ.u8cbZmnqHzlNw2fqv5z5tX6E2dV24DG', NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -132,6 +155,12 @@ ALTER TABLE `components`
 -- Индексы таблицы `containers`
 --
 ALTER TABLE `containers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `posts`
+--
+ALTER TABLE `posts`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -171,6 +200,12 @@ ALTER TABLE `containers`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT для таблицы `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
@@ -186,7 +221,7 @@ ALTER TABLE `sections`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
