@@ -26,11 +26,13 @@ export function validateControl(value, validation = null) {
 export function validateForm(formControls) {
 	let isFormValid = true;
 
-	Object.keys(formControls).forEach((name) => {
-		isFormValid = formControls[name].valid && isFormValid;
-	});
+	for (let control in formControls) {
+		if (formControls.hasOwnProperty(control)) {
+			isFormValid = formControls[control].valid && isFormValid;
+		}
 
-	console.log(isFormValid);
+		console.log(control + ' ' + formControls[control].valid);
+	}
 
 	return isFormValid;
 }

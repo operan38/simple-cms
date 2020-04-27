@@ -14,6 +14,9 @@ class Home extends Component {
 				<p>
 					<NavLink to='/admin/users'>Cписок пользователей</NavLink>
 				</p>
+				<p>
+					<NavLink to='/posts'>Cписок поcтов</NavLink>
+				</p>
 			</div>
 		);
 	}

@@ -7,6 +7,8 @@ import Loader from './components/UI/Loader/Loader';
 const Custom = lazy(() => import('./containers/Custom/Custom'));
 const Routes = lazy(() => import('./containers/Routes/Routes'));
 const Users = lazy(() => import('./containers/Users/Users'));
+const Posts = lazy(() => import('./containers/Posts/Posts'));
+const Post = lazy(() => import('./containers/Post/Post'));
 const Home = lazy(() => import('./containers/Home/Home'));
 const Auth = lazy(() => import('./containers/Auth/Auth'));
 const Register = lazy(() => import('./containers/Register/Register'));
@@ -47,6 +49,9 @@ class RoutesList extends Component {
 
 					<Route path='/admin/routes' component={Routes} />
 					<Route path='/admin/users' component={Users} />
+
+					<Route path='/posts' component={Posts} />
+					<Route path='/post/:id' component={Post} />
 
 					{this.props.customRoutes.length !== 0
 						? this.updateCustomRoutesList()

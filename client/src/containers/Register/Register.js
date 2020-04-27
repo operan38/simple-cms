@@ -21,7 +21,7 @@ class Register extends Component {
 					type: 'text',
 					className: 'mb-2',
 				},
-				{ required: false }
+				{ required: true }
 			),
 			firstname: createControl(
 				{
@@ -29,7 +29,7 @@ class Register extends Component {
 					type: 'text',
 					className: 'mb-2',
 				},
-				{ required: false }
+				{ required: true }
 			),
 			patronymic: createControl(
 				{
@@ -37,7 +37,7 @@ class Register extends Component {
 					type: 'text',
 					className: 'mb-2',
 				},
-				{ required: false }
+				{ required: true }
 			),
 			login: createControl(
 				{
@@ -78,6 +78,7 @@ class Register extends Component {
 	registerHandler = () => {
 		const registerData = { ...this.state.formControls };
 		this.props.register(registerData);
+		this.props.history.push('/auth');
 	};
 
 	renderInputs() {

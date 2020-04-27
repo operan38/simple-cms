@@ -9,7 +9,8 @@ import { logout } from '../../../store/actions/auth';
 class Header extends Component {
 	render() {
 		const userBtn = this.props.isAuthenticated ? (
-			<div>
+			<div className='d-flex'>
+				<h4 className='mr-2'>{this.props.userLogin}</h4>
 				<NavLink
 					className='btn btn-danger mr-2'
 					to='/'
@@ -61,6 +62,7 @@ class Header extends Component {
 function mapStateToProps(state) {
 	return {
 		isAuthenticated: !!state.auth.token,
+		userLogin: state.auth.userLogin,
 	};
 }
 
