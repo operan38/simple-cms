@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { fetchRoutes, fetchDelRoute } from '../../store/actions/routes';
 
-import RouteCreator from '../../components/RouteCreator/RouteCreator';
+import RouteCreator from './RouteCreator';
+import RouteItem from './RouteItem';
 import Loader from '../../components/UI/Loader/Loader';
+import { Row, Col } from 'react-bootstrap';
 
 class Routes extends Component {
+	state = {
+		eidtMode: false,
+	};
+
 	componentDidMount() {
 		this.props.fetchRoutes();
 	}
@@ -16,45 +21,57 @@ class Routes extends Component {
 		this.props.fetchDelRoute(id);
 	};
 
-	showRoutes() {
+	editRouteHandler() {
+		this.setState({
+			editMode: true,
+		});
+	}
+
+	editCancelRouteHandler() {
+		this.setState({
+			editMode: false,
+		});
+	}
+
+	editApplyRouteHandler() {
+		this.setState({
+			editMode: false,
+		});
+	}
+
+	updateRouteHandler = () => {};
+
+	renderRoutes() {
 		return this.props.customRoutes.map((route, index) => {
 			return (
-				<div key={index} className='mb-3 border p-2'>
-					<b>Title: </b> <NavLink to={route.path}>{route.title} </NavLink>
-					<span>
-						<b>Path: </b> <NavLink to={route.path}>{route.path} </NavLink>
-					</span>
-					<span>
-						<b>Сontainer: </b> {route.container_title}{' '}
-					</span>
-					<button
-						type='button'
-						className='btn btn-danger'
-						onClick={() => this.delRouteHandler(route.id)}
-					>
-						Удалить
-					</button>
-				</div>
+				<RouteItem
+					key={index}
+					route={route}
+					editRouteHandler={this.editRouteHandler}
+					delRouteHandler={this.delRouteHandler}
+				/>
 			);
 		});
 	}
 
 	render() {
 		return (
-			<div>
-				<h1>Список маршрутов</h1>
-				{this.props.loading && this.props.customRoutes.length === 0 ? (
-					<Loader />
-				) : (
-					this.showRoutes()
-				)}
-				{!this.props.loading && this.props.customRoutes.length === 0 ? (
-					<div className='w-100 text-center'>Список пуст</div>
-				) : (
-					''
-				)}
-				<RouteCreator />
-			</div>
+			<Row>
+				<Col>
+					<h1>Список маршрутов</h1>
+					<RouteCreator />
+					{this.props.loading && this.props.customRoutes.length === 0 ? (
+						<Loader />
+					) : (
+						this.renderRoutes()
+					)}
+					{!this.props.loading && this.props.customRoutes.length === 0 ? (
+						<div className='w-100 text-center'>Список пуст</div>
+					) : (
+						''
+					)}
+				</Col>
+			</Row>
 		);
 	}
 }

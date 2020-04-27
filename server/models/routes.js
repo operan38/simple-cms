@@ -39,6 +39,32 @@ exports.getAll = (req, res) => {
 		});
 }; */
 
+exports.upd = (req, res) => {
+	const route = {
+		id: req.body.id,
+		title: req.body.title,
+		path: req.body.path,
+		container_id: req.body.container_id,
+	};
+
+	return db
+		.execQuery(
+			'UPDATE routes SET title = :title, path = :path, container_id = :container_id WHERE id = :id',
+			{
+				id: route.id, title: route.title, path: route.path, container_id: route.container_id,
+			},
+		)
+		.then((data) => {
+			res.json(true);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).json({
+				message: err,
+			});
+		});
+};
+
 exports.add = (req, res) => {
 	const route = {
 		title: req.body.title,

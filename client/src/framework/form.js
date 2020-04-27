@@ -2,7 +2,7 @@ export function createControl(config, validation) {
 	return {
 		...config,
 		validation,
-		valid: !validation,
+		valid: validation.required === false ? true : !validation,
 		touched: false,
 		value: '',
 		errorMessage: '',

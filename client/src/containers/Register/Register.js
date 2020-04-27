@@ -21,7 +21,7 @@ class Register extends Component {
 					type: 'text',
 					className: 'mb-2',
 				},
-				{ required: true }
+				{ required: false }
 			),
 			firstname: createControl(
 				{
@@ -29,7 +29,7 @@ class Register extends Component {
 					type: 'text',
 					className: 'mb-2',
 				},
-				{ required: true }
+				{ required: false }
 			),
 			patronymic: createControl(
 				{
@@ -37,7 +37,7 @@ class Register extends Component {
 					type: 'text',
 					className: 'mb-2',
 				},
-				{ required: true }
+				{ required: false }
 			),
 			login: createControl(
 				{

@@ -9,8 +9,14 @@ import { logout } from '../../../store/actions/auth';
 class Header extends Component {
 	render() {
 		const userBtn = this.props.isAuthenticated ? (
-			<div className='d-flex'>
-				<h4 className='mr-2'>{this.props.userLogin}</h4>
+			<div className='d-flex align-items-center'>
+				<h4 className='mb-1 mr-2'>
+					<i className='fa fa-user-circle' aria-hidden='true'></i>
+					{this.props.userLogin}
+				</h4>
+				<NavLink className='btn btn-secondary mr-2' to='/profile'>
+					Личный кабинет
+				</NavLink>
 				<NavLink
 					className='btn btn-danger mr-2'
 					to='/'

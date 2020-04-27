@@ -9,6 +9,7 @@ module.exports = (app) => {
 	router.post('/routes', routes.getAll);
 	router.post('/routes/add', routes.add);
 	router.post('/routes/del', routes.del);
+	router.post('/routes/upd', routes.upd);
 
 	router.post('/containers', containers.getAll);
 

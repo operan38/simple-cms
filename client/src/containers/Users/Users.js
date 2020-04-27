@@ -13,11 +13,11 @@ class Users extends Component {
 	renderRoutes() {
 		return this.props.usersList.map((user, index) => {
 			return (
-				<div key={index} className='mb-3 border p-2'>
+				<div key={index} className='mt-2 mb-2 border p-2'>
 					<b>Логин: </b> {user.login}
-					<b>Фамилия: </b> {user.surname}
-					<b>Имя: </b> {user.firstname}
-					<b>Отчество: </b> {user.patronymic}
+					<b> Фамилия: </b> {user.surname}
+					<b> Имя: </b> {user.firstname}
+					<b> Отчество: </b> {user.patronymic}
 				</div>
 			);
 		});

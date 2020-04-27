@@ -10,7 +10,7 @@ const Select = (props) => {
 	}
 
 	return (
-		<div>
+		<div className={props.parrentDivClassName}>
 			{props.label ? <label htmlFor={htmlFor}>{props.label}</label> : ''}
 			<select
 				className={'form-control ' + cls}

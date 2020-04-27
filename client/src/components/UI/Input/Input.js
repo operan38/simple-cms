@@ -6,7 +6,7 @@ const Input = (props) => {
 	const htmlFor = `${inputType}-${Math.random()}`;
 
 	return (
-		<div>
+		<div className={props.parrentDivClassName}>
 			{props.label ? <label htmlFor={htmlFor}>{props.label}</label> : ''}
 			<input
 				className={'form-control ' + cls}
