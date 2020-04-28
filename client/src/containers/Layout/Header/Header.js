@@ -11,7 +11,7 @@ class Header extends Component {
 		const userBtn = this.props.isAuthenticated ? (
 			<div className='d-flex align-items-center'>
 				<h4 className='mb-1 mr-2'>
-					<i className='fa fa-user-circle' aria-hidden='true'></i>
+					<i className='fa fa-user-circle mr-2' aria-hidden='true'></i>
 					{this.props.userLogin}
 				</h4>
 				<NavLink className='btn btn-secondary mr-2' to='/profile'>

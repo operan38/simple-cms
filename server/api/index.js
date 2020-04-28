@@ -10,6 +10,7 @@ module.exports = (app) => {
 	router.post('/routes/add', routes.add);
 	router.post('/routes/del', routes.del);
 	router.post('/routes/upd', routes.upd);
+	router.post('/route/:id', routes.getById);
 
 	router.post('/containers', containers.getAll);
 

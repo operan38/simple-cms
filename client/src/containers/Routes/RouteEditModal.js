@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Accordion, Button, Card } from 'react-bootstrap';
+import { Col, Modal, Button } from 'react-bootstrap';
 
-import { fetchAddRoute } from '../../store/actions/routes';
+import { fetchUpdRoute } from '../../store/actions/routes';
 import { fetchContainers } from '../../store/actions/containers';
 import {
 	createControl,
 	validateControl,
 	validateForm,
-	clearControlsValue,
 } from '../../framework/form';
 
 import Input from '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select';
 
-class RouteCreator extends Component {
+class RouteEditModal extends Component {
 	constructor(props) {
 		super(props);
 
@@ -54,25 +53,19 @@ class RouteCreator extends Component {
 		};
 	}
 
-	addRouteHandler = () => {
-		const route = {
-			title: this.state.formControls.title.value,
-			path: this.state.formControls.path.value,
-			container_id: this.state.formControls.container_id.value,
-		};
-
-		this.props.fetchAddRoute(route);
-		this.clearControlsValue();
-	};
-
-	clearControlsValue() {
+	loadControlsData() {
 		const formControls = { ...this.state.formControls }; // Выносим объект из state
 
+		formControls.title = this.props.route.title;
+		formControls.path = this.props.route.path;
+		formControls.container_id = this.props.route.container_id;
+
 		this.setState({
-			formControls: clearControlsValue(formControls),
-			isFormValid: false,
+			formControls,
 		});
 	}
+
+	updRouteHandler = () => {};
 
 	onChangeHandler(e, controlName) {
 		const formControls = { ...this.state.formControls }; // Выносим объект из state
@@ -99,7 +92,7 @@ class RouteCreator extends Component {
 
 			if (tag === 'Input') {
 				data = (
-					<Col key={controlName + index} xs='12' lg='6'>
+					<Col key={controlName + index} xs='12'>
 						<Input
 							type={control.type}
 							className={control.className}
@@ -139,34 +132,29 @@ class RouteCreator extends Component {
 
 	render() {
 		return (
-			<Accordion>
-				<Card>
-					<Card.Header>
-						<Accordion.Toggle as={Button} variant='link' eventKey='0'>
-							<Row>
-								<Col>Новый маршрут</Col>
-							</Row>
-						</Accordion.Toggle>
-					</Card.Header>
-					<Accordion.Collapse eventKey='0'>
-						<Card.Body>
-							<Row>
-								{this.renderInputs()}
-								<Col>
-									<button
-										className='btn btn-success'
-										type='submit'
-										disabled={!this.state.isFormValid}
-										onClick={this.addRouteHandler}
-									>
-										Добавить
-									</button>
-								</Col>
-							</Row>
-						</Card.Body>
-					</Accordion.Collapse>
-				</Card>
-			</Accordion>
+			<Modal
+				show={this.props.editModal.show}
+				onHide={() => this.props.cancelModalHandler()}
+			>
+				<Modal.Header closeButton>
+					<Modal.Title>Редактировать маршрут</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					{this.props.route ? this.props.route.id : ''}
+					{this.renderInputs()}
+				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						variant='secondary'
+						onClick={() => this.props.cancelModalHandler()}
+					>
+						Закрыть
+					</Button>
+					<Button variant='success' onClick={() => this.updRouteHandler()}>
+						Сохранить
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		);
 	}
 }
@@ -174,14 +162,15 @@ class RouteCreator extends Component {
 function mapStateToProps(state) {
 	return {
 		containersList: state.containers.containersList,
+		route: state.routes.route,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		fetchAddRoute: (route) => dispatch(fetchAddRoute(route)),
+		fetchUpdRoute: (route) => dispatch(fetchUpdRoute(route)),
 		fetchContainers: () => dispatch(fetchContainers()),
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RouteCreator);
+export default connect(mapStateToProps, mapDispatchToProps)(RouteEditModal);

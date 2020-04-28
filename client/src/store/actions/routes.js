@@ -3,15 +3,21 @@ import {
 	FETCH_ROUTES_START,
 	FETCH_ROUTES_SUCCESS,
 	FETCH_ROUTES_ERROR,
+	FETCH_ROUTE_START,
+	FETCH_ROUTE_SUCCESS,
+	FETCH_ROUTE_ERROR,
 	FETCH_ADD_ROUTE_START,
 	FETCH_ADD_ROUTE_SUCCESS,
 	FETCH_ADD_ROUTE_ERROR,
 	FETCH_DEL_ROUTE_START,
 	FETCH_DEL_ROUTE_SUCCESS,
 	FETCH_DEL_ROUTE_ERROR,
+	FETCH_UPD_ROUTE_START,
+	FETCH_UPD_ROUTE_SUCCESS,
+	FETCH_UPD_ROUTE_ERROR,
 } from './type';
 
-// GET
+// GETAll
 
 export function fetchRoutes() {
 	return async (dispath) => {
@@ -42,6 +48,41 @@ export function fetchRoutesSuccess(customRoutes) {
 export function fetchRoutesError(e) {
 	return {
 		type: FETCH_ROUTES_ERROR,
+		error: e,
+	};
+}
+
+// GET BY id
+
+export function fetchRouteById(id) {
+	return async (dispath) => {
+		dispath(fetchRouteStart());
+
+		try {
+			const response = await httpAPI.post('/route/' + id);
+			dispath(fetchRouteSuccess(response.data));
+		} catch (e) {
+			dispath(fetchRouteError(e));
+		}
+	};
+}
+
+export function fetchRouteStart() {
+	return {
+		type: FETCH_ROUTE_START,
+	};
+}
+
+export function fetchRouteSuccess(route) {
+	return {
+		type: FETCH_ROUTE_SUCCESS,
+		route,
+	};
+}
+
+export function fetchRouteError(e) {
+	return {
+		type: FETCH_ROUTE_ERROR,
 		error: e,
 	};
 }
@@ -77,6 +118,41 @@ export function fetchAddRouteSuccess(response) {
 export function fetchAddRouteError(e) {
 	return {
 		type: FETCH_ADD_ROUTE_ERROR,
+		error: e,
+	};
+}
+
+// UPDATE
+
+export function fetchUpdRoute(route) {
+	return async (dispath) => {
+		dispath(fetchUpdRouteStart());
+
+		try {
+			const response = await httpAPI.post('/routes/upd', route);
+			dispath(fetchUpdRouteSuccess(response));
+			dispath(fetchRoutes());
+		} catch (e) {
+			dispath(fetchUpdRouteError(e));
+		}
+	};
+}
+
+export function fetchUpdRouteStart() {
+	return {
+		type: FETCH_UPD_ROUTE_START,
+	};
+}
+
+export function fetchUpdRouteSuccess(response) {
+	return {
+		type: FETCH_UPD_ROUTE_SUCCESS,
+	};
+}
+
+export function fetchUpdRouteError(e) {
+	return {
+		type: FETCH_UPD_ROUTE_ERROR,
 		error: e,
 	};
 }

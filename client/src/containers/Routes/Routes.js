@@ -1,45 +1,53 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchRoutes, fetchDelRoute } from '../../store/actions/routes';
+import {
+	fetchRoutes,
+	fetchDelRoute,
+	fetchRouteById,
+} from '../../store/actions/routes';
+
+import { fetchContainers } from '../../store/actions/containers';
 
 import RouteCreator from './RouteCreator';
 import RouteItem from './RouteItem';
+import RouteEditModal from './RouteEditModal';
 import Loader from '../../components/UI/Loader/Loader';
 import { Row, Col } from 'react-bootstrap';
 
 class Routes extends Component {
 	state = {
-		eidtMode: false,
+		editModal: {
+			show: false,
+		},
 	};
 
 	componentDidMount() {
-		this.props.fetchRoutes();
+		//this.props.fetchRoutes();
+		this.props.fetchContainers();
 	}
 
 	delRouteHandler = (id) => {
 		this.props.fetchDelRoute(id);
 	};
 
-	editRouteHandler() {
-		this.setState({
-			editMode: true,
-		});
-	}
+	editRouteHandler = (id) => {
+		this.props.fetchRouteById(id);
 
-	editCancelRouteHandler() {
 		this.setState({
-			editMode: false,
+			editModal: {
+				show: true,
+			},
 		});
-	}
+	};
 
-	editApplyRouteHandler() {
+	cancelModalHandler = () => {
 		this.setState({
-			editMode: false,
+			editModal: {
+				show: false,
+			},
 		});
-	}
-
-	updateRouteHandler = () => {};
+	};
 
 	renderRoutes() {
 		return this.props.customRoutes.map((route, index) => {
@@ -59,6 +67,10 @@ class Routes extends Component {
 			<Row>
 				<Col>
 					<h1>Список маршрутов</h1>
+					<RouteEditModal
+						editModal={this.state.editModal}
+						cancelModalHandler={this.cancelModalHandler}
+					/>
 					<RouteCreator />
 					{this.props.loading && this.props.customRoutes.length === 0 ? (
 						<Loader />
@@ -87,7 +99,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchRoutes: () => dispatch(fetchRoutes()),
+		fetchRouteById: (id) => dispatch(fetchRouteById(id)),
 		fetchDelRoute: (id) => dispatch(fetchDelRoute(id)),
+		fetchContainers: () => dispatch(fetchContainers()),
 	};
 }
 

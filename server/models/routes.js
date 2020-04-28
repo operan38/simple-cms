@@ -20,7 +20,7 @@ exports.getAll = (req, res) => {
 		});
 };
 
-/* exports.getById = (req, res) => {
+exports.getById = (req, res) => {
 	const route = {
 		id: req.params.id,
 	};
@@ -28,16 +28,19 @@ exports.getAll = (req, res) => {
 	return db
 		.execQuery('SELECT * FROM routes WHERE id = :id', { id: route.id })
 		.then((data) => {
-			if (data.length !== 0) res.json(data);
-			else next(err);
+			if (data.length) { res.json(data[0]); } else {
+				res.status(400).json({
+					message: `Not found id=${route.id}`,
+				});
+			}
 		})
 		.catch((err) => {
 			console.error(err);
 			res.status(500).json({
-				message: `Not found id=${id}`,
+				message: err,
 			});
 		});
-}; */
+};
 
 exports.upd = (req, res) => {
 	const route = {
