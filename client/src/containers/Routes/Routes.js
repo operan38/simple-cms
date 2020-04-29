@@ -5,6 +5,7 @@ import {
 	fetchRoutes,
 	fetchDelRoute,
 	fetchRouteById,
+	showRouteEditModal,
 } from '../../store/actions/routes';
 
 import { fetchContainers } from '../../store/actions/containers';
@@ -16,12 +17,6 @@ import Loader from '../../components/UI/Loader/Loader';
 import { Row, Col } from 'react-bootstrap';
 
 class Routes extends Component {
-	state = {
-		editModal: {
-			show: false,
-		},
-	};
-
 	componentDidMount() {
 		//this.props.fetchRoutes();
 		this.props.fetchContainers();
@@ -32,21 +27,7 @@ class Routes extends Component {
 	};
 
 	editRouteHandler = (id) => {
-		this.props.fetchRouteById(id);
-
-		this.setState({
-			editModal: {
-				show: true,
-			},
-		});
-	};
-
-	cancelModalHandler = () => {
-		this.setState({
-			editModal: {
-				show: false,
-			},
-		});
+		this.props.showRouteEditModal(id);
 	};
 
 	renderRoutes() {
@@ -67,11 +48,8 @@ class Routes extends Component {
 			<Row>
 				<Col>
 					<h1>Список маршрутов</h1>
-					<RouteEditModal
-						editModal={this.state.editModal}
-						cancelModalHandler={this.cancelModalHandler}
-					/>
 					<RouteCreator />
+					{this.props.editModal.show ? <RouteEditModal /> : ''}
 					{this.props.loading && this.props.customRoutes.length === 0 ? (
 						<Loader />
 					) : (
@@ -93,6 +71,7 @@ function mapStateToProps(state) {
 		customRoutes: state.routes.customRoutes,
 		loading: state.routes.loading,
 		error: state.routes.error,
+		editModal: state.routes.editModal,
 	};
 }
 
@@ -102,6 +81,7 @@ function mapDispatchToProps(dispatch) {
 		fetchRouteById: (id) => dispatch(fetchRouteById(id)),
 		fetchDelRoute: (id) => dispatch(fetchDelRoute(id)),
 		fetchContainers: () => dispatch(fetchContainers()),
+		showRouteEditModal: (id) => dispatch(showRouteEditModal(id)),
 	};
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Col, Modal, Button } from 'react-bootstrap';
 
-import { fetchUpdRoute } from '../../store/actions/routes';
+import { fetchUpdRoute, hideRouteEditModal } from '../../store/actions/routes';
 import { fetchContainers } from '../../store/actions/containers';
 import {
 	createControl,
@@ -18,7 +18,7 @@ class RouteEditModal extends Component {
 		super(props);
 
 		this.state = {
-			isFormValid: false,
+			isFormValid: true,
 			formControls: {
 				title: createControl(
 					{
@@ -53,19 +53,35 @@ class RouteEditModal extends Component {
 		};
 	}
 
+	componentDidMount() {
+		this.loadControlsData();
+	}
+
 	loadControlsData() {
 		const formControls = { ...this.state.formControls }; // Выносим объект из state
 
-		formControls.title = this.props.route.title;
-		formControls.path = this.props.route.path;
-		formControls.container_id = this.props.route.container_id;
+		formControls.title.value = this.props.route ? this.props.route.title : '';
+		formControls.path.value = this.props.route ? this.props.route.path : '';
+		formControls.container_id.value = this.props.route
+			? this.props.route.container_id
+			: '';
 
 		this.setState({
 			formControls,
 		});
 	}
 
-	updRouteHandler = () => {};
+	updRouteHandler = () => {
+		const route = {
+			id: this.props.route.id,
+			title: this.state.formControls.title.value,
+			path: this.state.formControls.path.value,
+			container_id: this.state.formControls.container_id.value,
+		};
+
+		this.props.fetchUpdRoute(route);
+		this.props.hideRouteEditModal();
+	};
 
 	onChangeHandler(e, controlName) {
 		const formControls = { ...this.state.formControls }; // Выносим объект из state
@@ -76,6 +92,8 @@ class RouteEditModal extends Component {
 		control.valid = validateControl(control.value, control.validation);
 
 		formControls[controlName] = control; // Сохраняем переменную в объект
+
+		console.log(control.value);
 
 		this.setState({
 			// Записываем в state
@@ -134,23 +152,24 @@ class RouteEditModal extends Component {
 		return (
 			<Modal
 				show={this.props.editModal.show}
-				onHide={() => this.props.cancelModalHandler()}
+				onHide={() => this.props.hideRouteEditModal()}
 			>
 				<Modal.Header closeButton>
 					<Modal.Title>Редактировать маршрут</Modal.Title>
 				</Modal.Header>
-				<Modal.Body>
-					{this.props.route ? this.props.route.id : ''}
-					{this.renderInputs()}
-				</Modal.Body>
+				<Modal.Body>{this.renderInputs()}</Modal.Body>
 				<Modal.Footer>
 					<Button
 						variant='secondary'
-						onClick={() => this.props.cancelModalHandler()}
+						onClick={() => this.props.hideRouteEditModal()}
 					>
 						Закрыть
 					</Button>
-					<Button variant='success' onClick={() => this.updRouteHandler()}>
+					<Button
+						variant='success'
+						disabled={!this.state.isFormValid}
+						onClick={() => this.updRouteHandler()}
+					>
 						Сохранить
 					</Button>
 				</Modal.Footer>
@@ -163,6 +182,7 @@ function mapStateToProps(state) {
 	return {
 		containersList: state.containers.containersList,
 		route: state.routes.route,
+		editModal: state.routes.editModal,
 	};
 }
 
@@ -170,6 +190,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		fetchUpdRoute: (route) => dispatch(fetchUpdRoute(route)),
 		fetchContainers: () => dispatch(fetchContainers()),
+		hideRouteEditModal: () => dispatch(hideRouteEditModal()),
 	};
 }
 

@@ -84,3 +84,8 @@ exports.getUsers = async (req, res) => {
 	const usersList = users.getAll(req, res);
 	return usersList;
 };
+
+exports.getUser = async (req, res) => {
+	const user = users.getById(req, res);
+	return user;
+};

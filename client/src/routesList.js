@@ -11,6 +11,7 @@ const Posts = lazy(() => import('./containers/Posts/Posts'));
 const Post = lazy(() => import('./containers/Post/Post'));
 const Home = lazy(() => import('./containers/Home/Home'));
 const Auth = lazy(() => import('./containers/Auth/Auth'));
+const Profile = lazy(() => import('./containers/Profile/Profile'));
 const Register = lazy(() => import('./containers/Register/Register'));
 const NotFound = lazy(() => import('./containers/NotFound/NotFound'));
 
@@ -45,6 +46,12 @@ class RoutesList extends Component {
 						<Route path='/reg' component={Register} />
 					) : (
 						<Redirect from='/reg' to='/' />
+					)}
+
+					{this.props.isAuthenticated ? (
+						<Route path='/profile' component={Profile} />
+					) : (
+						<Redirect from='/profile' to='/' />
 					)}
 
 					<Route path='/admin/routes' component={Routes} />

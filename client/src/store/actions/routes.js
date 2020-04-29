@@ -15,9 +15,13 @@ import {
 	FETCH_UPD_ROUTE_START,
 	FETCH_UPD_ROUTE_SUCCESS,
 	FETCH_UPD_ROUTE_ERROR,
+	SHOW_ROUTE_EDIT_MODAL_START,
+	SHOW_ROUTE_EDIT_MODAL_SUCCESS,
+	SHOW_ROUTE_EDIT_MODAL_ERROR,
+	HIDE_ROUTE_EDIT_MODAL,
 } from './type';
 
-// GETAll
+// GET ALL
 
 export function fetchRoutes() {
 	return async (dispath) => {
@@ -84,6 +88,49 @@ export function fetchRouteError(e) {
 	return {
 		type: FETCH_ROUTE_ERROR,
 		error: e,
+	};
+}
+
+// SHOW_ROUTE_EDIT_MODAL
+
+export function showRouteEditModal(id) {
+	return async (dispath) => {
+		dispath(showRouteEditModalStart());
+
+		try {
+			await dispath(fetchRouteById(id));
+			await dispath(showRouteEditModalSuccess(true));
+		} catch (e) {
+			dispath(showRouteEditModalError(e));
+		}
+	};
+}
+
+export function showRouteEditModalStart() {
+	return {
+		type: SHOW_ROUTE_EDIT_MODAL_START,
+	};
+}
+
+export function showRouteEditModalSuccess(show) {
+	return {
+		type: SHOW_ROUTE_EDIT_MODAL_SUCCESS,
+		show,
+	};
+}
+
+export function showRouteEditModalError(e) {
+	return {
+		type: SHOW_ROUTE_EDIT_MODAL_ERROR,
+		error: e,
+	};
+}
+
+// HIDE_ROUTE_EDIT_MODAL
+
+export function hideRouteEditModal() {
+	return {
+		type: HIDE_ROUTE_EDIT_MODAL,
 	};
 }
 
