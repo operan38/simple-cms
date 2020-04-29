@@ -28,7 +28,7 @@ class RouteEditModal extends Component {
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
 					},
-					{ required: true }
+					{ required: true, defaultValid: true }
 				),
 				path: createControl(
 					{
@@ -38,7 +38,7 @@ class RouteEditModal extends Component {
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
 					},
-					{ required: true }
+					{ required: true, defaultValid: true }
 				),
 				container_id: createControl(
 					{
@@ -47,7 +47,7 @@ class RouteEditModal extends Component {
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
 					},
-					{ required: true }
+					{ required: true, defaultValid: true }
 				),
 			},
 		};

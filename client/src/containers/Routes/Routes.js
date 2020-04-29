@@ -6,6 +6,8 @@ import {
 	fetchDelRoute,
 	fetchRouteById,
 	showRouteEditModal,
+	showRouteDelModal,
+	hideRouteDelModal,
 } from '../../store/actions/routes';
 
 import { fetchContainers } from '../../store/actions/containers';
@@ -13,7 +15,9 @@ import { fetchContainers } from '../../store/actions/containers';
 import RouteCreator from './RouteCreator';
 import RouteItem from './RouteItem';
 import RouteEditModal from './RouteEditModal';
+
 import Loader from '../../components/UI/Loader/Loader';
+import DeleteModal from '../../components/UI/Modal/DeleteModal';
 import { Row, Col } from 'react-bootstrap';
 
 class Routes extends Component {
@@ -22,8 +26,17 @@ class Routes extends Component {
 		this.props.fetchContainers();
 	}
 
-	delRouteHandler = (id) => {
+	submitDelRouteHandler = (id) => {
 		this.props.fetchDelRoute(id);
+		this.props.hideRouteDelModal();
+	};
+
+	cancelDelRouteHandler = () => {
+		this.props.hideRouteDelModal();
+	};
+
+	delRouteHandler = (id) => {
+		this.props.showRouteDelModal(id);
 	};
 
 	editRouteHandler = (id) => {
@@ -48,8 +61,19 @@ class Routes extends Component {
 			<Row>
 				<Col>
 					<h1>Список маршрутов</h1>
+					<DeleteModal
+						title={'Удаление маршрута'}
+						show={this.props.delModal.show}
+						id={this.props.delModal.id}
+						handleSubmit={this.submitDelRouteHandler}
+						handleClose={this.cancelDelRouteHandler}
+						children={
+							<div>Вы уверены что хотите удалить выбранный маршрут?</div>
+						}
+					/>
 					<RouteCreator />
 					{this.props.editModal.show ? <RouteEditModal /> : ''}
+					{this.props.editModal.loading ? <Loader /> : ''}
 					{this.props.loading && this.props.customRoutes.length === 0 ? (
 						<Loader />
 					) : (
@@ -72,6 +96,7 @@ function mapStateToProps(state) {
 		loading: state.routes.loading,
 		error: state.routes.error,
 		editModal: state.routes.editModal,
+		delModal: state.routes.delModal,
 	};
 }
 
@@ -82,6 +107,8 @@ function mapDispatchToProps(dispatch) {
 		fetchDelRoute: (id) => dispatch(fetchDelRoute(id)),
 		fetchContainers: () => dispatch(fetchContainers()),
 		showRouteEditModal: (id) => dispatch(showRouteEditModal(id)),
+		showRouteDelModal: (id) => dispatch(showRouteDelModal(id)),
+		hideRouteDelModal: () => dispatch(hideRouteDelModal()),
 	};
 }
 

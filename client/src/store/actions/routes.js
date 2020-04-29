@@ -19,6 +19,8 @@ import {
 	SHOW_ROUTE_EDIT_MODAL_SUCCESS,
 	SHOW_ROUTE_EDIT_MODAL_ERROR,
 	HIDE_ROUTE_EDIT_MODAL,
+	SHOW_ROUTE_DEL_MODAL,
+	HIDE_ROUTE_DEL_MODAL,
 } from './type';
 
 // GET ALL
@@ -131,6 +133,23 @@ export function showRouteEditModalError(e) {
 export function hideRouteEditModal() {
 	return {
 		type: HIDE_ROUTE_EDIT_MODAL,
+	};
+}
+
+// SHOW_ROUTE_DEL_MODAL
+
+export function showRouteDelModal(id) {
+	return {
+		type: SHOW_ROUTE_DEL_MODAL,
+		id,
+	};
+}
+
+// HIDE_ROUTE_DEL_MODAL
+
+export function hideRouteDelModal() {
+	return {
+		type: HIDE_ROUTE_DEL_MODAL,
 	};
 }
 

@@ -15,5 +15,5 @@ export default combineReducers({
 	users: usersReducer,
 	auth: authReducer,
 	register: registerReducer,
-	posts: postsReducer
+	posts: postsReducer,
 });

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { Pagination } from 'react-bootstrap';
+
 import { fetchPosts } from '../../store/actions/posts';
 
 import Loader from '../../components/UI/Loader/Loader';
@@ -30,6 +32,14 @@ class Posts extends Component {
 				) : (
 					this.renderPosts()
 				)}
+				<Pagination>
+					<Pagination.First />
+					<Pagination.Prev />
+					<Pagination.Item active>{1}</Pagination.Item>
+					<Pagination.Item>{2}</Pagination.Item>
+					<Pagination.Next />
+					<Pagination.Last />
+				</Pagination>
 			</div>
 		);
 	}

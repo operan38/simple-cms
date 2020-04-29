@@ -18,6 +18,8 @@ import {
 	SHOW_ROUTE_EDIT_MODAL_SUCCESS,
 	SHOW_ROUTE_EDIT_MODAL_ERROR,
 	HIDE_ROUTE_EDIT_MODAL,
+	SHOW_ROUTE_DEL_MODAL,
+	HIDE_ROUTE_DEL_MODAL,
 } from '../actions/type';
 
 const initialState = {
@@ -25,6 +27,10 @@ const initialState = {
 		show: false,
 		loading: false,
 		error: null,
+	},
+	delModal: {
+		id: null,
+		show: false,
 	},
 	customRoutes: [],
 	route: null,
@@ -135,6 +141,16 @@ export default function routesReducer(state = initialState, action) {
 			return {
 				...state,
 				editModal: { show: false },
+			};
+		case SHOW_ROUTE_DEL_MODAL:
+			return {
+				...state,
+				delModal: { show: true, id: action.id },
+			};
+		case HIDE_ROUTE_DEL_MODAL:
+			return {
+				...state,
+				delModal: { show: false, id: null },
 			};
 		default:
 			return state;
