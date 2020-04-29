@@ -14,24 +14,10 @@ import {
 	FETCH_UPD_ROUTE_START,
 	FETCH_UPD_ROUTE_SUCCESS,
 	FETCH_UPD_ROUTE_ERROR,
-	SHOW_ROUTE_EDIT_MODAL_START,
-	SHOW_ROUTE_EDIT_MODAL_SUCCESS,
 	SHOW_ROUTE_EDIT_MODAL_ERROR,
-	HIDE_ROUTE_EDIT_MODAL,
-	SHOW_ROUTE_DEL_MODAL,
-	HIDE_ROUTE_DEL_MODAL,
 } from '../actions/type';
 
 const initialState = {
-	editModal: {
-		show: false,
-		loading: false,
-		error: null,
-	},
-	delModal: {
-		id: null,
-		show: false,
-	},
 	customRoutes: [],
 	route: null,
 	loading: false,
@@ -122,35 +108,10 @@ export default function routesReducer(state = initialState, action) {
 				loading: false,
 				error: action.error,
 			};
-		case SHOW_ROUTE_EDIT_MODAL_START:
-			return {
-				...state,
-				editModal: { loading: true },
-			};
-		case SHOW_ROUTE_EDIT_MODAL_SUCCESS:
-			return {
-				...state,
-				editModal: { show: action.show, loading: false },
-			};
 		case SHOW_ROUTE_EDIT_MODAL_ERROR:
 			return {
 				...state,
-				editModal: { error: action.error, loading: false },
-			};
-		case HIDE_ROUTE_EDIT_MODAL:
-			return {
-				...state,
-				editModal: { show: false },
-			};
-		case SHOW_ROUTE_DEL_MODAL:
-			return {
-				...state,
-				delModal: { show: true, id: action.id },
-			};
-		case HIDE_ROUTE_DEL_MODAL:
-			return {
-				...state,
-				delModal: { show: false, id: null },
+				error: action.error,
 			};
 		default:
 			return state;

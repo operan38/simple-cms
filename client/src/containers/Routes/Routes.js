@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import {
 	fetchRoutes,
 	fetchDelRoute,
-	fetchRouteById,
 	showRouteEditModal,
-	showRouteDelModal,
-	hideRouteDelModal,
 } from '../../store/actions/routes';
+
+import { hideDelModal, showDelModal } from '../../store/actions/modal';
 
 import { fetchContainers } from '../../store/actions/containers';
 
@@ -27,19 +26,22 @@ class Routes extends Component {
 	}
 
 	submitDelRouteHandler = (id) => {
+		// Подтвердить удаление и закрыть окно
 		this.props.fetchDelRoute(id);
-		this.props.hideRouteDelModal();
+		this.props.hideDelModal();
 	};
 
 	cancelDelRouteHandler = () => {
-		this.props.hideRouteDelModal();
+		// Закрыть окно удаления (отменить)
+		this.props.hideDelModal();
 	};
 
 	delRouteHandler = (id) => {
-		this.props.showRouteDelModal(id);
+		this.props.showDelModal(id);
 	};
 
 	editRouteHandler = (id) => {
+		// Открыть окно редактирования
 		this.props.showRouteEditModal(id);
 	};
 
@@ -95,20 +97,19 @@ function mapStateToProps(state) {
 		customRoutes: state.routes.customRoutes,
 		loading: state.routes.loading,
 		error: state.routes.error,
-		editModal: state.routes.editModal,
-		delModal: state.routes.delModal,
+		editModal: state.modal.editModal,
+		delModal: state.modal.delModal,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchRoutes: () => dispatch(fetchRoutes()),
-		fetchRouteById: (id) => dispatch(fetchRouteById(id)),
 		fetchDelRoute: (id) => dispatch(fetchDelRoute(id)),
 		fetchContainers: () => dispatch(fetchContainers()),
 		showRouteEditModal: (id) => dispatch(showRouteEditModal(id)),
-		showRouteDelModal: (id) => dispatch(showRouteDelModal(id)),
-		hideRouteDelModal: () => dispatch(hideRouteDelModal()),
+		showDelModal: (id) => dispatch(showDelModal(id)),
+		hideDelModal: () => dispatch(hideDelModal()),
 	};
 }
 

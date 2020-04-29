@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Col, Modal, Button } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
-import { fetchUpdRoute, hideRouteEditModal } from '../../store/actions/routes';
-import { fetchContainers } from '../../store/actions/containers';
+import { fetchUpdRoute } from '../../store/actions/routes';
+import { hideEditModal } from '../../store/actions/modal';
 import {
 	createControl,
 	validateControl,
 	validateForm,
 } from '../../framework/form';
 
+import EditModal from '../../components/UI/Modal/EditModal';
 import Input from '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select';
 
@@ -80,7 +81,7 @@ class RouteEditModal extends Component {
 		};
 
 		this.props.fetchUpdRoute(route);
-		this.props.hideRouteEditModal();
+		this.props.hideEditModal();
 	};
 
 	onChangeHandler(e, controlName) {
@@ -150,30 +151,14 @@ class RouteEditModal extends Component {
 
 	render() {
 		return (
-			<Modal
+			<EditModal
 				show={this.props.editModal.show}
-				onHide={() => this.props.hideRouteEditModal()}
-			>
-				<Modal.Header closeButton>
-					<Modal.Title>Редактировать маршрут</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>{this.renderInputs()}</Modal.Body>
-				<Modal.Footer>
-					<Button
-						variant='secondary'
-						onClick={() => this.props.hideRouteEditModal()}
-					>
-						Закрыть
-					</Button>
-					<Button
-						variant='success'
-						disabled={!this.state.isFormValid}
-						onClick={() => this.updRouteHandler()}
-					>
-						Сохранить
-					</Button>
-				</Modal.Footer>
-			</Modal>
+				title={'Редактирование маршрута'}
+				handleSubmit={this.updRouteHandler}
+				handleClose={this.props.hideEditModal}
+				isFormValid={!this.state.isFormValid}
+				children={this.renderInputs()}
+			/>
 		);
 	}
 }
@@ -182,15 +167,14 @@ function mapStateToProps(state) {
 	return {
 		containersList: state.containers.containersList,
 		route: state.routes.route,
-		editModal: state.routes.editModal,
+		editModal: state.modal.editModal,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchUpdRoute: (route) => dispatch(fetchUpdRoute(route)),
-		fetchContainers: () => dispatch(fetchContainers()),
-		hideRouteEditModal: () => dispatch(hideRouteEditModal()),
+		hideEditModal: () => dispatch(hideEditModal()),
 	};
 }
 

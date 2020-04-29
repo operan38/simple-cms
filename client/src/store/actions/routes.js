@@ -15,13 +15,9 @@ import {
 	FETCH_UPD_ROUTE_START,
 	FETCH_UPD_ROUTE_SUCCESS,
 	FETCH_UPD_ROUTE_ERROR,
-	SHOW_ROUTE_EDIT_MODAL_START,
-	SHOW_ROUTE_EDIT_MODAL_SUCCESS,
 	SHOW_ROUTE_EDIT_MODAL_ERROR,
-	HIDE_ROUTE_EDIT_MODAL,
-	SHOW_ROUTE_DEL_MODAL,
-	HIDE_ROUTE_DEL_MODAL,
 } from './type';
+import { showEditModal } from './modal';
 
 // GET ALL
 
@@ -97,27 +93,12 @@ export function fetchRouteError(e) {
 
 export function showRouteEditModal(id) {
 	return async (dispath) => {
-		dispath(showRouteEditModalStart());
-
 		try {
 			await dispath(fetchRouteById(id));
-			await dispath(showRouteEditModalSuccess(true));
+			dispath(showEditModal(id));
 		} catch (e) {
 			dispath(showRouteEditModalError(e));
 		}
-	};
-}
-
-export function showRouteEditModalStart() {
-	return {
-		type: SHOW_ROUTE_EDIT_MODAL_START,
-	};
-}
-
-export function showRouteEditModalSuccess(show) {
-	return {
-		type: SHOW_ROUTE_EDIT_MODAL_SUCCESS,
-		show,
 	};
 }
 
@@ -125,31 +106,6 @@ export function showRouteEditModalError(e) {
 	return {
 		type: SHOW_ROUTE_EDIT_MODAL_ERROR,
 		error: e,
-	};
-}
-
-// HIDE_ROUTE_EDIT_MODAL
-
-export function hideRouteEditModal() {
-	return {
-		type: HIDE_ROUTE_EDIT_MODAL,
-	};
-}
-
-// SHOW_ROUTE_DEL_MODAL
-
-export function showRouteDelModal(id) {
-	return {
-		type: SHOW_ROUTE_DEL_MODAL,
-		id,
-	};
-}
-
-// HIDE_ROUTE_DEL_MODAL
-
-export function hideRouteDelModal() {
-	return {
-		type: HIDE_ROUTE_DEL_MODAL,
 	};
 }
 

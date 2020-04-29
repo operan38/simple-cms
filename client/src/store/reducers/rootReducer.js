@@ -7,6 +7,7 @@ import containersReducer from './containers';
 import customContainerReducer from './customContainer';
 import usersReducer from './users';
 import postsReducer from './posts';
+import modalReducer from './modal';
 
 export default combineReducers({
 	routes: routesReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
 	auth: authReducer,
 	register: registerReducer,
 	posts: postsReducer,
+	modal: modalReducer,
 });
