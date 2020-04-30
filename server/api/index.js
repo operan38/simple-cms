@@ -19,7 +19,7 @@ module.exports = (app) => {
 	router.post('/users/auth', users.validLogin(), users.auth);
 	router.post('/user/:id', users.getUser);
 
-	router.post('/posts', posts.getPosts);
+	router.post('/posts', posts.getPostsLimit);
 	router.post('/posts/add', posts.addPost);
 	router.post('/post/:id', posts.getPost);
 

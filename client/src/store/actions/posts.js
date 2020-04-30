@@ -7,12 +7,12 @@ import {
 
 // GET
 
-export function fetchPosts() {
+export function fetchPosts(limit) {
 	return async (dispath) => {
 		dispath(fetchPostsStart());
 
 		try {
-			const response = await httpAPI.post('/posts');
+			const response = await httpAPI.post('/posts', limit);
 			dispath(fetchPostsSuccess(response.data));
 		} catch (e) {
 			dispath(fetchPostsError(e));

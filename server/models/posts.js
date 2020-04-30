@@ -1,5 +1,39 @@
 const db = require('../libs/db');
 
+exports.getAllCount = (req, res) => {
+	const sql = 'SELECT count(*) as count FROM posts';
+
+	return db
+		.execQuery(sql)
+		.then((data) => {
+			console.log(data);
+			res.json(data);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).json({
+				message: err,
+			});
+		});
+};
+
+exports.getAllLimit = (req, res, limit) => {
+	const sql = 'SELECT * FROM posts LIMIT :start,:end';
+
+	return db
+		.execQuery(sql, { start: limit.start, end: limit.end })
+		.then((data) => {
+			console.log(data);
+			res.json(data);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).json({
+				message: err,
+			});
+		});
+};
+
 exports.getAll = (req, res) => {
 	const sql = 'SELECT * FROM posts';
 

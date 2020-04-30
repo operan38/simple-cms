@@ -7,20 +7,9 @@ import {
 	HIDE_EDIT_MODAL,
 } from './type';
 
-/*export function showRouteEditModal(id) {
-	return async (dispath) => {
-		try {
-			await dispath(fetchRouteById(id));
-			dispath(showEditModal(id)); // show
-		} catch (e) {
-			dispath(showEditModalError(e));
-		}
-	};
-}*/
-
 // SHOW_EDIT_MODAL
 
-export function showEditModal(id) {
+export function showEditModal() {
 	return async (dispath) => {
 		dispath(showEditModalStart());
 		try {

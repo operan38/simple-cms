@@ -23,3 +23,8 @@ exports.getPosts = async (req, res) => {
 	const postsList = posts.getAll(req, res);
 	return postsList;
 };
+
+exports.getPostsLimit = async (req, res) => {
+	const postsList = posts.getAllLimit(req, res, { start: 5, end: 2 });
+	return postsList;
+};

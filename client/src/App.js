@@ -5,6 +5,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { fetchRoutes } from './store/actions/routes';
 import { autoLogin } from './store/actions/auth';
 
+import './App.scss';
+
 import RoutesList from './RoutesList';
 import Header from './containers/Layout/Header/Header';
 

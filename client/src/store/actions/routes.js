@@ -95,7 +95,7 @@ export function showRouteEditModal(id) {
 	return async (dispath) => {
 		try {
 			await dispath(fetchRouteById(id));
-			dispath(showEditModal(id));
+			dispath(showEditModal());
 		} catch (e) {
 			dispath(showRouteEditModalError(e));
 		}

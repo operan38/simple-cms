@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Row, Col, Accordion, Button, Card } from 'react-bootstrap';
 
 import { fetchAddRoute } from '../../store/actions/routes';
-import { fetchContainers } from '../../store/actions/containers';
 import {
 	createControl,
 	validateControl,
@@ -180,7 +179,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchAddRoute: (route) => dispatch(fetchAddRoute(route)),
-		fetchContainers: () => dispatch(fetchContainers()),
 	};
 }
 

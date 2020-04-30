@@ -2,16 +2,36 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Pagination } from 'react-bootstrap';
-
 import { fetchPosts } from '../../store/actions/posts';
 
+import PaginationLib from '../../components/UI/Pagination/Pagination';
 import Loader from '../../components/UI/Loader/Loader';
 
 class Posts extends Component {
-	componentDidMount() {
-		this.props.fetchPosts();
+	constructor() {
+		super();
+
+		// an example array of items to be paged
+		let exampleItems = [...Array(150).keys()].map((i) => ({
+			id: i + 1,
+			name: 'Item ' + (i + 1),
+		}));
+
+		this.state = {
+			exampleItems: exampleItems,
+			pageOfItems: [],
+		};
 	}
+
+	componentDidMount() {
+		this.props.fetchPosts({ start: 5, end: 2 });
+	}
+
+	onChangePage = (pageOfItems) => {
+		console.log('exampleItems' + this.state.exampleItems);
+		console.log('pageOfItems' + this.state.pageOfItems);
+		this.setState({ pageOfItems: pageOfItems });
+	};
 
 	renderPosts() {
 		return this.props.postsList.map((post, index) => {
@@ -27,19 +47,28 @@ class Posts extends Component {
 		return (
 			<div>
 				<h1>Список постов</h1>
-				{this.props.loading && this.props.postsList.length === 0 ? (
+				{/*this.props.loading && this.props.postsList.length === 0 ? (
 					<Loader />
 				) : (
 					this.renderPosts()
-				)}
-				<Pagination>
+				)*/}
+
+				{this.state.pageOfItems.map((item) => (
+					<div key={item.id}>{item.name}</div>
+				))}
+				<PaginationLib
+					items={this.state.exampleItems}
+					onChangePage={this.onChangePage}
+				/>
+
+				{/*<Pagination>
 					<Pagination.First />
 					<Pagination.Prev />
 					<Pagination.Item active>{1}</Pagination.Item>
 					<Pagination.Item>{2}</Pagination.Item>
 					<Pagination.Next />
 					<Pagination.Last />
-				</Pagination>
+				</Pagination>*/}
 			</div>
 		);
 	}
@@ -55,7 +84,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		fetchPosts: () => dispatch(fetchPosts()),
+		fetchPosts: (limit) => dispatch(fetchPosts(limit)),
 	};
 }
 
