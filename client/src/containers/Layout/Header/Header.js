@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import logo from '../../../logo.svg';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import { logout } from '../../../store/actions/auth';
@@ -14,16 +14,16 @@ class Header extends Component {
 					<i className='fa fa-user-circle mr-2' aria-hidden='true'></i>
 					{this.props.userLogin}
 				</h4>
-				<NavLink className='btn btn-secondary mr-2' to='/profile'>
+				<Link className='btn btn-secondary mr-2' to='/profile'>
 					Личный кабинет
-				</NavLink>
-				<NavLink
+				</Link>
+				<Link
 					className='btn btn-danger mr-2'
 					to='/'
 					onClick={this.props.logout}
 				>
 					Выйти
-				</NavLink>
+				</Link>
 			</div>
 		) : (
 			<div>

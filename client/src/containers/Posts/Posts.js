@@ -1,43 +1,24 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { fetchPosts } from '../../store/actions/posts';
 
-import PaginationLib from '../../components/UI/Pagination/Pagination';
+import PaginationLib from '../../components/UI/Pagination/PaginationLib';
 import Loader from '../../components/UI/Loader/Loader';
 
 class Posts extends Component {
-	constructor() {
-		super();
+	componentDidMount() {}
 
-		// an example array of items to be paged
-		let exampleItems = [...Array(150).keys()].map((i) => ({
-			id: i + 1,
-			name: 'Item ' + (i + 1),
-		}));
-
-		this.state = {
-			exampleItems: exampleItems,
-			pageOfItems: [],
-		};
-	}
-
-	componentDidMount() {
-		this.props.fetchPosts({ start: 5, end: 2 });
-	}
-
-	onChangePage = (pageOfItems) => {
-		console.log('exampleItems' + this.state.exampleItems);
-		console.log('pageOfItems' + this.state.pageOfItems);
-		this.setState({ pageOfItems: pageOfItems });
+	onChangePage = (start, end) => {
+		this.props.fetchPosts({ start, end });
 	};
 
 	renderPosts() {
 		return this.props.postsList.map((post, index) => {
 			return (
 				<div key={index} className='mb-3 border p-2'>
-					<NavLink to={'/post/' + post.id}>{post.title} </NavLink>
+					<Link to={'/post/' + post.id}>{post.title}</Link>
 				</div>
 			);
 		});
@@ -47,28 +28,23 @@ class Posts extends Component {
 		return (
 			<div>
 				<h1>Список постов</h1>
-				{/*this.props.loading && this.props.postsList.length === 0 ? (
+
+				{this.props.loading && this.props.postsList.length === 0 ? (
 					<Loader />
 				) : (
 					this.renderPosts()
-				)*/}
+				)}
 
-				{this.state.pageOfItems.map((item) => (
-					<div key={item.id}>{item.name}</div>
-				))}
-				<PaginationLib
-					items={this.state.exampleItems}
-					onChangePage={this.onChangePage}
-				/>
-
-				{/*<Pagination>
-					<Pagination.First />
-					<Pagination.Prev />
-					<Pagination.Item active>{1}</Pagination.Item>
-					<Pagination.Item>{2}</Pagination.Item>
-					<Pagination.Next />
-					<Pagination.Last />
-				</Pagination>*/}
+				{this.props.loading && this.props.postsList.length === 0 ? (
+					<Loader />
+				) : (
+					<PaginationLib
+						items={this.props.postsList}
+						countItems={this.props.count}
+						pageSize={4}
+						onChangePage={this.onChangePage}
+					/>
+				)}
 			</div>
 		);
 	}
@@ -77,6 +53,7 @@ class Posts extends Component {
 function mapStateToProps(state) {
 	return {
 		postsList: state.posts.postsList,
+		count: state.posts.count,
 		loading: state.posts.loading,
 		error: state.posts.error,
 	};

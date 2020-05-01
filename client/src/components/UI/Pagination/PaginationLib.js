@@ -9,58 +9,51 @@ class PaginationLib extends Component {
 		this.state = { pager: {} };
 	}
 
-	componentWillMount() {
-		// set page if items array isn't empty
-		if (this.props.items && this.props.items.length) {
-			this.setPage(this.props.initialPage);
-		}
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-		// reset page if items array has changed
-		if (this.props.items !== prevProps.items) {
-			this.setPage(this.props.initialPage);
-		}
+	componentDidMount() {
+		//if (this.props.items && this.props.items.length) {
+		this.setPage(this.props.initialPage);
+		//}
 	}
 
 	setPage(page) {
-		var items = this.props.items;
-		var pager = this.state.pager;
+		//let items = this.props.items;
+		let pager = this.state.pager;
 
+		// Если страница меньше 1 или больше totalPages
 		if (page < 1 || page > pager.totalPages) {
 			return;
 		}
 
-		// get new pager object for specified page
-		pager = this.getPager(items.length, page);
+		// получить новый объект для конкретной страницы
+		//pager = this.getPager(items.length, page);
+		pager = this.getPager(this.props.countItems, page);
+		console.log('pager: ', pager);
 
-		// get new page of items from items array
-		var pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
+		// получить новую страницу из массива элементов
+		//let pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
 
-		// update state
+		// обновить state
 		this.setState({ pager: pager });
 
-		// call change page function in parent component
-		this.props.onChangePage(pageOfItems);
+		// вызов страницы функции изменения в родительском компоненте
+		this.props.onChangePage(pager.startIndex, pager.endIndex);
 	}
 
 	getPager(totalItems, currentPage, pageSize) {
-		// default to first page
+		// по умолчанию (первая страница при инициализации)
 		currentPage = currentPage || 1;
 
-		// default page size is 10
-		pageSize = pageSize || 10;
+		// количество элементов на одной страницы
+		pageSize = this.props.pageSize || 5;
 
-		// calculate total pages
-		var totalPages = Math.ceil(totalItems / pageSize);
+		// Расчет количества страниц
+		let totalPages = Math.ceil(totalItems / pageSize);
 
-		var startPage, endPage;
+		let startPage, endPage;
 		if (totalPages <= 10) {
-			// less than 10 total pages so show all
 			startPage = 1;
 			endPage = totalPages;
 		} else {
-			// more than 10 total pages so calculate start and end pages
 			if (currentPage <= 6) {
 				startPage = 1;
 				endPage = 10;
@@ -73,16 +66,15 @@ class PaginationLib extends Component {
 			}
 		}
 
-		// calculate start and end item indexes
-		var startIndex = (currentPage - 1) * pageSize;
-		var endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
+		// рассчет начального и конечного лимита
+		let startIndex = (currentPage - 1) * pageSize;
+		let endIndex = pageSize; //Math.min(startIndex + pageSize - 1, totalItems - 1);
 
 		// create an array of pages to ng-repeat in the pager control
-		var pages = [...Array(endPage + 1 - startPage).keys()].map(
+		let pages = [...Array(endPage + 1 - startPage).keys()].map(
 			(i) => startPage + i
 		);
 
-		// return object with all pager properties required by the view
 		return {
 			totalItems: totalItems,
 			currentPage: currentPage,
@@ -97,10 +89,10 @@ class PaginationLib extends Component {
 	}
 
 	render() {
-		var pager = this.state.pager;
+		let pager = this.state.pager;
 
 		if (!pager.pages || pager.pages.length <= 1) {
-			// don't display pager if there is only 1 page
+			// не отображать пагинацию, если есть только 1 страница
 			return null;
 		}
 
@@ -131,13 +123,15 @@ class PaginationLib extends Component {
 					className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
 					onClick={() => this.setPage(pager.totalPages)}
 				></Pagination.Last>
+				<div className='align-self-center'>
+					Всего элементов: {this.state.pager.totalItems}
+				</div>
 			</Pagination>
 		);
 	}
 }
 
 PaginationLib.propTypes = {
-	items: propTypes.array.isRequired,
 	onChangePage: propTypes.func.isRequired,
 	initialPage: propTypes.number,
 };

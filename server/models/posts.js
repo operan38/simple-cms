@@ -6,8 +6,7 @@ exports.getAllCount = (req, res) => {
 	return db
 		.execQuery(sql)
 		.then((data) => {
-			console.log(data);
-			res.json(data);
+			res.json(data[0].count);
 		})
 		.catch((err) => {
 			console.error(err);
@@ -17,17 +16,19 @@ exports.getAllCount = (req, res) => {
 		});
 };
 
-exports.getAllLimit = (req, res, limit) => {
+exports.getAllLimit = (req, res) => {
 	const sql = 'SELECT * FROM posts LIMIT :start,:end';
 
+	console.log('body', req.body);
+
 	return db
-		.execQuery(sql, { start: limit.start, end: limit.end })
+		.execQuery(sql, { start: req.body.start, end: req.body.end })
 		.then((data) => {
-			console.log(data);
+			// console.log(data);
 			res.json(data);
 		})
 		.catch((err) => {
-			console.error(err);
+			console.error('limit', err);
 			res.status(500).json({
 				message: err,
 			});
@@ -58,7 +59,7 @@ exports.getById = (req, res) => {
 	return db
 		.execQuery('SELECT * FROM posts WHERE id = :id', { id: post.id })
 		.then((data) => {
-			if (data.length) { res.json(data); } else {
+			if (data.length) { res.json(data[0]); } else {
 				res.status(400).json({
 					message: `Not found id=${post.id}`,
 				});

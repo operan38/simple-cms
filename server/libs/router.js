@@ -5,7 +5,7 @@ const router = express.Router();
 const config = require('../config');
 
 const routes = require('../models/routes');
-const sections = require('../models/sections');
+// const sections = require('../models/sections');
 
 const routesMap = [];
 

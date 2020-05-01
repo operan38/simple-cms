@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const routes = require('../models/routes');
 const containers = require('../models/containers');
+const comments = require('../models/comments');
 const users = require('./users');
 const posts = require('./posts');
 
@@ -20,8 +21,11 @@ module.exports = (app) => {
 	router.post('/user/:id', users.getUser);
 
 	router.post('/posts', posts.getPostsLimit);
+	router.post('/posts/count', posts.getPostsCount);
 	router.post('/posts/add', posts.addPost);
 	router.post('/post/:id', posts.getPost);
+
+	router.post('/comments/post/:id', comments.getByPostId);
 
 	app.use('/api', router);
 };

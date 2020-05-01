@@ -19,7 +19,6 @@ class Default extends Component {
 				) : (
 					<Loader />
 				)}
-				<button>Добавить секцию</button>
 				<br></br>
 				<NavLink to='/admin/routes'>К списку маршрутов</NavLink>
 			</div>

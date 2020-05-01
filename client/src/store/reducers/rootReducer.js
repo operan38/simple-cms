@@ -8,6 +8,7 @@ import customContainerReducer from './customContainer';
 import usersReducer from './users';
 import postsReducer from './posts';
 import modalReducer from './modal';
+import commentsReducer from './comments';
 
 export default combineReducers({
 	routes: routesReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
 	register: registerReducer,
 	posts: postsReducer,
 	modal: modalReducer,
+	comments: commentsReducer,
 });

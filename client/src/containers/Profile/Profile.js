@@ -10,9 +10,9 @@ class Profile extends Component {
 				<Row className='mt-2'>
 					<Col xs={6}>
 						<img src={'/assets/NotFoundPhoto.jpg'} alt=''></img>
-						<Input placeholder={'Логин'}></Input>
-						<Input placeholder={'Пароль'}></Input>
-						<button>Изменить пароль</button>
+						<Input className='mb-2' placeholder={'Логин'}></Input>
+						<Input className='mb-2' placeholder={'Пароль'}></Input>
+						<button className='btn btn-success'>Изменить пароль</button>
 					</Col>
 				</Row>
 			</>

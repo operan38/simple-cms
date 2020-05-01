@@ -24,32 +24,32 @@ export default function modalReducer(state = initialState, action) {
 		case SHOW_EDIT_MODAL_START:
 			return {
 				...state,
-				editModal: { loading: true },
+				editModal: { ...state.editModal, loading: true },
 			};
 		case SHOW_EDIT_MODAL_SUCCESS:
 			return {
 				...state,
-				editModal: { show: action.show, loading: false },
+				editModal: { ...state.editModal, show: action.show, loading: false },
 			};
 		case SHOW_EDIT_MODAL_ERROR:
 			return {
 				...state,
-				editModal: { error: action.error, loading: false },
+				editModal: { ...state.editModal, error: action.error, loading: false },
 			};
 		case HIDE_EDIT_MODAL:
 			return {
 				...state,
-				editModal: { show: false },
+				editModal: { ...state.editModal, show: false },
 			};
 		case SHOW_DEL_MODAL:
 			return {
 				...state,
-				delModal: { show: true, id: action.id },
+				delModal: { ...state.delModal, show: true, id: action.id },
 			};
 		case HIDE_DEL_MODAL:
 			return {
 				...state,
-				delModal: { show: false, id: null },
+				delModal: { ...state.delModal, show: false, id: null },
 			};
 		default:
 			return state;

@@ -24,7 +24,12 @@ exports.getPosts = async (req, res) => {
 	return postsList;
 };
 
-exports.getPostsLimit = async (req, res) => {
-	const postsList = posts.getAllLimit(req, res, { start: 5, end: 2 });
+exports.getPostsCount = (req, res) => {
+	const count = posts.getAllCount(req, res);
+	return count;
+};
+
+exports.getPostsLimit = (req, res) => {
+	const postsList = posts.getAllLimit(req, res);
 	return postsList;
 };
