@@ -2,6 +2,9 @@ import {
 	FETCH_COMMENTS_BY_POST_ID_START,
 	FETCH_COMMENTS_BY_POST_ID_SUCCESS,
 	FETCH_COMMENTS_BY_POST_ID_ERROR,
+	FETCH_ADD_COMMENT_BY_POST_ID_START,
+	FETCH_ADD_COMMENT_BY_POST_ID_SUCCESS,
+	FETCH_ADD_COMMENT_BY_POST_ID_ERROR,
 } from '../actions/type';
 
 const initialState = {
@@ -37,6 +40,21 @@ export default function commentsReducer(state = initialState, action) {
 					loading: false,
 					commentsList: [],
 				},
+			};
+		case FETCH_ADD_COMMENT_BY_POST_ID_START:
+			return {
+				...state,
+				post: { ...state.post, loading: true },
+			};
+		case FETCH_ADD_COMMENT_BY_POST_ID_SUCCESS:
+			return {
+				...state,
+				post: { ...state.post, loading: false },
+			};
+		case FETCH_ADD_COMMENT_BY_POST_ID_ERROR:
+			return {
+				...state,
+				post: { ...state.post, loading: false, error: action.error },
 			};
 		default:
 			return state;

@@ -3,25 +3,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { fetchPostById } from '../../store/actions/posts';
-import { fetchCommentsByPostId } from '../../store/actions/comments';
+
+import Comments from '../../components/Comments/Comments';
 
 import Loader from '../../components/UI/Loader/Loader';
 
 class Post extends Component {
 	componentDidMount() {
 		this.props.fetchPostById(this.props.match.params.id);
-		this.props.fetchCommentsByPostId(this.props.match.params.id);
-	}
-
-	renderComments() {
-		return this.props.commentsList.map((comment, index) => {
-			return (
-				<div className='mb-3 border p-2' key={index}>
-					<div>Автор: {comment.user}</div>
-					<p>Cообщение: {comment.message}</p>
-				</div>
-			);
-		});
+		//this.props.fetchCommentsByPostId(this.props.match.params.id);
 	}
 
 	renderPost() {
@@ -45,12 +35,7 @@ class Post extends Component {
 					this.renderPost()
 				)}
 				<h4>Список коментариев</h4>
-				{this.props.commentsLoading && this.props.commentsList.length === 0 ? (
-					<Loader />
-				) : (
-					this.renderComments()
-				)}
-				{console.log(this.props.post)}
+				<Comments postId={this.props.match.params.id} />
 			</div>
 		);
 	}
@@ -59,8 +44,8 @@ class Post extends Component {
 function mapStateToProps(state) {
 	return {
 		post: state.posts.post,
-		commentsList: state.comments.post.commentsList,
-		commentsLoading: state.comments.post.loading,
+		/*commentsList: state.comments.post.commentsList,
+		commentsLoading: state.comments.post.loading,*/
 		loading: state.posts.loading,
 		error: state.posts.error,
 	};
@@ -69,7 +54,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchPostById: (id) => dispatch(fetchPostById(id)),
-		fetchCommentsByPostId: (id) => dispatch(fetchCommentsByPostId(id)),
+		/*fetchCommentsByPostId: (postId) => dispatch(fetchCommentsByPostId(postId)),
+		fetchAddCommentByPostId: (comment) =>
+			dispatch(fetchAddCommentByPostId(comment)),*/
 	};
 }
 

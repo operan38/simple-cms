@@ -17,18 +17,45 @@ exports.getAll = (req, res) => {
 };
 
 exports.getByPostId = (req, res) => {
-	const post = {
-		id: req.params.id,
+	const comments = {
+		post_id: req.params.id,
 	};
 
 	return db
-		.execQuery('SELECT * FROM comments WHERE post_id = :id', { id: post.id })
+		.execQuery('SELECT * FROM comments WHERE post_id = :post_id', { post_id: comments.post_id })
 		.then((data) => {
 			if (data.length) { res.json(data); } else {
 				res.status(400).json({
-					message: `Not found comments post_id=${post.id}`,
+					message: `Not found comments post_id=${comments.post_id}`,
 				});
 			}
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).json({
+				message: err,
+			});
+		});
+};
+
+exports.add = (req, res) => {
+	const comment = {
+		post_id: req.body.post_id,
+		parent_id: 0,
+		type: 'post',
+		author: req.body.author,
+		message: req.body.message,
+	};
+
+	return db
+		.execQuery(
+			'INSERT INTO comments (post_id, parent_id, type, author, message) VALUES(:post_id, :parent_id, :type, :author, :message)',
+			{
+				post_id: comment.post_id, parent_id: comment.parent_id, type: comment.type, author: comment.author, message: comment.message,
+			},
+		)
+		.then((data) => {
+			res.json(true);
 		})
 		.catch((err) => {
 			console.error(err);

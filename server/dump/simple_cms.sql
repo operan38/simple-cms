@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 01 2020 г., 20:40
+-- Время создания: Май 02 2020 г., 15:54
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.1.32
 
@@ -33,7 +33,7 @@ CREATE TABLE `comments` (
   `post_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
   `parent_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
   `type` varchar(255) NOT NULL DEFAULT 'post',
-  `user` varchar(60) NOT NULL,
+  `author` varchar(60) NOT NULL,
   `message` text NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -42,8 +42,13 @@ CREATE TABLE `comments` (
 -- Дамп данных таблицы `comments`
 --
 
-INSERT INTO `comments` (`id`, `post_id`, `parent_id`, `type`, `user`, `message`, `created`) VALUES
-(2, 1, 0, 'post', 'Вася', 'Hello World', '2020-05-01 17:14:25');
+INSERT INTO `comments` (`id`, `post_id`, `parent_id`, `type`, `author`, `message`, `created`) VALUES
+(2, 1, 0, 'post', 'Вася', 'Hello World', '2020-05-01 17:14:25'),
+(3, 1, 2, 'post', 'Иван', 'Hey!', '2020-05-02 07:58:05'),
+(4, 1, 3, 'post', 'Дима', 'Йоу!', '2020-05-02 11:38:48'),
+(5, 1, 0, 'post', 'Test2', 'Хм', '2020-05-02 12:03:12'),
+(6, 1, 4, 'post', 'Афанасий', 'Вжик вжик', '2020-05-02 12:44:45'),
+(7, 1, 2, 'post', 'Чувак', 'Эй!', '2020-05-02 12:48:08');
 
 -- --------------------------------------------------------
 
@@ -140,7 +145,7 @@ CREATE TABLE `routes` (
 --
 
 INSERT INTO `routes` (`id`, `title`, `path`, `container_id`) VALUES
-(29, 'Тест', '/123', 1),
+(29, 'Тест123', '/12345', 1),
 (30, 'Тестовый маршрут', '/test', 2);
 
 -- --------------------------------------------------------
@@ -223,7 +228,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `components`
@@ -247,7 +252,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
