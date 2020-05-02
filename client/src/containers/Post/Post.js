@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { fetchPostById } from '../../store/actions/posts';
 
-import Comments from '../../components/Comments/Comments';
+import CommentsPost from '../../components/Comments/CommentsPost';
 
 import Loader from '../../components/UI/Loader/Loader';
 
@@ -35,7 +35,7 @@ class Post extends Component {
 					this.renderPost()
 				)}
 				<h4>Список коментариев</h4>
-				<Comments postId={this.props.match.params.id} />
+				<CommentsPost postId={this.props.match.params.id} />
 			</div>
 		);
 	}

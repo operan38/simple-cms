@@ -25,8 +25,8 @@ module.exports = (app) => {
 	router.post('/posts/add', posts.addPost);
 	router.post('/post/:id', posts.getPost);
 
-	router.post('/comments/post/:id', comments.getByPostId);
 	router.post('/comments/post/add', comments.add);
+	router.post('/comments/post/:id', comments.getByPostId);
 
 	app.use('/api', router);
 };

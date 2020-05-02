@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { fetchPosts } from '../../store/actions/posts';
 
-import PaginationLib from '../../components/UI/Pagination/PaginationLib';
+import PaginationLib from '../../components/Pagination/PaginationLib';
 import Loader from '../../components/UI/Loader/Loader';
 
 class Posts extends Component {
@@ -43,6 +43,7 @@ class Posts extends Component {
 						countItems={this.props.count}
 						pageSize={4}
 						onChangePage={this.onChangePage}
+						{...this.props}
 					/>
 				)}
 			</div>

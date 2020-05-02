@@ -6,12 +6,16 @@ import {
 	fetchAddCommentByPostId,
 } from '../../store/actions/comments';
 
-import Loader from '../../components/UI/Loader/Loader';
+import Loader from '../UI/Loader/Loader';
 
-class Comments extends Component {
-	state = {
-		commentsTree: [],
-	};
+class CommentsPost extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			commentsTree: [],
+			message: '',
+		};
+	}
 
 	componentDidMount() {
 		this.props.fetchCommentsByPostId(this.props.postId).then(() => {
@@ -61,6 +65,20 @@ class Comments extends Component {
 					<div>В ответ: {author}</div>
 					<div>Автор: {comment.value.author}</div>
 					<p>Cообщение: {comment.value.message}</p>
+					<textarea
+						className='form-control mb-2'
+						placeholder='Сообщение'
+						value={this.state.message}
+						onChange={(e) => this.onChangeMessageHandler(e)}
+					></textarea>
+					<button
+						type='button'
+						className='btn btn-primary mb-2'
+						onClick={(parent_id) => this.addCommentHandler(comment.value.id)}
+						disabled={!this.props.isAuthenticated}
+					>
+						Ответить
+					</button>
 					{comment.children ? (
 						<div className='border p-2'>
 							{this.subComments(comment.children, comment.value.author)}
@@ -74,23 +92,25 @@ class Comments extends Component {
 	}
 
 	renderComments() {
-		/*return this.props.commentsList.map((comment, index) => {
-			return (
-				<div className='mb-3 border p-2' key={index}>
-					<div>Автор: {comment.author}</div>
-					<p>Cообщение: {comment.message}</p>
-					<button>Ответить</button>
-					<div className='border p-2'></div>
-				</div>
-			);
-        });*/
-
 		return this.state.commentsTree.map((comment, index) => {
 			return (
 				<div className='mb-3 border p-2' key={index}>
 					<div>Автор: {comment.value.author}</div>
 					<p>Cообщение: {comment.value.message}</p>
-					<button>Ответить</button>
+					<textarea
+						className='form-control mb-2'
+						placeholder='Сообщение'
+						value={this.state.message}
+						onChange={(e) => this.onChangeMessageHandler(e)}
+					></textarea>
+					<button
+						type='button'
+						className='btn btn-primary mb-2'
+						onClick={(parent_id) => this.addCommentHandler(comment.value.id)}
+						disabled={!this.props.isAuthenticated}
+					>
+						Ответить
+					</button>
 					{comment.children ? (
 						<div className='border p-2'>
 							{this.subComments(comment.children, comment.value.author)}
@@ -103,13 +123,28 @@ class Comments extends Component {
 		});
 	}
 
-	addCommentHandler() {
+	onChangeMessageHandler = (e) => {
+		this.setState({ message: e.target.value });
+	};
+
+	addCommentHandler = (parent_id) => {
 		const comment = {
-			postId: this.props.match.params.id,
+			author: this.props.userLogin,
+			post_id: this.props.postId,
+			parent_id: parent_id,
+			message: this.state.message,
 		};
 
-		fetchAddCommentByPostId(comment);
-	}
+		console.log(comment);
+
+		this.props.fetchAddCommentByPostId(comment).then(() => {
+			this.props.fetchCommentsByPostId(this.props.postId).then(() => {
+				this.convertCommentsTree(this.props.commentsList);
+			});
+		});
+
+		this.setState({ message: '' });
+	};
 
 	render() {
 		return (
@@ -120,11 +155,25 @@ class Comments extends Component {
 					this.renderComments()
 				)}
 				<div className='text-right'>
+					{!this.props.isAuthenticated ? (
+						<div>
+							Для того чтобы оставить комментарий необходимо авторизоватся.
+						</div>
+					) : (
+						''
+					)}
 					<textarea
 						className='form-control mb-2'
 						placeholder='Сообщение'
+						value={this.state.message}
+						onChange={(e) => this.onChangeMessageHandler(e)}
 					></textarea>
-					<button type='button' className='btn btn-success'>
+					<button
+						type='button'
+						className='btn btn-success'
+						onClick={(parent_id) => this.addCommentHandler(0)}
+						disabled={!this.props.isAuthenticated}
+					>
 						Добавить
 					</button>
 				</div>
@@ -137,6 +186,8 @@ function mapStateToProps(state) {
 	return {
 		commentsList: state.comments.post.commentsList,
 		commentsLoading: state.comments.post.loading,
+		userLogin: state.auth.userLogin,
+		isAuthenticated: !!state.auth.token,
 	};
 }
 
@@ -148,4 +199,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Comments);
+export default connect(mapStateToProps, mapDispatchToProps)(CommentsPost);
