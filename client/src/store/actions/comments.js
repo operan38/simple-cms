@@ -47,7 +47,7 @@ export function fetchAddCommentByPostId(comment) {
 		dispath(fetchAddCommentByPostIdStart());
 
 		try {
-			const response = await httpAPI.post('/comments/post/add', comment);
+			const response = await httpAPI.post('/comments/posts/add', comment);
 			dispath(fetchAddCommentByPostIdSuccess(response.data));
 		} catch (e) {
 			dispath(fetchAddCommentByPostIdError(e));

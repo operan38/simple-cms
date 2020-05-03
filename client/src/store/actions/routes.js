@@ -15,9 +15,7 @@ import {
 	FETCH_UPD_ROUTE_START,
 	FETCH_UPD_ROUTE_SUCCESS,
 	FETCH_UPD_ROUTE_ERROR,
-	SHOW_ROUTE_EDIT_MODAL_ERROR,
 } from './type';
-import { showEditModal } from './modal';
 
 // GET ALL
 
@@ -85,26 +83,6 @@ export function fetchRouteSuccess(route) {
 export function fetchRouteError(e) {
 	return {
 		type: FETCH_ROUTE_ERROR,
-		error: e,
-	};
-}
-
-// SHOW_ROUTE_EDIT_MODAL
-
-export function showRouteEditModal(id) {
-	return async (dispath) => {
-		try {
-			await dispath(fetchRouteById(id));
-			dispath(showEditModal());
-		} catch (e) {
-			dispath(showRouteEditModalError(e));
-		}
-	};
-}
-
-export function showRouteEditModalError(e) {
-	return {
-		type: SHOW_ROUTE_EDIT_MODAL_ERROR,
 		error: e,
 	};
 }

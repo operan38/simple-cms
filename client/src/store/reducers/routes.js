@@ -14,7 +14,6 @@ import {
 	FETCH_UPD_ROUTE_START,
 	FETCH_UPD_ROUTE_SUCCESS,
 	FETCH_UPD_ROUTE_ERROR,
-	SHOW_ROUTE_EDIT_MODAL_ERROR,
 } from '../actions/type';
 
 const initialState = {
@@ -106,11 +105,6 @@ export default function routesReducer(state = initialState, action) {
 			return {
 				...state,
 				loading: false,
-				error: action.error,
-			};
-		case SHOW_ROUTE_EDIT_MODAL_ERROR:
-			return {
-				...state,
 				error: action.error,
 			};
 		default:

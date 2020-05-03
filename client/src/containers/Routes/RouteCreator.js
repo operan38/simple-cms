@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Accordion, Button, Card } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
 import { fetchAddRoute } from '../../store/actions/routes';
 import {
@@ -10,6 +10,7 @@ import {
 	clearControlsValue,
 } from '../../framework/form';
 
+import CreateModal from '../../components/UI/Modal/CreateModal';
 import Input from '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select';
 
@@ -138,34 +139,12 @@ class RouteCreator extends Component {
 
 	render() {
 		return (
-			<Accordion>
-				<Card>
-					<Card.Header>
-						<Accordion.Toggle as={Button} variant='link' eventKey='0'>
-							<Row>
-								<Col>Новый маршрут</Col>
-							</Row>
-						</Accordion.Toggle>
-					</Card.Header>
-					<Accordion.Collapse eventKey='0'>
-						<Card.Body>
-							<Row>
-								{this.renderInputs()}
-								<Col>
-									<button
-										className='btn btn-success'
-										type='submit'
-										disabled={!this.state.isFormValid}
-										onClick={this.addRouteHandler}
-									>
-										Добавить
-									</button>
-								</Col>
-							</Row>
-						</Card.Body>
-					</Accordion.Collapse>
-				</Card>
-			</Accordion>
+			<CreateModal
+				title={'Новый маршрут'}
+				children={this.renderInputs()}
+				isFormValid={!this.state.isFormValid}
+				handleSubmit={this.addRouteHandler}
+			/>
 		);
 	}
 }

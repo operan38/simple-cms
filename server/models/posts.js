@@ -92,3 +92,21 @@ exports.add = (req, res, post) => db
 			message: err,
 		});
 	});
+
+exports.del = (req, res) => {
+	const post = {
+		id: req.body.id,
+	};
+
+	return db
+		.execQuery('DELETE FROM posts WHERE id = :id', { id: post.id })
+		.then((data) => {
+			res.json(true);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).json({
+				message: err,
+			});
+		});
+};

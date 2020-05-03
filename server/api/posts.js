@@ -1,6 +1,6 @@
 const posts = require('../models/posts');
 
-exports.addPost = async (req, res) => {
+exports.addPost = (req, res) => {
 	const {
 		title, subtitle, text, created,
 	} = req.body;
@@ -14,12 +14,17 @@ exports.addPost = async (req, res) => {
 	return res.status(201).json();
 };
 
-exports.getPost = async (req, res) => {
+exports.delPost = (req, res) => {
+	posts.del(req, res);
+	return res.status(200).json();
+};
+
+exports.getPost = (req, res) => {
 	const post = posts.getById(req, res);
 	return post;
 };
 
-exports.getPosts = async (req, res) => {
+exports.getPosts = (req, res) => {
 	const postsList = posts.getAll(req, res);
 	return postsList;
 };

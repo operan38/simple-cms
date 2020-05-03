@@ -23,9 +23,10 @@ module.exports = (app) => {
 	router.post('/posts', posts.getPostsLimit);
 	router.post('/posts/count', posts.getPostsCount);
 	router.post('/posts/add', posts.addPost);
+	router.post('/posts/del', posts.delPost);
 	router.post('/post/:id', posts.getPost);
 
-	router.post('/comments/post/add', comments.add);
+	router.post('/comments/posts/add', comments.add);
 	router.post('/comments/post/:id', comments.getByPostId);
 
 	app.use('/api', router);
