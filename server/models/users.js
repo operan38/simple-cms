@@ -39,7 +39,7 @@ exports.getById = (req, res) => {
 };
 
 exports.getByLogin = (req, res, login) => db
-	.execQuery('SELECT id, login, password FROM users WHERE login = :login', { login })
+	.execQuery('SELECT id, login, password, admin FROM users WHERE login = :login', { login })
 	.then((data) => data)
 	.catch((err) => {
 		console.error(err);

@@ -8,7 +8,6 @@ export function createControl(config, validation) {
 				: !validation,
 		touched: false,
 		value: '',
-		errorMessage: '',
 	};
 }
 

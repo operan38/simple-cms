@@ -29,6 +29,6 @@ export function registerSuccess(response) {
 export function registerError(e) {
 	return {
 		type: REGISTER_ERROR,
-		error: e,
+		error: e.response,
 	};
 }

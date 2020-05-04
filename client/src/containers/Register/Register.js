@@ -19,7 +19,7 @@ class Register extends Component {
 				{
 					placeholder: 'Фамилия',
 					type: 'text',
-					className: 'mb-2',
+					parrentDivClassName: 'mb-2 mt-2',
 				},
 				{ required: false }
 			),
@@ -27,7 +27,7 @@ class Register extends Component {
 				{
 					placeholder: 'Имя',
 					type: 'text',
-					className: 'mb-2',
+					parrentDivClassName: 'mb-2 mt-2',
 				},
 				{ required: false }
 			),
@@ -35,7 +35,7 @@ class Register extends Component {
 				{
 					placeholder: 'Отчество',
 					type: 'text',
-					className: 'mb-2',
+					parrentDivClassName: 'mb-2 mt-2',
 				},
 				{ required: false }
 			),
@@ -43,7 +43,8 @@ class Register extends Component {
 				{
 					placeholder: 'Логин*',
 					type: 'text',
-					className: 'mb-2',
+					parrentDivClassName: 'mb-2 mt-2',
+					errorMessage: 'Введите логин',
 				},
 				{ required: true }
 			),
@@ -51,7 +52,8 @@ class Register extends Component {
 				{
 					placeholder: 'Пароль*',
 					type: 'password',
-					className: 'mb-2',
+					parrentDivClassName: 'mb-2 mt-2',
+					errorMessage: 'Введите пароль',
 				},
 				{ required: true }
 			),
@@ -78,6 +80,7 @@ class Register extends Component {
 	registerHandler = () => {
 		const registerData = { ...this.state.formControls };
 		this.props.register(registerData);
+
 		this.props.history.push('/auth');
 	};
 
@@ -89,6 +92,7 @@ class Register extends Component {
 					key={controlName + index}
 					type={control.type}
 					className={control.className}
+					parrentDivClassName={control.parrentDivClassName}
 					placeholder={control.placeholder}
 					value={control.value}
 					valid={control.valid}

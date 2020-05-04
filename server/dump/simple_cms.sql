@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 02 2020 г., 15:54
+-- Время создания: Май 04 2020 г., 17:33
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.1.32
 
@@ -48,7 +48,18 @@ INSERT INTO `comments` (`id`, `post_id`, `parent_id`, `type`, `author`, `message
 (4, 1, 3, 'post', 'Дима', 'Йоу!', '2020-05-02 11:38:48'),
 (5, 1, 0, 'post', 'Test2', 'Хм', '2020-05-02 12:03:12'),
 (6, 1, 4, 'post', 'Афанасий', 'Вжик вжик', '2020-05-02 12:44:45'),
-(7, 1, 2, 'post', 'Чувак', 'Эй!', '2020-05-02 12:48:08');
+(7, 1, 2, 'post', 'Чувак', 'Эй!', '2020-05-02 12:48:08'),
+(8, 1, 0, 'post', 'test', '12345456', '2020-05-02 15:17:02'),
+(9, 1, 0, 'post', 'test', 'Здрастие', '2020-05-02 15:18:23'),
+(10, 1, 0, 'post', 'test', '32141', '2020-05-02 15:18:38'),
+(11, 1, 0, 'post', 'test', 'fsdfsd', '2020-05-02 15:23:43'),
+(17, 2, 0, 'post', 'test', '123456', '2020-05-02 15:38:20'),
+(18, 2, 17, 'post', 'test', '1345', '2020-05-02 15:42:39'),
+(19, 2, 18, 'post', 'test', '435', '2020-05-02 15:43:05'),
+(20, 2, 19, 'post', 'test', '7467234', '2020-05-02 15:46:03'),
+(21, 2, 0, 'post', 'test', 'fdsfs', '2020-05-02 15:46:07'),
+(22, 1, 0, 'post', 'test', 's', '2020-05-03 06:49:10'),
+(23, 4, 0, 'post', 'test', '123', '2020-05-04 14:32:37');
 
 -- --------------------------------------------------------
 
@@ -145,8 +156,9 @@ CREATE TABLE `routes` (
 --
 
 INSERT INTO `routes` (`id`, `title`, `path`, `container_id`) VALUES
-(29, 'Тест123', '/12345', 1),
-(30, 'Тестовый маршрут', '/test', 2);
+(29, 'Тест123', '/1234', 1),
+(30, 'Тестовый маршрут', '/test', 2),
+(31, '12314512', '/asdf', 1);
 
 -- --------------------------------------------------------
 
@@ -161,23 +173,24 @@ CREATE TABLE `users` (
   `patronymic` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `login` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `mail` varchar(80) CHARACTER SET utf8 DEFAULT NULL
+  `mail` varchar(80) CHARACTER SET utf8 DEFAULT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `surname`, `firstname`, `patronymic`, `login`, `password`, `mail`) VALUES
-(1, NULL, NULL, NULL, 'test', '$2a$04$R/Ew51bt4yuXrM7sHkYMFe5L1V3fdhrF0oxY.JltD.x1ugmvrtFJq', NULL),
-(2, NULL, NULL, NULL, 'test2', '$2a$04$G3nk2H8yQel4j.PTW851.ukTPjx1uZ9G0djUnMeC1xb.dndh9Pe5e', NULL),
-(3, NULL, NULL, NULL, 'test4', '$2a$04$shjDmoBgHJVpKyqLOkLk9eeEfYXoI/MYb1MaoZ2CImf0.k4GfHCjy', NULL),
-(4, NULL, NULL, NULL, 'test5', '$2a$04$0jFOpBFqVtNh/V6eMgD9qOqIV5AXy1DXG/XVT1cRr6Nf8h.hBDJRi', NULL),
-(5, '123', '123', '123', '123', '$2a$04$vfQVphdxueeF.9dUoptW6u9ZYrLst.Rd7BoNRUcQu6MNElR3P.IRm', NULL),
-(6, 'qwer', 'qwert', 'qwerty', 'test6', '$2a$04$TepqX.Tg35ywQdlUR.QAd.ex3.RZPRcBCKeV3MKeULfer1r8f7uva', NULL),
-(7, '123', '123', '123', 'test7', '$2a$04$zP4QLb15OI8TBZUZbVngQ.0qu/Cl7Q8oXQxNYJ4BsTxsLhijnGsNa', NULL),
-(8, 'Fe', 'EFE', 'EFDE', 'test9', '$2a$04$fYzayEEfdgU69GHwgDkjJ.u8cbZmnqHzlNw2fqv5z5tX6E2dV24DG', NULL),
-(9, '123ё', '123', '123', 'test10', '$2a$04$9.9eqBJpfyHBZPTCRCGBBuWsMwIXZB2ploBtHihEFcPKmqrQEY3xW', NULL);
+INSERT INTO `users` (`id`, `surname`, `firstname`, `patronymic`, `login`, `password`, `mail`, `admin`) VALUES
+(1, NULL, NULL, NULL, 'test', '$2a$04$R/Ew51bt4yuXrM7sHkYMFe5L1V3fdhrF0oxY.JltD.x1ugmvrtFJq', NULL, 0),
+(2, NULL, NULL, NULL, 'test2', '$2a$04$G3nk2H8yQel4j.PTW851.ukTPjx1uZ9G0djUnMeC1xb.dndh9Pe5e', NULL, 0),
+(3, NULL, NULL, NULL, 'test4', '$2a$04$shjDmoBgHJVpKyqLOkLk9eeEfYXoI/MYb1MaoZ2CImf0.k4GfHCjy', NULL, 0),
+(4, NULL, NULL, NULL, 'test5', '$2a$04$0jFOpBFqVtNh/V6eMgD9qOqIV5AXy1DXG/XVT1cRr6Nf8h.hBDJRi', NULL, 0),
+(5, '123', '123', '123', '123', '$2a$04$vfQVphdxueeF.9dUoptW6u9ZYrLst.Rd7BoNRUcQu6MNElR3P.IRm', NULL, 0),
+(6, 'qwer', 'qwert', 'qwerty', 'test6', '$2a$04$TepqX.Tg35ywQdlUR.QAd.ex3.RZPRcBCKeV3MKeULfer1r8f7uva', NULL, 0),
+(7, '123', '123', '123', 'test7', '$2a$04$zP4QLb15OI8TBZUZbVngQ.0qu/Cl7Q8oXQxNYJ4BsTxsLhijnGsNa', NULL, 0),
+(8, 'Fe', 'EFE', 'EFDE', 'test9', '$2a$04$fYzayEEfdgU69GHwgDkjJ.u8cbZmnqHzlNw2fqv5z5tX6E2dV24DG', NULL, 0),
+(9, '123ё', '123', '123', 'test10', '$2a$04$9.9eqBJpfyHBZPTCRCGBBuWsMwIXZB2ploBtHihEFcPKmqrQEY3xW', NULL, 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -228,7 +241,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT для таблицы `components`
@@ -252,7 +265,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT для таблицы `users`

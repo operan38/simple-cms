@@ -3,6 +3,7 @@ import { AUTH_LOGOUT, AUTH_SUCCESS, AUTH_ERROR } from '../actions/type';
 const initialState = {
 	userId: null,
 	userLogin: null,
+	userIsAdmin: null,
 	error: null,
 	token: null,
 };
@@ -15,6 +16,7 @@ export default function authReducer(state = initialState, action) {
 				token: action.token,
 				userId: action.userId,
 				userLogin: action.userLogin,
+				userIsAdmin: action.userIsAdmin,
 			};
 		case AUTH_ERROR:
 			return {
@@ -27,6 +29,7 @@ export default function authReducer(state = initialState, action) {
 				token: null,
 				userId: null,
 				userLogin: null,
+				userIsAdmin: null,
 			};
 		default:
 			return state;

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Loader from './components/UI/Loader/Loader';
+import AdminWrapper from './containers/Admin/AdminWrapper';
 
 const Custom = lazy(() => import('./containers/Custom/Custom'));
 const Routes = lazy(() => import('./containers/Routes/Routes'));

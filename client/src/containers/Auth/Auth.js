@@ -18,7 +18,8 @@ class Auth extends Component {
 				{
 					placeholder: 'Логин',
 					type: 'text',
-					className: 'mb-2',
+					parrentDivClassName: 'mb-2 mt-2',
+					errorMessage: 'Введите логин',
 				},
 				{ required: true }
 			),
@@ -26,7 +27,8 @@ class Auth extends Component {
 				{
 					placeholder: 'Пароль',
 					type: 'password',
-					className: 'mb-2',
+					parrentDivClassName: 'mb-2 mt-2',
+					errorMessage: 'Введите пароль',
 				},
 				{ required: true }
 			),
@@ -43,6 +45,8 @@ class Auth extends Component {
 
 		formControls[controlName] = control; // Сохраняем переменную в объект
 
+		console.log(control);
+
 		this.setState({
 			// Записываем в state
 			formControls,
@@ -58,6 +62,7 @@ class Auth extends Component {
 					key={controlName + index}
 					type={control.type}
 					className={control.className}
+					parrentDivClassName={control.parrentDivClassName}
 					placeholder={control.placeholder}
 					value={control.value}
 					valid={control.valid}
@@ -70,10 +75,8 @@ class Auth extends Component {
 	}
 
 	loginHandler = () => {
-		this.props.auth(
-			this.state.formControls.login.value,
-			this.state.formControls.password.value
-		);
+		const authData = { ...this.state.formControls };
+		this.props.auth(authData);
 	};
 
 	render() {

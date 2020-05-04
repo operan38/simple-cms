@@ -72,7 +72,9 @@ exports.auth = async (req, res) => {
 
 		const token = jwt.sign({ userId: user[0].id }, config.jwtSecret, { expiresIn: '1h' });
 
-		return res.status(200).json({ token, userId: user[0].id, userLogin: user[0].login });
+		return res.status(200).json({
+			token, userId: user[0].id, userLogin: user[0].login, userIsAdmin: user[0].admin,
+		});
 	} catch (err) {
 		return res.status(500).json({
 			message: `Что то пошло не так, попробуйте снова: ${err}`,
