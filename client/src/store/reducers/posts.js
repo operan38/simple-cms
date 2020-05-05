@@ -1,10 +1,16 @@
 import {
-	FETCH_POSTS_START,
+	FETCH_POSTS_REQUEST,
 	FETCH_POSTS_SUCCESS,
 	FETCH_POSTS_ERROR,
-	FETCH_POST_START,
+	FETCH_POST_REQUEST,
 	FETCH_POST_SUCCESS,
 	FETCH_POST_ERROR,
+	FETCH_DEL_POST_REQUEST,
+	FETCH_DEL_POST_SUCCESS,
+	FETCH_DEL_POST_ERROR,
+	FETCH_ADD_POST_REQUEST,
+	FETCH_ADD_POST_SUCCESS,
+	FETCH_ADD_POST_ERROR,
 } from '../actions/type';
 
 const initialState = {
@@ -17,7 +23,7 @@ const initialState = {
 
 export default function postsReducer(state = initialState, action) {
 	switch (action.type) {
-		case FETCH_POSTS_START:
+		case FETCH_POSTS_REQUEST:
 			return {
 				...state,
 				loading: true,
@@ -35,7 +41,7 @@ export default function postsReducer(state = initialState, action) {
 				loading: false,
 				error: action.error,
 			};
-		case FETCH_POST_START:
+		case FETCH_POST_REQUEST:
 			return {
 				...state,
 				loading: true,
@@ -47,6 +53,38 @@ export default function postsReducer(state = initialState, action) {
 				post: action.post,
 			};
 		case FETCH_POST_ERROR:
+			return {
+				...state,
+				loading: false,
+				error: action.error,
+			};
+		case FETCH_DEL_POST_REQUEST:
+			return {
+				...state,
+				loading: true,
+			};
+		case FETCH_DEL_POST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+			};
+		case FETCH_DEL_POST_ERROR:
+			return {
+				...state,
+				loading: false,
+				error: action.error,
+			};
+		case FETCH_ADD_POST_REQUEST:
+			return {
+				...state,
+				loading: true,
+			};
+		case FETCH_ADD_POST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+			};
+		case FETCH_ADD_POST_ERROR:
 			return {
 				...state,
 				loading: false,

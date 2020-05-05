@@ -16,8 +16,8 @@ const Register = lazy(() => import('./containers/Register/Register'));
 const NotFound = lazy(() => import('./containers/NotFound/NotFound'));
 
 class RoutesList extends Component {
-	updateCustomRoutesList = () => {
-		return this.props.customRoutes.map((route, index) => {
+	updateRoutesList = () => {
+		return this.props.routesList.map((route, index) => {
 			return (
 				<Route
 					key={index}
@@ -60,9 +60,7 @@ class RoutesList extends Component {
 					<Route path='/posts' component={Posts} />
 					<Route path='/post/:id' component={Post} />
 
-					{this.props.customRoutes.length !== 0
-						? this.updateCustomRoutesList()
-						: ''}
+					{this.props.routesList.length !== 0 ? this.updateRoutesList() : ''}
 
 					<Route path='*' component={NotFound} />
 				</Switch>
@@ -73,7 +71,7 @@ class RoutesList extends Component {
 
 function mapStateToProps(state) {
 	return {
-		customRoutes: state.routes.customRoutes,
+		routesList: state.routes.routesList,
 		isAuthenticated: !!state.auth.payload,
 	};
 }

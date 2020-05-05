@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { fetchPosts } from '../../store/actions/posts';
+import { fetchPosts, fetchDelPost } from '../../store/actions/posts';
+import { fetchDelCommentsByPostId } from '../../store/actions/comments';
 
 import PaginationLib from '../../components/Pagination/PaginationLib';
 import Loader from '../../components/UI/Loader/Loader';
@@ -14,11 +15,25 @@ class Posts extends Component {
 		this.props.fetchPosts({ start, end });
 	};
 
+	delPostHandler = (id) => {
+		console.log(id);
+		this.props.fetchDelCommentsByPostId(id);
+	};
+
 	renderPosts() {
 		return this.props.postsList.map((post, index) => {
 			return (
 				<div key={index} className='mb-3 border p-2'>
-					<Link to={'/post/' + post.id}>{post.title}</Link>
+					<div className='d-flex align-items-center justify-content-between'>
+						<Link to={'/post/' + post.id}>{post.title}</Link>
+						<button
+							type='button'
+							className='btn btn-danger'
+							onClick={() => this.delPostHandler(post.id)}
+						>
+							Удалить все комментарии
+						</button>
+					</div>
 				</div>
 			);
 		});
@@ -63,6 +78,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchPosts: (limit) => dispatch(fetchPosts(limit)),
+		fetchDelCommentsByPostId: (id) => dispatch(fetchDelCommentsByPostId(id)),
+		fetchDelPost: (id) => dispatch(fetchDelPost(id)),
 	};
 }
 

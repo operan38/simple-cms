@@ -1,7 +1,7 @@
 import {
 	SHOW_DEL_MODAL,
 	HIDE_DEL_MODAL,
-	SHOW_EDIT_MODAL_START,
+	SHOW_EDIT_MODAL_REQUEST,
 	SHOW_EDIT_MODAL_SUCCESS,
 	SHOW_EDIT_MODAL_ERROR,
 	HIDE_EDIT_MODAL,
@@ -11,33 +11,23 @@ import {
 
 export function showEditModal() {
 	return async (dispath) => {
-		dispath(showEditModalStart());
+		dispath(request());
 		try {
-			await dispath(showEditModalSuccess(true));
+			await dispath(success(true));
 		} catch (e) {
-			dispath(showEditModalError(e));
+			dispath(error(e));
 		}
 	};
-}
 
-export function showEditModalStart() {
-	return {
-		type: SHOW_EDIT_MODAL_START,
-	};
-}
-
-export function showEditModalSuccess(show) {
-	return {
-		type: SHOW_EDIT_MODAL_SUCCESS,
-		show,
-	};
-}
-
-export function showEditModalError(e) {
-	return {
-		type: SHOW_EDIT_MODAL_ERROR,
-		error: e,
-	};
+	function request() {
+		return { type: SHOW_EDIT_MODAL_REQUEST };
+	}
+	function success(show) {
+		return { type: SHOW_EDIT_MODAL_SUCCESS, show };
+	}
+	function error(e) {
+		return { SHOW_EDIT_MODAL_ERROR, error: e.response };
+	}
 }
 
 // HIDE_EDIT_MODAL

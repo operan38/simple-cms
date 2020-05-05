@@ -54,7 +54,7 @@ class Routes extends Component {
 	};
 
 	renderRoutes() {
-		return this.props.customRoutes.map((route, index) => {
+		return this.props.routesList.map((route, index) => {
 			return (
 				<RouteItem
 					key={index}
@@ -84,12 +84,12 @@ class Routes extends Component {
 					<RouteCreator />
 					{this.props.editModal.show ? <RouteEditModal /> : ''}
 					{this.props.editModal.loading ? <Loader /> : ''}
-					{this.props.loading && this.props.customRoutes.length === 0 ? (
+					{this.props.loading && this.props.routesList.length === 0 ? (
 						<Loader />
 					) : (
 						this.renderRoutes()
 					)}
-					{!this.props.loading && this.props.customRoutes.length === 0 ? (
+					{!this.props.loading && this.props.routesList.length === 0 ? (
 						<div className='w-100 text-center'>Список пуст</div>
 					) : (
 						''
@@ -102,7 +102,7 @@ class Routes extends Component {
 
 function mapStateToProps(state) {
 	return {
-		customRoutes: state.routes.customRoutes,
+		routesList: state.routes.routesList,
 		loading: state.routes.loading,
 		error: state.routes.error,
 		editModal: state.modal.editModal,

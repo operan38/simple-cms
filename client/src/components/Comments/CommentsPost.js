@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import {
 	fetchCommentsByPostId,
-	fetchAddCommentByPostId,
+	fetchAddComment,
+	fetchDelComment,
 } from '../../store/actions/comments';
 
 import Loader from '../UI/Loader/Loader';
@@ -63,17 +64,6 @@ class CommentsPost extends Component {
 			return (
 				<div key={index}>
 					<div>В ответ: {author}</div>
-					<div className='d-flex justify-content-between'>
-						<div>Автор: {comment.value.author}</div>
-						<button
-							type='button'
-							className='btn btn-danger mb-2'
-							onClick={(id) => this.delCommentHandler(comment.value.id)}
-							disabled={!this.props.isAuthenticated}
-						>
-							Удалить
-						</button>
-					</div>
 					<p>Cообщение: {comment.value.message}</p>
 					<textarea
 						className='form-control mb-2'
@@ -143,7 +133,13 @@ class CommentsPost extends Component {
 		});
 	}
 
-	delCommentHandler = (id) => {};
+	delCommentHandler = (id) => {
+		this.props.fetchDelComment(id).then(() => {
+			this.props.fetchCommentsByPostId(this.props.postId).then(() => {
+				this.convertCommentsTree(this.props.commentsList);
+			});
+		});
+	};
 
 	onChangeMessageHandler = (e) => {
 		this.setState({ message: e.target.value });
@@ -159,7 +155,7 @@ class CommentsPost extends Component {
 
 		console.log(comment);
 
-		this.props.fetchAddCommentByPostId(comment).then(() => {
+		this.props.fetchAddComment(comment).then(() => {
 			this.props.fetchCommentsByPostId(this.props.postId).then(() => {
 				this.convertCommentsTree(this.props.commentsList);
 			});
@@ -171,7 +167,7 @@ class CommentsPost extends Component {
 	render() {
 		return (
 			<>
-				{this.props.commentsLoading && this.props.commentsList.length === 0 ? (
+				{this.props.loading && this.props.commentsList.length === 0 ? (
 					<Loader />
 				) : (
 					this.renderComments()
@@ -207,7 +203,7 @@ class CommentsPost extends Component {
 function mapStateToProps(state) {
 	return {
 		commentsList: state.comments.post.commentsList,
-		commentsLoading: state.comments.post.loading,
+		loading: state.comments.loading,
 		userLogin: state.auth.payload ? state.auth.payload.login : '',
 		isAuthenticated: !!state.auth.payload,
 	};
@@ -216,8 +212,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchCommentsByPostId: (postId) => dispatch(fetchCommentsByPostId(postId)),
-		fetchAddCommentByPostId: (comment) =>
-			dispatch(fetchAddCommentByPostId(comment)),
+		fetchAddComment: (comment) => dispatch(fetchAddComment(comment)),
+		fetchDelComment: (id) => dispatch(fetchDelComment(id)),
 	};
 }
 

@@ -1,7 +1,7 @@
 import {
 	SHOW_DEL_MODAL,
 	HIDE_DEL_MODAL,
-	SHOW_EDIT_MODAL_START,
+	SHOW_EDIT_MODAL_REQUEST,
 	SHOW_EDIT_MODAL_SUCCESS,
 	SHOW_EDIT_MODAL_ERROR,
 	HIDE_EDIT_MODAL,
@@ -21,7 +21,7 @@ const initialState = {
 
 export default function modalReducer(state = initialState, action) {
 	switch (action.type) {
-		case SHOW_EDIT_MODAL_START:
+		case SHOW_EDIT_MODAL_REQUEST:
 			return {
 				...state,
 				editModal: { ...state.editModal, loading: true },

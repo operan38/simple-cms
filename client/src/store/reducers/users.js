@@ -1,5 +1,5 @@
 import {
-	FETCH_USERS_START,
+	FETCH_USERS_REQUEST,
 	FETCH_USERS_SUCCESS,
 	FETCH_USERS_ERROR,
 } from '../actions/type';
@@ -12,7 +12,7 @@ const initialState = {
 
 export default function usersReducer(state = initialState, action) {
 	switch (action.type) {
-		case FETCH_USERS_START:
+		case FETCH_USERS_REQUEST:
 			return {
 				...state,
 				loading: true,

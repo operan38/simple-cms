@@ -38,6 +38,27 @@ exports.getByPostId = (req, res) => {
 		});
 };
 
+exports.delByPostId = (req, res) => {
+	const comments = {
+		post_id: req.body.id,
+	};
+
+	const sql = 'DELETE FROM comments WHERE post_id = :post_id';
+
+	console.log(comments);
+
+	return db
+		.execQuery(sql, { post_id: comments.post_id })
+		.then((data) => {
+			res.json(data);
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: err,
+			});
+		});
+};
+
 exports.add = (req, res) => {
 	const comment = {
 		post_id: req.body.post_id,

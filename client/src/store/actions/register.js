@@ -13,23 +13,19 @@ export function register(data, history) {
 	return async (dispath) => {
 		try {
 			const response = await httpAPI.post('/users/register', registerData);
-			dispath(registerSuccess(response, history));
+			dispath(success(response, history));
 		} catch (e) {
-			dispath(registerError(e));
+			dispath(error(e));
 		}
 	};
-}
 
-export function registerSuccess(response, history) {
-	history.push('/auth');
-	return {
-		type: REGISTER_SUCCESS,
-	};
-}
-
-export function registerError(e) {
-	return {
-		type: REGISTER_ERROR,
-		error: e.response,
-	};
+	function success(response, history) {
+		history.push('/auth');
+		return {
+			type: REGISTER_SUCCESS,
+		};
+	}
+	function error(e) {
+		return { type: REGISTER_ERROR, error: e.response };
+	}
 }

@@ -1,6 +1,6 @@
 import httpAPI from '../../axios/http-api';
 import {
-	FETCH_USERS_START,
+	FETCH_USERS_REQUEST,
 	FETCH_USERS_SUCCESS,
 	FETCH_USERS_ERROR,
 } from './type';
@@ -9,34 +9,24 @@ import {
 
 export function fetchUsers() {
 	return async (dispath) => {
-		dispath(fetchUsersStart());
+		dispath(request());
 
 		try {
 			const response = await httpAPI.post('/users');
 			console.log(response.data);
-			dispath(fetchUsersSuccess(response.data));
+			dispath(success(response.data));
 		} catch (e) {
-			dispath(fetchUsersError(e));
+			dispath(error(e));
 		}
 	};
-}
 
-export function fetchUsersStart() {
-	return {
-		type: FETCH_USERS_START,
-	};
-}
-
-export function fetchUsersSuccess(usersList) {
-	return {
-		type: FETCH_USERS_SUCCESS,
-		usersList,
-	};
-}
-
-export function fetchUsersError(e) {
-	return {
-		type: FETCH_USERS_ERROR,
-		error: e,
-	};
+	function request() {
+		return { type: FETCH_USERS_REQUEST };
+	}
+	function success(usersList) {
+		return { type: FETCH_USERS_SUCCESS, usersList };
+	}
+	function error(e) {
+		return { type: FETCH_USERS_ERROR, error: e.response };
+	}
 }

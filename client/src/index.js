@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
-import rootReducer from './store/reducers/rootReducer';
+import rootReducer from './store/rootReducer';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';

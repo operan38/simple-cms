@@ -16,9 +16,16 @@ export function auth(data) {
 				dispath(authSuccess(decoded));
 			}
 		} catch (e) {
-			dispath(authError(e));
+			dispath(error(e));
 		}
 	};
+
+	function error(e) {
+		return {
+			type: AUTH_ERROR,
+			error: e.response,
+		};
+	}
 }
 
 export function autoLogin() {
@@ -37,13 +44,6 @@ export function authSuccess(payload) {
 	return {
 		type: AUTH_SUCCESS,
 		payload,
-	};
-}
-
-export function authError(e) {
-	return {
-		type: AUTH_ERROR,
-		error: e.response,
 	};
 }
 

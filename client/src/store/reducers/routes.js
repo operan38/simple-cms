@@ -1,23 +1,23 @@
 import {
-	FETCH_ROUTES_START,
+	FETCH_ROUTES_REQUEST,
 	FETCH_ROUTES_SUCCESS,
 	FETCH_ROUTES_ERROR,
-	FETCH_ROUTE_START,
+	FETCH_ROUTE_REQUEST,
 	FETCH_ROUTE_SUCCESS,
 	FETCH_ROUTE_ERROR,
-	FETCH_ADD_ROUTE_START,
+	FETCH_ADD_ROUTE_REQUEST,
 	FETCH_ADD_ROUTE_SUCCESS,
 	FETCH_ADD_ROUTE_ERROR,
-	FETCH_DEL_ROUTE_START,
+	FETCH_DEL_ROUTE_REQUEST,
 	FETCH_DEL_ROUTE_SUCCESS,
 	FETCH_DEL_ROUTE_ERROR,
-	FETCH_UPD_ROUTE_START,
+	FETCH_UPD_ROUTE_REQUEST,
 	FETCH_UPD_ROUTE_SUCCESS,
 	FETCH_UPD_ROUTE_ERROR,
 } from '../actions/type';
 
 const initialState = {
-	customRoutes: [],
+	routesList: [],
 	route: null,
 	loading: false,
 	error: null,
@@ -25,7 +25,7 @@ const initialState = {
 
 export default function routesReducer(state = initialState, action) {
 	switch (action.type) {
-		case FETCH_ROUTES_START:
+		case FETCH_ROUTES_REQUEST:
 			return {
 				...state,
 				loading: true,
@@ -34,7 +34,7 @@ export default function routesReducer(state = initialState, action) {
 			return {
 				...state,
 				loading: false,
-				customRoutes: action.customRoutes,
+				routesList: action.routesList,
 			};
 		case FETCH_ROUTES_ERROR:
 			return {
@@ -42,7 +42,7 @@ export default function routesReducer(state = initialState, action) {
 				loading: false,
 				error: action.error,
 			};
-		case FETCH_ROUTE_START:
+		case FETCH_ROUTE_REQUEST:
 			return {
 				...state,
 				loading: true,
@@ -59,7 +59,7 @@ export default function routesReducer(state = initialState, action) {
 				loading: false,
 				error: action.error,
 			};
-		case FETCH_ADD_ROUTE_START:
+		case FETCH_ADD_ROUTE_REQUEST:
 			return {
 				...state,
 				loading: true,
@@ -75,7 +75,7 @@ export default function routesReducer(state = initialState, action) {
 				loading: false,
 				error: action.error,
 			};
-		case FETCH_UPD_ROUTE_START:
+		case FETCH_UPD_ROUTE_REQUEST:
 			return {
 				...state,
 				loading: true,
@@ -91,7 +91,7 @@ export default function routesReducer(state = initialState, action) {
 				loading: false,
 				error: action.error,
 			};
-		case FETCH_DEL_ROUTE_START:
+		case FETCH_DEL_ROUTE_REQUEST:
 			return {
 				...state,
 				loading: true,

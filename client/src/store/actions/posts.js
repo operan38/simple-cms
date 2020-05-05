@@ -1,18 +1,24 @@
 import httpAPI from '../../axios/http-api';
 import {
-	FETCH_POSTS_START,
+	FETCH_POSTS_REQUEST,
 	FETCH_POSTS_SUCCESS,
 	FETCH_POSTS_ERROR,
-	FETCH_POST_START,
+	FETCH_POST_REQUEST,
 	FETCH_POST_SUCCESS,
 	FETCH_POST_ERROR,
+	FETCH_DEL_POST_REQUEST,
+	FETCH_DEL_POST_SUCCESS,
+	FETCH_DEL_POST_ERROR,
+	FETCH_ADD_POST_REQUEST,
+	FETCH_ADD_POST_SUCCESS,
+	FETCH_ADD_POST_ERROR,
 } from './type';
 
 // GET
 
 export function fetchPosts(limit) {
 	return async (dispath) => {
-		dispath(fetchPostsStart());
+		dispath(request());
 
 		try {
 			const responsePostsList = await httpAPI.post('/posts', limit);
@@ -21,66 +27,95 @@ export function fetchPosts(limit) {
 			const dataCount = responsePostsCount.data;
 
 			if (dataPostsList && dataCount) {
-				dispath(fetchPostsSuccess(dataPostsList, dataCount));
+				dispath(success(dataPostsList, dataCount));
 			}
 		} catch (e) {
-			dispath(fetchPostsError(e));
+			dispath(error(e));
 		}
 	};
+
+	function request() {
+		return { type: FETCH_POSTS_REQUEST };
+	}
+	function success(postsList, count) {
+		return { type: FETCH_POSTS_SUCCESS, postsList, count };
+	}
+	function error(e) {
+		return { type: FETCH_POSTS_ERROR, error: e.response };
+	}
 }
 
-export function fetchPostsStart() {
-	return {
-		type: FETCH_POSTS_START,
-	};
-}
-
-export function fetchPostsSuccess(postsList, count) {
-	return {
-		type: FETCH_POSTS_SUCCESS,
-		postsList,
-		count,
-	};
-}
-
-export function fetchPostsError(e) {
-	return {
-		type: FETCH_POSTS_ERROR,
-		error: e,
-	};
-}
-
-// GET BY id
+// GET BY ID
 
 export function fetchPostById(id) {
 	return async (dispath) => {
-		dispath(fetchPostStart());
+		dispath(request());
 
 		try {
 			const response = await httpAPI.post('/post/' + id);
-			dispath(fetchPostSuccess(response.data));
+			dispath(success(response.data));
 		} catch (e) {
-			dispath(fetchPostError(e));
+			dispath(error(e));
 		}
 	};
+
+	function request() {
+		return { type: FETCH_POST_REQUEST };
+	}
+	function success(post) {
+		return { type: FETCH_POST_SUCCESS, post };
+	}
+	function error(e) {
+		return { type: FETCH_POST_ERROR, error: e.response };
+	}
 }
 
-export function fetchPostStart() {
-	return {
-		type: FETCH_POST_START,
+// DELETE
+
+export function fetchDelPost(id) {
+	return async (dispath) => {
+		dispath(request());
+
+		try {
+			const response = await httpAPI.post('/posts/del', { id });
+			dispath(success(response));
+		} catch (e) {
+			dispath(error(e));
+		}
 	};
+
+	function request() {
+		return { type: FETCH_DEL_POST_REQUEST };
+	}
+	function success(response) {
+		return { type: FETCH_DEL_POST_SUCCESS };
+	}
+	function error(e) {
+		return { type: FETCH_DEL_POST_ERROR, error: e.response };
+	}
 }
 
-export function fetchPostSuccess(post) {
-	return {
-		type: FETCH_POST_SUCCESS,
-		post,
-	};
-}
+// ADD
 
-export function fetchPostError(e) {
-	return {
-		type: FETCH_POST_ERROR,
-		error: e,
+export function fetchAddPost(post) {
+	return async (dispath) => {
+		dispath(request());
+
+		try {
+			const response = await httpAPI.post('/posts/add', post);
+			dispath(success(response));
+		} catch (e) {
+			dispath(error(e));
+		}
 	};
+
+	function request() {
+		return { type: FETCH_ADD_POST_REQUEST };
+	}
+	function success(response) {
+		return { type: FETCH_ADD_POST_SUCCESS };
+	}
+	function error(e) {
+		return { type: FETCH_ADD_POST_ERROR, error: e.response };
+	}
 }

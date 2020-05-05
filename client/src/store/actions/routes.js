@@ -1,193 +1,144 @@
 import httpAPI from '../../axios/http-api';
 import {
-	FETCH_ROUTES_START,
+	FETCH_ROUTES_REQUEST,
 	FETCH_ROUTES_SUCCESS,
 	FETCH_ROUTES_ERROR,
-	FETCH_ROUTE_START,
+	FETCH_ROUTE_REQUEST,
 	FETCH_ROUTE_SUCCESS,
 	FETCH_ROUTE_ERROR,
-	FETCH_ADD_ROUTE_START,
+	FETCH_ADD_ROUTE_REQUEST,
 	FETCH_ADD_ROUTE_SUCCESS,
 	FETCH_ADD_ROUTE_ERROR,
-	FETCH_DEL_ROUTE_START,
+	FETCH_DEL_ROUTE_REQUEST,
 	FETCH_DEL_ROUTE_SUCCESS,
 	FETCH_DEL_ROUTE_ERROR,
-	FETCH_UPD_ROUTE_START,
+	FETCH_UPD_ROUTE_REQUEST,
 	FETCH_UPD_ROUTE_SUCCESS,
 	FETCH_UPD_ROUTE_ERROR,
 } from './type';
 
-// GET ALL
-
 export function fetchRoutes() {
 	return async (dispath) => {
-		dispath(fetchRoutesStart());
+		dispath(request());
 
 		try {
 			const response = await httpAPI.post('/routes');
-			dispath(fetchRoutesSuccess(response.data));
+			dispath(success(response.data));
 		} catch (e) {
-			dispath(fetchRoutesError(e));
+			dispath(error(e.response));
 		}
 	};
+
+	function request() {
+		return { type: FETCH_ROUTES_REQUEST };
+	}
+	function success(routesList) {
+		return { type: FETCH_ROUTES_SUCCESS, routesList };
+	}
+	function error(e) {
+		return { type: FETCH_ROUTES_ERROR, error: e.response };
+	}
 }
 
-export function fetchRoutesStart() {
-	return {
-		type: FETCH_ROUTES_START,
-	};
-}
-
-export function fetchRoutesSuccess(customRoutes) {
-	return {
-		type: FETCH_ROUTES_SUCCESS,
-		customRoutes,
-	};
-}
-
-export function fetchRoutesError(e) {
-	return {
-		type: FETCH_ROUTES_ERROR,
-		error: e,
-	};
-}
-
-// GET BY id
+// GET BY ID
 
 export function fetchRouteById(id) {
 	return async (dispath) => {
-		dispath(fetchRouteStart());
+		dispath(request());
 
 		try {
 			const response = await httpAPI.post('/route/' + id);
-			dispath(fetchRouteSuccess(response.data));
+			dispath(success(response.data));
 		} catch (e) {
-			dispath(fetchRouteError(e));
+			dispath(error(e));
 		}
 	};
-}
 
-export function fetchRouteStart() {
-	return {
-		type: FETCH_ROUTE_START,
-	};
-}
-
-export function fetchRouteSuccess(route) {
-	return {
-		type: FETCH_ROUTE_SUCCESS,
-		route,
-	};
-}
-
-export function fetchRouteError(e) {
-	return {
-		type: FETCH_ROUTE_ERROR,
-		error: e,
-	};
+	function request() {
+		return { type: FETCH_ROUTE_REQUEST };
+	}
+	function success(route) {
+		return { type: FETCH_ROUTE_SUCCESS, route };
+	}
+	function error(e) {
+		return { type: FETCH_ROUTE_ERROR, error: e.response };
+	}
 }
 
 // ADD
 
 export function fetchAddRoute(route) {
 	return async (dispath) => {
-		dispath(fetchAddRouteStart());
+		dispath(request());
 
 		try {
 			const response = await httpAPI.post('/routes/add', route);
-			dispath(fetchAddRouteSuccess(response));
+			dispath(success(response));
 			dispath(fetchRoutes());
 		} catch (e) {
-			dispath(fetchAddRouteError(e));
+			dispath(error(e));
 		}
 	};
-}
 
-export function fetchAddRouteStart() {
-	return {
-		type: FETCH_ADD_ROUTE_START,
-	};
-}
-
-export function fetchAddRouteSuccess(response) {
-	return {
-		type: FETCH_ADD_ROUTE_SUCCESS,
-	};
-}
-
-export function fetchAddRouteError(e) {
-	return {
-		type: FETCH_ADD_ROUTE_ERROR,
-		error: e,
-	};
+	function request() {
+		return { type: FETCH_ADD_ROUTE_REQUEST };
+	}
+	function success(response) {
+		return { type: FETCH_ADD_ROUTE_SUCCESS };
+	}
+	function error(e) {
+		return { type: FETCH_ADD_ROUTE_ERROR, error: e.response };
+	}
 }
 
 // UPDATE
 
 export function fetchUpdRoute(route) {
 	return async (dispath) => {
-		dispath(fetchUpdRouteStart());
+		dispath(request());
 
 		try {
 			const response = await httpAPI.post('/routes/upd', route);
-			dispath(fetchUpdRouteSuccess(response));
+			dispath(success(response));
 			dispath(fetchRoutes());
 		} catch (e) {
-			dispath(fetchUpdRouteError(e));
+			dispath(error(e));
 		}
 	};
-}
 
-export function fetchUpdRouteStart() {
-	return {
-		type: FETCH_UPD_ROUTE_START,
-	};
-}
-
-export function fetchUpdRouteSuccess(response) {
-	return {
-		type: FETCH_UPD_ROUTE_SUCCESS,
-	};
-}
-
-export function fetchUpdRouteError(e) {
-	return {
-		type: FETCH_UPD_ROUTE_ERROR,
-		error: e,
-	};
+	function request() {
+		return { type: FETCH_UPD_ROUTE_REQUEST };
+	}
+	function success(response) {
+		return { type: FETCH_UPD_ROUTE_SUCCESS };
+	}
+	function error(e) {
+		return { type: FETCH_UPD_ROUTE_ERROR, error: e.response };
+	}
 }
 
 // DELETE
 
 export function fetchDelRoute(id) {
 	return async (dispath) => {
-		dispath(fetchDelRouteStart());
+		dispath(request());
 
 		try {
-			const response = await httpAPI.post('/routes/del', { id: id });
-			dispath(fetchDelRouteSuccess(response));
+			const response = await httpAPI.post('/routes/del', { id });
+			dispath(success(response));
 			dispath(fetchRoutes());
 		} catch (e) {
-			dispath(fetchDelRouteError(e));
+			dispath(error(e));
 		}
 	};
-}
 
-export function fetchDelRouteStart() {
-	return {
-		type: FETCH_DEL_ROUTE_START,
-	};
-}
-
-export function fetchDelRouteSuccess(response) {
-	return {
-		type: FETCH_DEL_ROUTE_SUCCESS,
-	};
-}
-
-export function fetchDelRouteError(e) {
-	return {
-		type: FETCH_DEL_ROUTE_ERROR,
-		error: e,
-	};
+	function request() {
+		return { type: FETCH_DEL_ROUTE_REQUEST };
+	}
+	function success(response) {
+		return { type: FETCH_DEL_ROUTE_SUCCESS };
+	}
+	function error(e) {
+		return { type: FETCH_DEL_ROUTE_ERROR, error: e.response };
+	}
 }

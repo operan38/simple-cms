@@ -1,75 +1,113 @@
 import httpAPI from '../../axios/http-api';
 import {
-	FETCH_COMMENTS_BY_POST_ID_START,
+	FETCH_COMMENTS_BY_POST_ID_REQUEST,
 	FETCH_COMMENTS_BY_POST_ID_SUCCESS,
 	FETCH_COMMENTS_BY_POST_ID_ERROR,
-	FETCH_ADD_COMMENT_BY_POST_ID_START,
-	FETCH_ADD_COMMENT_BY_POST_ID_SUCCESS,
-	FETCH_ADD_COMMENT_BY_POST_ID_ERROR,
+	FETCH_DEL_COMMENTS_BY_POST_ID_REQUEST,
+	FETCH_DEL_COMMENTS_BY_POST_ID_SUCCESS,
+	FETCH_DEL_COMMENTS_BY_POST_ID_ERROR,
+	FETCH_ADD_COMMENT_REQUEST,
+	FETCH_ADD_COMMENT_SUCCESS,
+	FETCH_ADD_COMMENT_ERROR,
+	FETCH_DEL_COMMENT_REQUEST,
+	FETCH_DEL_COMMENT_SUCCESS,
+	FETCH_DEL_COMMENT_ERROR,
 } from './type';
 
 export function fetchCommentsByPostId(postId) {
 	return async (dispath) => {
-		dispath(fetchCommentsByPostIdStart());
+		dispath(request());
 
 		try {
 			const response = await httpAPI.post('/comments/post/' + postId);
-			dispath(fetchCommentsByPostIdSuccess(response.data));
+			dispath(success(response.data));
 		} catch (e) {
-			dispath(fetchCommentsByPostIdError(e));
+			dispath(error(e));
 		}
 	};
+
+	function request() {
+		return { type: FETCH_COMMENTS_BY_POST_ID_REQUEST };
+	}
+	function success(commentsList) {
+		return { type: FETCH_COMMENTS_BY_POST_ID_SUCCESS, commentsList };
+	}
+	function error(e) {
+		return { type: FETCH_COMMENTS_BY_POST_ID_ERROR, error: e.response };
+	}
 }
 
-export function fetchCommentsByPostIdStart() {
-	return {
-		type: FETCH_COMMENTS_BY_POST_ID_START,
-	};
-}
+// DEL BY POST ID
 
-export function fetchCommentsByPostIdSuccess(commentsList) {
-	return {
-		type: FETCH_COMMENTS_BY_POST_ID_SUCCESS,
-		commentsList,
-	};
-}
+export function fetchDelCommentsByPostId(id) {
+	return async (dispath) => {
+		dispath(request());
 
-export function fetchCommentsByPostIdError(e) {
-	return {
-		type: FETCH_COMMENTS_BY_POST_ID_ERROR,
-		error: e,
+		try {
+			const response = await httpAPI.post('/comments/post/del', { id });
+			dispath(success(response.data));
+		} catch (e) {
+			dispath(error(e));
+		}
 	};
+
+	function request() {
+		return { type: FETCH_DEL_COMMENTS_BY_POST_ID_REQUEST };
+	}
+	function success(response) {
+		return { type: FETCH_DEL_COMMENTS_BY_POST_ID_SUCCESS };
+	}
+	function error(e) {
+		return { type: FETCH_DEL_COMMENTS_BY_POST_ID_ERROR, error: e };
+	}
 }
 
 // ADD
-export function fetchAddCommentByPostId(comment) {
+
+export function fetchAddComment(comment) {
 	return async (dispath) => {
-		dispath(fetchAddCommentByPostIdStart());
+		dispath(request());
 
 		try {
 			const response = await httpAPI.post('/comments/add', comment);
-			dispath(fetchAddCommentByPostIdSuccess(response.data));
+			dispath(success(response.data));
 		} catch (e) {
-			dispath(fetchAddCommentByPostIdError(e));
+			dispath(error(e));
 		}
 	};
+
+	function request() {
+		return { type: FETCH_ADD_COMMENT_REQUEST };
+	}
+	function success(response) {
+		return { FETCH_ADD_COMMENT_SUCCESS };
+	}
+	function error(e) {
+		return { type: FETCH_ADD_COMMENT_ERROR, error: e.response };
+	}
 }
 
-export function fetchAddCommentByPostIdStart() {
-	return {
-		type: FETCH_ADD_COMMENT_BY_POST_ID_START,
-	};
-}
+// DEL
 
-export function fetchAddCommentByPostIdSuccess(response) {
-	return {
-		type: FETCH_ADD_COMMENT_BY_POST_ID_SUCCESS,
-	};
-}
+export function fetchDelComment(id) {
+	return async (dispath) => {
+		dispath(request());
 
-export function fetchAddCommentByPostIdError(e) {
-	return {
-		type: FETCH_ADD_COMMENT_BY_POST_ID_ERROR,
-		error: e,
+		try {
+			const response = await httpAPI.post('/comments/del', { id });
+			dispath(success(response));
+		} catch (e) {
+			dispath(error(e));
+		}
 	};
+
+	function request() {
+		return { type: FETCH_DEL_COMMENT_REQUEST };
+	}
+	function success(response) {
+		return { type: FETCH_DEL_COMMENT_SUCCESS };
+	}
+	function error(e) {
+		return { type: FETCH_DEL_COMMENT_ERROR, error: e.response };
+	}
 }
