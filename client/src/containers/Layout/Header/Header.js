@@ -13,6 +13,7 @@ class Header extends Component {
 				<h4 className='mb-1 mr-2'>
 					<i className='fa fa-user-circle mr-2' aria-hidden='true'></i>
 					{this.props.userLogin}
+					{console.log(this.props.userLogin)}
 				</h4>
 				<Link className='btn btn-secondary mr-2' to='/profile'>
 					Личный кабинет
@@ -67,8 +68,8 @@ class Header extends Component {
 
 function mapStateToProps(state) {
 	return {
-		isAuthenticated: !!state.auth.token,
-		userLogin: state.auth.userLogin,
+		isAuthenticated: !!state.auth.payload,
+		userLogin: state.auth.payload ? state.auth.payload.login : '',
 	};
 }
 

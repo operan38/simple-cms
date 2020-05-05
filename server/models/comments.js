@@ -9,7 +9,6 @@ exports.getAll = (req, res) => {
 			res.json(data);
 		})
 		.catch((err) => {
-			console.error(err);
 			res.status(500).json({
 				message: err,
 			});
@@ -21,8 +20,10 @@ exports.getByPostId = (req, res) => {
 		post_id: req.params.id,
 	};
 
+	const sql = 'SELECT * FROM comments WHERE post_id = :post_id';
+
 	return db
-		.execQuery('SELECT * FROM comments WHERE post_id = :post_id', { post_id: comments.post_id })
+		.execQuery(sql, { post_id: comments.post_id })
 		.then((data) => {
 			if (data.length) { res.json(data); } else {
 				res.status(400).json({
@@ -31,7 +32,6 @@ exports.getByPostId = (req, res) => {
 			}
 		})
 		.catch((err) => {
-			console.error(err);
 			res.status(500).json({
 				message: err,
 			});
@@ -39,8 +39,6 @@ exports.getByPostId = (req, res) => {
 };
 
 exports.add = (req, res) => {
-	console.log(req.body);
-
 	const comment = {
 		post_id: req.body.post_id,
 		parent_id: req.body.parent_id,
@@ -50,7 +48,6 @@ exports.add = (req, res) => {
 	};
 
 	const sql = 'INSERT INTO comments (post_id, parent_id, type, author, message) VALUES(:post_id, :parent_id, :type, :author, :message)';
-
 
 	return db
 		.execQuery(sql,
@@ -62,10 +59,28 @@ exports.add = (req, res) => {
 				message: comment.message,
 			})
 		.then((data) => {
-			res.json(true);
+			res.json(data);
 		})
 		.catch((err) => {
-			console.error(err);
+			res.status(500).json({
+				message: err,
+			});
+		});
+};
+
+exports.del = (req, res) => {
+	const comment = {
+		id: req.body.id,
+	};
+
+	const sql = 'DELETE FROM comments WHERE id = :id';
+
+	return db
+		.execQuery(sql, { id: comment.id })
+		.then((data) => {
+			res.json(data);
+		})
+		.catch((err) => {
 			res.status(500).json({
 				message: err,
 			});

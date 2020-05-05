@@ -79,9 +79,7 @@ class Register extends Component {
 
 	registerHandler = () => {
 		const registerData = { ...this.state.formControls };
-		this.props.register(registerData);
-
-		this.props.history.push('/auth');
+		this.props.register(registerData, this.props.history);
 	};
 
 	renderInputs() {
@@ -127,7 +125,8 @@ class Register extends Component {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		register: (registerData) => dispatch(register(registerData)),
+		register: (registerData, history) =>
+			dispatch(register(registerData, history)),
 	};
 }
 

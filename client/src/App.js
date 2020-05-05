@@ -35,7 +35,7 @@ class App extends Component {
 function mapStateToProps(state) {
 	return {
 		customRoutes: state.routes.customRoutes,
-		isAuthenticated: !!state.auth.token,
+		isAuthenticated: !!state.auth.payload,
 	};
 }
 

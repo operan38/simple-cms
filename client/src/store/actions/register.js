@@ -1,7 +1,7 @@
 import httpAPI from '../../axios/http-api';
 import { REGISTER_ERROR, REGISTER_SUCCESS } from './type';
 
-export function register(data) {
+export function register(data, history) {
 	const registerData = {
 		login: data.login.value,
 		password: data.password.value,
@@ -13,14 +13,15 @@ export function register(data) {
 	return async (dispath) => {
 		try {
 			const response = await httpAPI.post('/users/register', registerData);
-			dispath(registerSuccess(response));
+			dispath(registerSuccess(response, history));
 		} catch (e) {
 			dispath(registerError(e));
 		}
 	};
 }
 
-export function registerSuccess(response) {
+export function registerSuccess(response, history) {
+	history.push('/auth');
 	return {
 		type: REGISTER_SUCCESS,
 	};

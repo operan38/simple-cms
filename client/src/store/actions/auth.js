@@ -1,4 +1,5 @@
 import httpAPI from '../../axios/http-api';
+import jwtDecode from 'jwt-decode';
 import { AUTH_LOGOUT, AUTH_SUCCESS, AUTH_ERROR } from './type';
 
 export function auth(data) {
@@ -7,17 +8,12 @@ export function auth(data) {
 	return async (dispath) => {
 		try {
 			const response = await httpAPI.post('/users/auth', authData);
-			const data = response.data;
+			console.log(response);
 
 			if (data) {
-				localStorage.setItem('token', data.token);
-				localStorage.setItem('userId', data.userId);
-				localStorage.setItem('userLogin', data.userLogin);
-				localStorage.setItem('userIsAdmin', data.userIsAdmin);
-
-				dispath(
-					authSuccess(data.token, data.userId, data.userLogin, data.userIsAdmin)
-				);
+				localStorage.setItem('token', response.data.token);
+				const decoded = jwtDecode(response.data.token);
+				dispath(authSuccess(decoded));
 			}
 		} catch (e) {
 			dispath(authError(e));
@@ -28,24 +24,19 @@ export function auth(data) {
 export function autoLogin() {
 	return (dispatch) => {
 		const token = localStorage.getItem('token');
-		const userId = localStorage.getItem('userId');
-		const userLogin = localStorage.getItem('userLogin');
-		const userIsAdmin = localStorage.getItem('userIsAdmin');
 		if (!token) {
 			dispatch(logout());
 		} else {
-			dispatch(authSuccess(token, userId, userLogin, userIsAdmin));
+			const decoded = jwtDecode(token);
+			dispatch(authSuccess(decoded));
 		}
 	};
 }
 
-export function authSuccess(token, userId, userLogin, userIsAdmin) {
+export function authSuccess(payload) {
 	return {
 		type: AUTH_SUCCESS,
-		token,
-		userId,
-		userLogin,
-		userIsAdmin,
+		payload,
 	};
 }
 
@@ -58,9 +49,6 @@ export function authError(e) {
 
 export function logout() {
 	localStorage.removeItem('token');
-	localStorage.removeItem('userId');
-	localStorage.removeItem('userLogin');
-	localStorage.removeItem('userIsAdmin');
 
 	return {
 		type: AUTH_LOGOUT,

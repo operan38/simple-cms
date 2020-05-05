@@ -13,7 +13,6 @@ exports.getAll = (req, res) => {
 			res.json(data);
 		})
 		.catch((err) => {
-			console.error(err);
 			res.status(500).json({
 				message: err,
 			});
@@ -25,8 +24,10 @@ exports.getById = (req, res) => {
 		id: req.params.id,
 	};
 
+	const sql = 'SELECT * FROM routes WHERE id = :id';
+
 	return db
-		.execQuery('SELECT * FROM routes WHERE id = :id', { id: route.id })
+		.execQuery(sql, { id: route.id })
 		.then((data) => {
 			if (data.length) { res.json(data[0]); } else {
 				res.status(400).json({
@@ -35,7 +36,6 @@ exports.getById = (req, res) => {
 			}
 		})
 		.catch((err) => {
-			console.error(err);
 			res.status(500).json({
 				message: err,
 			});
@@ -50,18 +50,17 @@ exports.upd = (req, res) => {
 		container_id: req.body.container_id,
 	};
 
+	const sql = 'UPDATE routes SET title = :title, path = :path, container_id = :container_id WHERE id = :id';
+
 	return db
-		.execQuery(
-			'UPDATE routes SET title = :title, path = :path, container_id = :container_id WHERE id = :id',
+		.execQuery(sql,
 			{
 				id: route.id, title: route.title, path: route.path, container_id: route.container_id,
-			},
-		)
+			})
 		.then((data) => {
-			res.json(true);
+			res.json(data);
 		})
 		.catch((err) => {
-			console.error(err);
 			res.status(500).json({
 				message: err,
 			});
@@ -75,16 +74,15 @@ exports.add = (req, res) => {
 		container_id: req.body.container_id,
 	};
 
+	const sql = 'INSERT INTO routes (title, path, container_id) VALUES(:title, :path, :container_id)';
+
 	return db
-		.execQuery(
-			'INSERT INTO routes (title, path, container_id) VALUES(:title, :path, :container_id)',
-			{ title: route.title, path: route.path, container_id: route.container_id },
-		)
+		.execQuery(sql,
+			{ title: route.title, path: route.path, container_id: route.container_id })
 		.then((data) => {
-			res.json(true);
+			res.json(data);
 		})
 		.catch((err) => {
-			console.error(err);
 			res.status(500).json({
 				message: err,
 			});
@@ -96,13 +94,14 @@ exports.del = (req, res) => {
 		id: req.body.id,
 	};
 
+	const sql = 'DELETE FROM routes WHERE id = :id';
+
 	return db
-		.execQuery('DELETE FROM routes WHERE id = :id', { id: route.id })
+		.execQuery(sql, { id: route.id })
 		.then((data) => {
-			res.json(true);
+			res.json(data);
 		})
 		.catch((err) => {
-			console.error(err);
 			res.status(500).json({
 				message: err,
 			});

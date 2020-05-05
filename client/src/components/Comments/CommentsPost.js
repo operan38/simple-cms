@@ -63,7 +63,17 @@ class CommentsPost extends Component {
 			return (
 				<div key={index}>
 					<div>В ответ: {author}</div>
-					<div>Автор: {comment.value.author}</div>
+					<div className='d-flex justify-content-between'>
+						<div>Автор: {comment.value.author}</div>
+						<button
+							type='button'
+							className='btn btn-danger mb-2'
+							onClick={(id) => this.delCommentHandler(comment.value.id)}
+							disabled={!this.props.isAuthenticated}
+						>
+							Удалить
+						</button>
+					</div>
 					<p>Cообщение: {comment.value.message}</p>
 					<textarea
 						className='form-control mb-2'
@@ -95,7 +105,17 @@ class CommentsPost extends Component {
 		return this.state.commentsTree.map((comment, index) => {
 			return (
 				<div className='mb-3 border p-2' key={index}>
-					<div>Автор: {comment.value.author}</div>
+					<div className='d-flex justify-content-between'>
+						<div>Автор: {comment.value.author}</div>
+						<button
+							type='button'
+							className='btn btn-danger mb-2'
+							onClick={(id) => this.delCommentHandler(comment.value.id)}
+							disabled={!this.props.isAuthenticated}
+						>
+							Удалить
+						</button>
+					</div>
 					<p>Cообщение: {comment.value.message}</p>
 					<textarea
 						className='form-control mb-2'
@@ -122,6 +142,8 @@ class CommentsPost extends Component {
 			);
 		});
 	}
+
+	delCommentHandler = (id) => {};
 
 	onChangeMessageHandler = (e) => {
 		this.setState({ message: e.target.value });
@@ -186,8 +208,8 @@ function mapStateToProps(state) {
 	return {
 		commentsList: state.comments.post.commentsList,
 		commentsLoading: state.comments.post.loading,
-		userLogin: state.auth.userLogin,
-		isAuthenticated: !!state.auth.token,
+		userLogin: state.auth.payload ? state.auth.payload.login : '',
+		isAuthenticated: !!state.auth.payload,
 	};
 }
 

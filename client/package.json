@@ -6,6 +6,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",
+    "jwt-decode": "^2.2.0",
     "prop-types": "^15.7.2",
     "radium": "^0.26.0",
     "react": "^16.12.0",

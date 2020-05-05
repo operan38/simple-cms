@@ -13,6 +13,7 @@ export function fetchUsers() {
 
 		try {
 			const response = await httpAPI.post('/users');
+			console.log(response.data);
 			dispath(fetchUsersSuccess(response.data));
 		} catch (e) {
 			dispath(fetchUsersError(e));

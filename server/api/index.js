@@ -1,23 +1,23 @@
 const router = require('express').Router();
 
-const routes = require('../models/routes');
-const containers = require('../models/containers');
-const comments = require('../models/comments');
+const routes = require('./routes');
+const containers = require('./containers');
+const comments = require('./comments');
 const users = require('./users');
 const posts = require('./posts');
 
 module.exports = (app) => {
-	router.post('/routes', routes.getAll);
-	router.post('/routes/add', routes.add);
-	router.post('/routes/del', routes.del);
-	router.post('/routes/upd', routes.upd);
-	router.post('/route/:id', routes.getById);
+	router.post('/routes', routes.getRoutes);
+	router.post('/routes/add', routes.validRoute(), routes.addRoute);
+	router.post('/routes/del', routes.validRoute(), routes.delRoute);
+	router.post('/routes/upd', routes.validRoute(), routes.updRoute);
+	router.post('/route/:id', routes.getRoute);
 
-	router.post('/containers', containers.getAll);
+	router.post('/containers', containers.getContainers);
 
 	router.post('/users', users.getUsers);
 	router.post('/users/register', users.validRegister(), users.register);
-	router.post('/users/auth', users.validLogin(), users.auth);
+	router.post('/users/auth', users.validAuth(), users.auth);
 	router.post('/user/:id', users.getUser);
 
 	router.post('/posts', posts.getPostsLimit);
@@ -26,8 +26,8 @@ module.exports = (app) => {
 	router.post('/posts/del', posts.delPost);
 	router.post('/post/:id', posts.getPost);
 
-	router.post('/comments/posts/add', comments.add);
-	router.post('/comments/post/:id', comments.getByPostId);
+	router.post('/comments/add', comments.addComment);
+	router.post('/comments/post/:id', comments.getPostComments);
 
 	app.use('/api', router);
 };
