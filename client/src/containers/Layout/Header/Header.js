@@ -10,11 +10,15 @@ class Header extends Component {
 	render() {
 		const userBtn = this.props.isAuthenticated ? (
 			<div className='d-flex align-items-center'>
-				<h4 className='mb-1 mr-2'>
-					<i className='fa fa-user-circle mr-2' aria-hidden='true'></i>
+				<h5 className='mb-1 mr-2'>
+					<i
+						className='fa fa fa-user-circle mr-2 pt-1'
+						aria-hidden='true'
+						style={{ fontSize: '22px' }}
+					></i>
 					{this.props.userLogin}
 					{console.log(this.props.userLogin)}
-				</h4>
+				</h5>
 				<Link className='btn btn-secondary mr-2' to='/profile'>
 					Личный кабинет
 				</Link>
