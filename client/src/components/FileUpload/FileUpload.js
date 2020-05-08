@@ -1,61 +1,43 @@
-//import httpUploadFile from '../../axios/http-uploadFile';
+import httpUploadFile from '../../axios/http-uploadFile';
 import React, { Component } from 'react';
 
 class FileUpload extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			uploadStatus: false,
-			imageURL: '',
+			profileImg: '',
 		};
 	}
 
-	handleUploadImage = (e) => {
+	onFileChange = (e) => {
+		this.setState({ profileImg: e.target.files[0] });
+	};
+
+	onSubmit = (e) => {
 		e.preventDefault();
-
-		const data = new FormData();
-		data.append('file', this.uploadInput.files[0]);
-		data.append('filename', this.fileName.value);
-
-		/*httpUploadFile
-			.post('/uploads/add', data)
-			.then(function (response) {
-				this.setState({
-					imageURL: `http://localhost:3000/${body.file}`,
-					uploadStatus: true,
-				});
-			})
-			.catch(function (error) {
-				console.log(error);
-			});*/
+		const formData = new FormData();
+		formData.append('profileImg', this.state.profileImg);
+		formData.append('id', this.props.id);
+		httpUploadFile.post('/uploads/add', formData).then((res) => {
+			console.log(res);
+		});
 	};
 
 	render() {
 		return (
-			<form onSubmit={this.handleUploadImage}>
-				<div className='form-group'>
-					<input
-						className='form-control'
-						ref={(ref) => {
-							this.uploadInput = ref;
-						}}
-						type='file'
-					/>
-				</div>
-
-				<div className='form-group'>
-					<input
-						className='form-control'
-						ref={(ref) => {
-							this.fileName = ref;
-						}}
-						type='text'
-						placeholder='Optional name for the file'
-					/>
-				</div>
-
-				<button className='btn btn-success mb-2'>Загрузить</button>
-			</form>
+			<div className='row'>
+				<form onSubmit={this.onSubmit}>
+					<h3>Загрузить изображение</h3>
+					<div className='form-group'>
+						<input type='file' onChange={this.onFileChange} />
+					</div>
+					<div className='form-group'>
+						<button className='btn btn-primary' type='submit'>
+							Загрузить
+						</button>
+					</div>
+				</form>
+			</div>
 		);
 	}
 }

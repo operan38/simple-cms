@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require('path');
 
 
 const db = require('./libs/db');
@@ -17,9 +18,10 @@ app.use(morgan('dev'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-app.use(cors(corsOptions));
+
+if (config.developerMode) { app.use(cors(corsOptions)); }
 
 require('./api')(app);
 

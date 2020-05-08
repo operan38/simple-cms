@@ -39,7 +39,7 @@ exports.getById = (req, res) => {
 };
 
 exports.getByLogin = (req, res, login) => db
-	.execQuery('SELECT id, login, password, admin FROM users WHERE login = :login', { login })
+	.execQuery('SELECT id, login, password, admin, main_photo FROM users WHERE login = :login', { login })
 	.then((data) => data[0])
 	.catch((err) => {
 		res.status(500).json({
@@ -59,6 +59,20 @@ exports.add = (req, res, user) => {
 			password: user.password,
 			mail: user.mail,
 		})
+		.then((data) => {
+			res.json(data);
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: err,
+			});
+		});
+};
+
+exports.updMainPhoto = (req, res, user) => {
+	const sql = 'UPDATE users SET main_photo = :main_photo WHERE id = :id';
+
+	db.execQuery(sql, { id: user.id, main_photo: user.mainPhoto })
 		.then((data) => {
 			res.json(data);
 		})

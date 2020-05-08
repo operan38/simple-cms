@@ -75,6 +75,7 @@ exports.auth = async (req, res) => {
 			login: user.login,
 			password: user.password,
 			admin: user.admin,
+			main_photo: user.main_photo,
 		};
 
 		const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '1h' });
