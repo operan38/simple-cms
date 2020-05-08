@@ -45,12 +45,16 @@ exports.delByPostId = (req, res) => {
 
 	const sql = 'DELETE FROM comments WHERE post_id = :post_id';
 
-	console.log(comments);
-
 	return db
 		.execQuery(sql, { post_id: comments.post_id })
 		.then((data) => {
-			res.json(data);
+			if (comments.post_id) {
+				res.json(data);
+			} else {
+				res.status(400).json({
+					message: `Not found comments post_id=${comments.post_id}`,
+				});
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({
@@ -99,7 +103,13 @@ exports.del = (req, res) => {
 	return db
 		.execQuery(sql, { id: comment.id })
 		.then((data) => {
-			res.json(data);
+			if (comment.id) {
+				res.json(data);
+			} else {
+				res.status(400).json({
+					message: `Not found id=${comment.id}`,
+				});
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({

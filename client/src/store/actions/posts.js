@@ -16,18 +16,19 @@ import {
 
 // GET
 
-export function fetchPosts(limit) {
+export function fetchPosts(limit, offset) {
 	return async (dispath) => {
 		dispath(request());
 
 		try {
-			const responsePostsList = await httpAPI.post('/posts', limit);
+			const responsePostsList = await httpAPI.post('/posts', { limit, offset });
 			const responsePostsCount = await httpAPI.post('/posts/count');
-			const dataPostsList = responsePostsList.data;
-			const dataCount = responsePostsCount.data;
 
-			if (dataPostsList && dataCount) {
-				dispath(success(dataPostsList, dataCount));
+			console.log(responsePostsList);
+			console.log(responsePostsCount);
+
+			if (responsePostsList && responsePostsCount) {
+				dispath(success(responsePostsList.data, responsePostsCount.data));
 			}
 		} catch (e) {
 			dispath(error(e));

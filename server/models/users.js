@@ -60,7 +60,9 @@ exports.add = (req, res, user) => {
 			mail: user.mail,
 		})
 		.then((data) => {
-			res.json(data);
+			if (data.length) {
+				res.json(data);
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({

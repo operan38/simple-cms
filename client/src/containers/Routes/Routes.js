@@ -26,7 +26,7 @@ import { Row, Col } from 'react-bootstrap';
 class Routes extends Component {
 	componentDidMount() {
 		//this.props.fetchRoutes();
-		// Получить список контейнеров дя выпадающего списка
+		// Получить список контейнеров для выпадающего списка
 		this.props.fetchContainers();
 	}
 
@@ -61,6 +61,7 @@ class Routes extends Component {
 					route={route}
 					editRouteHandler={this.editRouteHandler}
 					delRouteHandler={this.delRouteHandler}
+					loading={this.props.editModal.loading}
 				/>
 			);
 		});
@@ -84,11 +85,15 @@ class Routes extends Component {
 					<RouteCreator />
 					{this.props.editModal.show ? <RouteEditModal /> : ''}
 					{this.props.editModal.loading ? <Loader /> : ''}
+
 					{this.props.loading && this.props.routesList.length === 0 ? (
 						<Loader />
 					) : (
-						this.renderRoutes()
+						''
 					)}
+					{!this.props.loading && this.props.routesList.length !== 0
+						? this.renderRoutes()
+						: ''}
 					{!this.props.loading && this.props.routesList.length === 0 ? (
 						<div className='w-100 text-center'>Список пуст</div>
 					) : (

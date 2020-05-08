@@ -17,7 +17,6 @@ class Header extends Component {
 						style={{ fontSize: '22px' }}
 					></i>
 					{this.props.userLogin}
-					{console.log(this.props.userLogin)}
 				</h5>
 				<Link className='btn btn-secondary mr-2' to='/profile'>
 					Личный кабинет
@@ -45,7 +44,7 @@ class Header extends Component {
 			<header style={{ boxShadow: '7px 7px 5px rgba(0,0,0,0.1)' }}>
 				<Container>
 					<Row>
-						<Col xs={4}>
+						<Col xs={12} md={6}>
 							<div className='d-flex align-items-center'>
 								<div>
 									<NavLink to='/'>
@@ -57,8 +56,7 @@ class Header extends Component {
 								</div>
 							</div>
 						</Col>
-						<Col xs={4}></Col>
-						<Col xs={4}>
+						<Col xs={12} md={6}>
 							<div className='d-flex justify-content-end align-items-center h-100'>
 								{userBtn}
 							</div>

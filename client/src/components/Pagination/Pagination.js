@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import queryString from 'query-string';
 
-class PaginationLib extends Component {
+class Pagination extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { pager: {} };
@@ -11,16 +11,14 @@ class PaginationLib extends Component {
 
 	componentDidMount() {
 		const queryValues = queryString.parse(this.props.location.search);
-		this.props.onChangePage(0, this.props.pageSize);
-
-		if (this.props.items && this.props.items.length) {
+		this.props.onChangePage(this.props.pageSize, 0).then(() => {
 			if (queryValues.page) {
 				this.setPage(parseInt(queryValues.page));
 				console.log('page', queryValues.page);
 			} else {
 				this.setPage(this.props.initialPage);
 			}
-		}
+		});
 	}
 
 	setPage(page) {
@@ -31,19 +29,14 @@ class PaginationLib extends Component {
 			return;
 		}
 
-		// получить новый объект для конкретной страницы
-		//pager = this.getPager(items.length, page);
 		pager = this.getPager(this.props.countItems, page);
 		console.log('pager: ', pager);
-
-		// получить новую страницу из массива элементов
-		//let pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
 
 		// обновить state
 		this.setState({ pager: pager });
 
 		// вызов страницы функции изменения в родительском компоненте (Не вызывать при инициализации)
-		this.props.onChangePage(pager.startIndex, pager.endIndex);
+		this.props.onChangePage(pager.endIndex, pager.startIndex);
 	}
 
 	getPager(totalItems, currentPage) {
@@ -75,9 +68,8 @@ class PaginationLib extends Component {
 
 		// рассчет начального и конечного лимита
 		let startIndex = (currentPage - 1) * pageSize;
-		let endIndex = pageSize; //Math.min(startIndex + pageSize - 1, totalItems - 1);
+		let endIndex = pageSize;
 
-		// create an array of pages to ng-repeat in the pager control
 		let pages = [...Array(endPage + 1 - startPage).keys()].map(
 			(i) => startPage + i
 		);
@@ -192,13 +184,14 @@ class PaginationLib extends Component {
 	}
 }
 
-PaginationLib.propTypes = {
+Pagination.propTypes = {
 	onChangePage: propTypes.func.isRequired,
 	initialPage: propTypes.number,
 };
 
-PaginationLib.defaultProps = {
+Pagination.defaultProps = {
 	initialPage: 1,
+	countItems: 0,
 };
 
-export default PaginationLib;
+export default Pagination;

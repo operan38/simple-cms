@@ -20,12 +20,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-
 if (config.developerMode) { app.use(cors(corsOptions)); }
 
 require('./api')(app);
 
 app.use('/custom', router);
+
+require('./libs/error')(app);
 
 process.on('unhandledRejection', (reason, p) => {
 	console.log('Unhandled Rejection at: (', p, 'reason:', reason, ')');

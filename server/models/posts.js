@@ -16,10 +16,17 @@ exports.getAllCount = (req, res) => {
 };
 
 exports.getAllLimit = (req, res) => {
-	const sql = 'SELECT * FROM posts LIMIT :start,:end';
+	const posts = {
+		limit: req.body.limit,
+		offset: req.body.offset,
+	};
+
+	const sql = 'SELECT * FROM posts LIMIT :offset,:limit';
+
+	console.log('posts', posts);
 
 	return db
-		.execQuery(sql, { start: req.body.start, end: req.body.end })
+		.execQuery(sql, { limit: posts.limit, offset: posts.offset })
 		.then((data) => {
 			res.json(data);
 		})
@@ -107,7 +114,13 @@ exports.del = (req, res) => {
 	return db
 		.execQuery(sql, { id: post.id })
 		.then((data) => {
-			res.json(data);
+			if (post.id) {
+				res.json(data);
+			} else {
+				res.status(400).json({
+					message: `Not found id=${post.id}`,
+				});
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({

@@ -58,7 +58,12 @@ exports.auth = async (req, res) => {
 		}
 
 		const { login, password } = req.body;
+
+		console.log('body', login);
+
 		const user = await users.getByLogin(req, res, login);
+
+		console.log('user', user);
 
 		if (!user) {
 			return res.status(400).json({ message: 'Неверный логин' });

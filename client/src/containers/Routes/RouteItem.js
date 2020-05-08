@@ -13,6 +13,7 @@ const RouteItem = (props) => (
 			<button
 				type='button'
 				className='btn btn-primary mr-2'
+				disabled={props.loading}
 				onClick={() => props.editRouteHandler(props.route.id)}
 			>
 				Редактировать
@@ -20,6 +21,7 @@ const RouteItem = (props) => (
 			<button
 				type='button'
 				className='btn btn-danger'
+				disabled={props.loading}
 				onClick={() => props.delRouteHandler(props.route.id)}
 			>
 				Удалить

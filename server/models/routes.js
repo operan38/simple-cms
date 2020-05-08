@@ -58,7 +58,13 @@ exports.upd = (req, res) => {
 				id: route.id, title: route.title, path: route.path, container_id: route.container_id,
 			})
 		.then((data) => {
-			res.json(data);
+			if (route.id) {
+				res.json(data);
+			} else {
+				res.status(400).json({
+					message: `Not found id=${route.id}`,
+				});
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({
@@ -99,7 +105,13 @@ exports.del = (req, res) => {
 	return db
 		.execQuery(sql, { id: route.id })
 		.then((data) => {
-			res.json(data);
+			if (route.id) {
+				res.json(data);
+			} else {
+				res.status(400).json({
+					message: `Not found id=${route.id}`,
+				});
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({
