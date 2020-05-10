@@ -1,5 +1,6 @@
 import httpUploadFile from '../../axios/http-uploadFile';
 import React, { Component } from 'react';
+import { Col, Row } from 'react-bootstrap';
 
 class FileUpload extends Component {
 	constructor(props) {
@@ -25,19 +26,21 @@ class FileUpload extends Component {
 
 	render() {
 		return (
-			<div className='row'>
-				<form onSubmit={this.onSubmit}>
-					<h3>Загрузить изображение</h3>
-					<div className='form-group'>
-						<input type='file' onChange={this.onFileChange} />
-					</div>
-					<div className='form-group'>
-						<button className='btn btn-primary' type='submit'>
-							Загрузить
-						</button>
-					</div>
-				</form>
-			</div>
+			<Row>
+				<Col>
+					<form onSubmit={this.onSubmit}>
+						<h3>Загрузить изображение</h3>
+						<div className='form-group'>
+							<input type='file' onChange={this.onFileChange} />
+						</div>
+						<div className='form-group'>
+							<button className='btn btn-primary' type='submit'>
+								Загрузить
+							</button>
+						</div>
+					</form>
+				</Col>
+			</Row>
 		);
 	}
 }

@@ -26,7 +26,7 @@ const Input = (props) => {
 			) : (
 				''
 			)}
-			{console.log(props.errorMessage, isInvalid(props))}
+			{/*console.log(props.errorMessage, isInvalid(props))*/}
 		</div>
 	);
 };

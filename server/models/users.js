@@ -84,3 +84,17 @@ exports.updMainPhoto = (req, res, user) => {
 			});
 		});
 };
+
+exports.updPassword = (req, res, user) => {
+	const sql = 'UPDATE users SET password = :password WHERE id = :id';
+
+	db.execQuery(sql, { id: user.id, password: user.password })
+		.then((data) => {
+			res.json(data);
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: err,
+			});
+		});
+};

@@ -47,6 +47,7 @@ module.exports = (app) => {
 	router.post('/users', users.getUsers);
 	router.post('/users/register', users.validRegister(), users.register);
 	router.post('/users/auth', users.validAuth(), users.auth);
+	router.post('/users/changePassword', users.changePassword);
 	router.post('/user/:id', users.getUser);
 
 	router.post('/posts', posts.getPostsLimit);

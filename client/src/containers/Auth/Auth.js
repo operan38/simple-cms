@@ -13,6 +13,7 @@ import Input from '../../components/UI/Input/Input';
 class Auth extends Component {
 	state = {
 		isFormValid: false,
+		formErrorMessage: '',
 		formControls: {
 			login: createControl(
 				{
@@ -79,10 +80,26 @@ class Auth extends Component {
 		this.props.auth(authData);
 	};
 
+	renderErrors() {
+		if (this.props.error) {
+			if (typeof this.props.error.data.errors == 'object') {
+				return (
+					<>
+						{this.props.error.data.message}
+						{' (' + this.props.error.data.errors[0]['msg'] + ')'}
+					</>
+				);
+			} else {
+				return <>{this.props.error.data.message}</>;
+			}
+		}
+	}
+
 	render() {
 		return (
 			<div>
 				<div className='d-flex flex-column align-items-center mt-5'>
+					<div className='text-danger'>{this.renderErrors()}</div>
 					<div>
 						{this.renderInputs()}
 						<button
@@ -100,10 +117,16 @@ class Auth extends Component {
 	}
 }
 
+function mapStateToProps(state) {
+	return {
+		error: state.auth.error,
+	};
+}
+
 function mapDispatchToProps(dispatch) {
 	return {
 		auth: (login, password) => dispatch(auth(login, password)),
 	};
 }
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

@@ -5,7 +5,11 @@ const { check, validationResult } = require('express-validator');
 const users = require('../models/users');
 const config = require('../config');
 
-exports.validRegister = () => [check('password', 'Минимальная длина пароля 2 символа').isLength({ min: 2 })];
+exports.validRegister = () => [
+	check('login', 'Введите логин').exists(),
+	check('password', 'Введите пароль').exists(),
+	check('login', 'Минимальная длина логина 3 символа').isLength({ min: 3 }),
+	check('password', 'Минимальная длина пароля 2 символа').isLength({ min: 2 })];
 
 exports.validAuth = () => [check('login', 'Введите логин').exists(), check('password', 'Введите пароль').exists()];
 
@@ -66,7 +70,7 @@ exports.auth = async (req, res) => {
 		console.log('user', user);
 
 		if (!user) {
-			return res.status(400).json({ message: 'Неверный логин' });
+			return res.status(400).json({ message: 'Неверный логин или пароль' });
 		}
 
 		const isMath = await bcrypt.compare(password, user.password);
@@ -92,6 +96,14 @@ exports.auth = async (req, res) => {
 		return res.status(500).json({
 			message: `Что то пошло не так, попробуйте снова: ${err}`,
 		});
+	}
+};
+
+exports.changePassword = async (req, res) => {
+	try {
+
+	} catch (err) {
+
 	}
 };
 
