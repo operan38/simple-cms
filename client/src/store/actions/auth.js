@@ -11,44 +11,66 @@ export function auth(data) {
 			console.log(response);
 
 			if (data) {
+				const userId = response.data.userId;
 				localStorage.setItem('token', response.data.token);
+				localStorage.setItem('userId', response.data.userId);
 				const decoded = jwtDecode(response.data.token);
-				dispath(authSuccess(decoded));
+				dispath(authSuccess(decoded, userId));
 			}
 		} catch (e) {
-			dispath(error(e));
+			dispath(authError(e));
 		}
 	};
-
-	function error(e) {
-		return {
-			type: AUTH_ERROR,
-			error: e.response,
-		};
-	}
 }
 
 export function autoLogin() {
-	return (dispatch) => {
-		const token = localStorage.getItem('token');
-		if (!token) {
-			dispatch(logout());
-		} else {
-			const decoded = jwtDecode(token);
-			dispatch(authSuccess(decoded));
+	return async (dispatch) => {
+		try {
+			const token = localStorage.getItem('token');
+			const userId = localStorage.getItem('userId');
+
+			if (token && userId) {
+				const response = await httpAPI.post('/users/checkoutToken', {
+					token,
+					userId,
+				});
+
+				if (response.data) {
+					const decoded = jwtDecode(response.data.token);
+					dispatch(authSuccess(decoded, response.data.userId));
+				} else {
+					dispatch(logout());
+				}
+			} else {
+				return {};
+			}
+		} catch (e) {
+			dispatch(authError(e));
 		}
 	};
 }
 
-export function authSuccess(payload) {
+export function authError(e) {
+	localStorage.removeItem('token');
+	localStorage.removeItem('userId');
+
+	return {
+		type: AUTH_ERROR,
+		error: e.response,
+	};
+}
+
+export function authSuccess(payload, userId) {
 	return {
 		type: AUTH_SUCCESS,
 		payload,
+		userId,
 	};
 }
 
 export function logout() {
 	localStorage.removeItem('token');
+	localStorage.removeItem('userId');
 
 	return {
 		type: AUTH_LOGOUT,

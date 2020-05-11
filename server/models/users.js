@@ -15,9 +15,9 @@ exports.getAll = (req, res) => {
 		});
 };
 
-exports.getById = (req, res) => {
+exports.getById = (req, res, userId) => {
 	const user = {
-		id: req.params.id,
+		id: userId || req.params.id,
 	};
 
 	const sql = 'SELECT * FROM users WHERE id = :id';
@@ -74,7 +74,23 @@ exports.add = (req, res, user) => {
 exports.updMainPhoto = (req, res, user) => {
 	const sql = 'UPDATE users SET main_photo = :main_photo WHERE id = :id';
 
-	db.execQuery(sql, { id: user.id, main_photo: user.mainPhoto })
+	db.execQuery(sql, { id: user.id, main_photo: user.main_photo })
+		.then((data) => {
+			res.json(data);
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: err,
+			});
+		});
+};
+
+exports.updFIO = (req, res, user) => {
+	const sql = 'UPDATE users SET surname = :surname, firstname = :firstname, patronymic = :patronymic WHERE id = :id';
+
+	db.execQuery(sql, {
+		id: user.id, surname: user.surname, firstname: user.firstname, patronymic: user.patronymic,
+	})
 		.then((data) => {
 			res.json(data);
 		})

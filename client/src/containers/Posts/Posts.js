@@ -7,6 +7,7 @@ import { fetchDelCommentsByPostId } from '../../store/actions/comments';
 
 import Pagination from '../../components/Pagination/Pagination';
 import Loader from '../../components/UI/Loader/Loader';
+import notFoundPhoto from '../../assets/notFoundPhoto.jpg';
 
 class Posts extends Component {
 	onChangePage = async (limit, offset) => {
@@ -21,15 +22,46 @@ class Posts extends Component {
 		return this.props.postsList.map((post, index) => {
 			return (
 				<div key={index} className='mb-3 border p-2'>
-					<div className='d-flex align-items-center justify-content-between'>
-						<Link to={'/post/' + post.id}>{post.title}</Link>
-						<button
-							type='button'
-							className='btn btn-danger'
-							onClick={() => this.delPostCommentsHandler(post.id)}
-						>
-							Удалить все комментарии
-						</button>
+					<div className='d-flex justify-content-between align-items-center'>
+						<div className='d-flex align-items-center'>
+							<div>
+								<Link to={'/post/' + post.id}>
+									<img src={notFoundPhoto} alt=''></img>
+								</Link>
+							</div>
+							<div style={{ maxWidth: '300px' }}>
+								<Link to={'/post/' + post.id}>{post.title}</Link>
+								<p>{post.subtitle}</p>
+							</div>
+						</div>
+
+						<div className='d-flex flex-column'>
+							<div className='mb-2 text-right'>
+								<button type='button' className='btn btn-primary'>
+									Редактировать
+								</button>
+							</div>
+							<div className='mb-2 text-right'>
+								<button
+									type='button'
+									className='btn btn-warning mr-2'
+									onClick={() => this.delPostCommentsHandler(post.id)}
+								>
+									Удалить все комментарии
+								</button>
+								<button type='button' className='btn btn-danger'>
+									Удалить пост
+								</button>
+							</div>
+							<div className='text-right'>
+								<div>
+									<span>Дата создания: {post.created}</span>
+								</div>
+								<div>
+									<span>Дата изменения: </span>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			);

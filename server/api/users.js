@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
+const fs = require('fs');
 
 const users = require('../models/users');
 const config = require('../config');
@@ -63,11 +64,11 @@ exports.auth = async (req, res) => {
 
 		const { login, password } = req.body;
 
-		console.log('body', login);
+		// console.log('body', login);
 
 		const user = await users.getByLogin(req, res, login);
 
-		console.log('user', user);
+		// console.log('user', user);
 
 		if (!user) {
 			return res.status(400).json({ message: 'Неверный логин или пароль' });
@@ -90,6 +91,7 @@ exports.auth = async (req, res) => {
 		const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '1h' });
 
 		return res.status(200).json({
+			userId: user.id,
 			token,
 		});
 	} catch (err) {
@@ -99,12 +101,25 @@ exports.auth = async (req, res) => {
 	}
 };
 
+exports.checkoutToken = (req, res) => {
+	const { token, userId } = req.body;
+
+	jwt.verify(token, config.jwtSecret, (err) => {
+		if (err) throw err;
+
+		// Если такой пользователь сущестувет
+		// const id = users.getById(req, res, userId);
+
+		// Вернуть токен
+		res.json({
+			userId,
+			token,
+		});
+	});
+};
+
 exports.changePassword = async (req, res) => {
-	try {
 
-	} catch (err) {
-
-	}
 };
 
 exports.getUsers = async (req, res) => {
@@ -127,4 +142,32 @@ exports.getUser = async (req, res) => {
 			message: `Что то пошло не так, попробуйте снова: ${err}`,
 		});
 	}
+};
+
+exports.uploadPhoto = async (req, res, next) => {
+	const url = `${req.protocol}://${req.get('host')}`;
+
+	const user = {
+		id: req.body.id,
+		main_photo: `/uploads/${req.file.filename}`,
+	};
+
+	const resulst = await users.updMainPhoto(req, res, user);
+	return res.send(resulst);
+};
+
+exports.delPhoto = (req, res, next) => {
+	fs.stat('./uploads/21e104e4-76fa-4929-9bc5-7858980a5777-4.png', (err, stats) => {
+		console.log(stats);// here we got all information of file in stats variable
+
+		if (err) {
+			res.json(err);
+		} else {
+			fs.unlink('./uploads/21e104e4-76fa-4929-9bc5-7858980a5777-4.png', (errLink) => {
+				if (errLink) return res.json(errLink);
+				console.log('file deleted successfully');
+				return res.json('file deleted successfully');
+			});
+		}
+	});
 };

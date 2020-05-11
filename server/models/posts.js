@@ -23,8 +23,6 @@ exports.getAllLimit = (req, res) => {
 
 	const sql = 'SELECT * FROM posts LIMIT :offset,:limit';
 
-	console.log('posts', posts);
-
 	return db
 		.execQuery(sql, { limit: posts.limit, offset: posts.offset })
 		.then((data) => {

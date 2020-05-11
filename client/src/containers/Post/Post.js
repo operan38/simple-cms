@@ -19,7 +19,6 @@ class Post extends Component {
 			<div className='mb-3 border p-2'>
 				<Link to={'/posts'}>К списку постов</Link>
 				<h1>{this.props.post.title}</h1>
-				<h3>{this.props.post.subtitle}</h3>
 				<p>{this.props.post.text}</p>
 				<span>{this.props.post.created}</span>
 			</div>

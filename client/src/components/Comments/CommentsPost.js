@@ -97,14 +97,14 @@ class CommentsPost extends Component {
 				<div className='mb-3 border p-2' key={index}>
 					<div className='d-flex justify-content-between'>
 						<div>Автор: {comment.value.author}</div>
-						<button
+						{/*<button
 							type='button'
 							className='btn btn-danger mb-2'
 							onClick={(id) => this.delCommentHandler(comment.value.id)}
 							disabled={!this.props.isAuthenticated}
 						>
 							Удалить
-						</button>
+						</button>*/}
 					</div>
 					<p>Cообщение: {comment.value.message}</p>
 					<textarea
@@ -192,7 +192,7 @@ class CommentsPost extends Component {
 						onClick={(parent_id) => this.addCommentHandler(0)}
 						disabled={!this.props.isAuthenticated}
 					>
-						Добавить
+						Отправить
 					</button>
 				</div>
 			</>

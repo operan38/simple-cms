@@ -19,7 +19,7 @@ class FileUpload extends Component {
 		const formData = new FormData();
 		formData.append('profileImg', this.state.profileImg);
 		formData.append('id', this.props.id);
-		httpUploadFile.post('/uploads/add', formData).then((res) => {
+		httpUploadFile.post('/users/uploadPhoto', formData).then((res) => {
 			console.log(res);
 		});
 	};
@@ -29,12 +29,11 @@ class FileUpload extends Component {
 			<Row>
 				<Col>
 					<form onSubmit={this.onSubmit}>
-						<h3>Загрузить изображение</h3>
-						<div className='form-group'>
+						<div className='form-group mt-2'>
 							<input type='file' onChange={this.onFileChange} />
 						</div>
 						<div className='form-group'>
-							<button className='btn btn-primary' type='submit'>
+							<button className='btn btn-success' type='submit'>
 								Загрузить
 							</button>
 						</div>

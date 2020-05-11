@@ -42,6 +42,7 @@ export function validateForm(formControls) {
 export function clearControlsValue(formControls) {
 	Object.keys(formControls).map((controlName, index) => {
 		formControls[controlName].value = '';
+		formControls[controlName].valid = false;
 		return formControls;
 	});
 
