@@ -15,11 +15,7 @@ exports.getAll = (req, res) => {
 		});
 };
 
-exports.getByPostId = (req, res) => {
-	const comments = {
-		post_id: req.params.id,
-	};
-
+exports.getByPostId = (req, res, comments) => {
 	const sql = 'SELECT * FROM comments WHERE post_id = :post_id';
 
 	return db
@@ -38,11 +34,7 @@ exports.getByPostId = (req, res) => {
 		});
 };
 
-exports.delByPostId = (req, res) => {
-	const comments = {
-		post_id: req.body.id,
-	};
-
+exports.delByPostId = (req, res, comments) => {
 	const sql = 'DELETE FROM comments WHERE post_id = :post_id';
 
 	return db
@@ -63,15 +55,7 @@ exports.delByPostId = (req, res) => {
 		});
 };
 
-exports.add = (req, res) => {
-	const comment = {
-		post_id: req.body.post_id,
-		parent_id: req.body.parent_id,
-		type: 'post',
-		author: req.body.author,
-		message: req.body.message,
-	};
-
+exports.add = (req, res, comment) => {
 	const sql = 'INSERT INTO comments (post_id, parent_id, type, author, message) VALUES(:post_id, :parent_id, :type, :author, :message)';
 
 	return db
@@ -93,11 +77,7 @@ exports.add = (req, res) => {
 		});
 };
 
-exports.del = (req, res) => {
-	const comment = {
-		id: req.body.id,
-	};
-
+exports.del = (req, res, comment) => {
 	const sql = 'DELETE FROM comments WHERE id = :id';
 
 	return db

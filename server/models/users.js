@@ -15,11 +15,7 @@ exports.getAll = (req, res) => {
 		});
 };
 
-exports.getById = (req, res, userId) => {
-	const user = {
-		id: userId || req.params.id,
-	};
-
+exports.getById = (req, res, user) => {
 	const sql = 'SELECT * FROM users WHERE id = :id';
 
 	return db
@@ -40,7 +36,15 @@ exports.getById = (req, res, userId) => {
 
 exports.getByLogin = (req, res, login) => db
 	.execQuery('SELECT id, login, password, admin, main_photo FROM users WHERE login = :login', { login })
-	.then((data) => data[0])
+	.then((data) => {
+		if (login) {
+			return data[0];
+		}
+
+		return res.status(400).json({
+			message: 'Not found login',
+		});
+	})
 	.catch((err) => {
 		res.status(500).json({
 			message: err,
@@ -76,7 +80,13 @@ exports.updMainPhoto = (req, res, user) => {
 
 	db.execQuery(sql, { id: user.id, main_photo: user.main_photo })
 		.then((data) => {
-			res.json(data);
+			if (user.id) {
+				res.json(data);
+			} else {
+				res.status(400).json({
+					message: 'Not found id',
+				});
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({
@@ -92,7 +102,13 @@ exports.updFIO = (req, res, user) => {
 		id: user.id, surname: user.surname, firstname: user.firstname, patronymic: user.patronymic,
 	})
 		.then((data) => {
-			res.json(data);
+			if (user.id) {
+				res.json(data);
+			} else {
+				res.status(400).json({
+					message: 'Not found user id',
+				});
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({
@@ -106,7 +122,13 @@ exports.updPassword = (req, res, user) => {
 
 	db.execQuery(sql, { id: user.id, password: user.password })
 		.then((data) => {
-			res.json(data);
+			if (user.id) {
+				res.json(data);
+			} else {
+				res.status(400).json({
+					message: 'Not found user id',
+				});
+			}
 		})
 		.catch((err) => {
 			res.status(500).json({

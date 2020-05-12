@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const fs = require('fs');
 
-const users = require('../models/users');
+const usersModel = require('../models/users');
 const config = require('../config');
 
 exports.validRegister = () => [
@@ -29,7 +29,7 @@ exports.register = async (req, res) => {
 		const {
 			login, password, surname, firstname, patronymic,
 		} = req.body;
-		const candidate = await users.getByLogin(req, res, login);
+		const candidate = await usersModel.getByLogin(req, res, login);
 
 		if (candidate) {
 			console.error('Пользователь с таким логином уже существует');
@@ -41,7 +41,7 @@ exports.register = async (req, res) => {
 			login, password: hashedPassword, surname, firstname, patronymic,
 		};
 
-		await users.add(req, res, user);
+		await usersModel.add(req, res, user);
 
 		return res.status(200).json();
 	} catch (err) {
@@ -66,7 +66,7 @@ exports.auth = async (req, res) => {
 
 		// console.log('body', login);
 
-		const user = await users.getByLogin(req, res, login);
+		const user = await usersModel.getByLogin(req, res, login);
 
 		// console.log('user', user);
 
@@ -122,10 +122,24 @@ exports.changePassword = async (req, res) => {
 
 };
 
+exports.changeFIO = async (req, res) => {
+	try {
+		const user = {
+			...req.body,
+		};
+		const result = await usersModel.updFIO(req, res, user);
+		return res.json(result);
+	} catch (err) {
+		return res.status(500).json({
+			message: `Что то пошло не так, попробуйте снова: ${err}`,
+		});
+	}
+};
+
 exports.getUsers = async (req, res) => {
 	try {
-		const usersList = await users.getAll(req, res);
-		return res.json(usersList);
+		const result = await usersModel.getAll(req, res);
+		return res.json(result);
 	} catch (err) {
 		return res.status(500).json({
 			message: `Что то пошло не так, попробуйте снова: ${err}`,
@@ -135,8 +149,11 @@ exports.getUsers = async (req, res) => {
 
 exports.getUser = async (req, res) => {
 	try {
-		const user = await users.getById(req, res);
-		return res.json(user);
+		const user = {
+			id: req.body.id || req.params.id,
+		};
+		const result = await usersModel.getById(req, res, user);
+		return res.json(result);
 	} catch (err) {
 		return res.status(500).json({
 			message: `Что то пошло не так, попробуйте снова: ${err}`,
@@ -152,7 +169,7 @@ exports.uploadPhoto = async (req, res, next) => {
 		main_photo: `/uploads/${req.file.filename}`,
 	};
 
-	const resulst = await users.updMainPhoto(req, res, user);
+	const resulst = await usersModel.updMainPhoto(req, res, user);
 	return res.send(resulst);
 };
 

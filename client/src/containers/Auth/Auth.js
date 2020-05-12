@@ -101,7 +101,7 @@ class Auth extends Component {
 		return (
 			<div>
 				<div className='d-flex flex-column align-items-center mt-5'>
-					<div className='text-danger'>{this.renderErrors()}</div>
+					{this.renderErrors()}
 					<div>
 						{this.renderInputs()}
 						<button

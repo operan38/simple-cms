@@ -1,8 +1,8 @@
-const containersModel = require('../models/containers');
+const headerNavModel = require('../models/headerNav');
 
-exports.getContainers = async (req, res) => {
+exports.getHeaderNav = async (req, res) => {
 	try {
-		const result = await containersModel.getAll(req, res);
+		const result = await headerNavModel.getAll(req, res);
 		return res.json(result);
 	} catch (err) {
 		return res.status(500).json({

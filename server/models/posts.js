@@ -15,26 +15,6 @@ exports.getAllCount = (req, res) => {
 		});
 };
 
-exports.getAllLimit = (req, res) => {
-	const posts = {
-		limit: req.body.limit,
-		offset: req.body.offset,
-	};
-
-	const sql = 'SELECT * FROM posts LIMIT :offset,:limit';
-
-	return db
-		.execQuery(sql, { limit: posts.limit, offset: posts.offset })
-		.then((data) => {
-			res.json(data);
-		})
-		.catch((err) => {
-			res.status(500).json({
-				message: err,
-			});
-		});
-};
-
 exports.getAll = (req, res) => {
 	const sql = 'SELECT * FROM posts';
 
@@ -50,11 +30,22 @@ exports.getAll = (req, res) => {
 		});
 };
 
-exports.getById = (req, res) => {
-	const post = {
-		id: req.params.id,
-	};
+exports.getAllLimit = (req, res, post) => {
+	const sql = 'SELECT * FROM posts LIMIT :offset,:limit';
 
+	return db
+		.execQuery(sql, { limit: post.limit, offset: post.offset })
+		.then((data) => {
+			res.json(data);
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: err,
+			});
+		});
+};
+
+exports.getById = (req, res, post) => {
 	const sql = 'SELECT * FROM posts WHERE id = :id';
 
 	return db
@@ -73,15 +64,8 @@ exports.getById = (req, res) => {
 		});
 };
 
-exports.add = (req, res) => {
-	const post = {
-		title: req.body.title,
-		subtitle: req.body.subtitle,
-		text: req.body.text,
-		created: req.body.created,
-	};
-
-	const sql = 'INSERT INTO posts (title, subtitle, text, created) VALUES(:title, :subtitle, :text, :created)';
+exports.add = (req, res, post) => {
+	const sql = 'INSERT INTO posts (title, subtitle, text) VALUES(:title, :subtitle, :text)';
 
 	db.execQuery(
 		sql,
@@ -89,7 +73,6 @@ exports.add = (req, res) => {
 			title: post.title,
 			subtitle: post.subtitle,
 			text: post.text,
-			created: post.created,
 		},
 	)
 		.then((data) => {
@@ -102,15 +85,35 @@ exports.add = (req, res) => {
 		});
 };
 
-exports.del = (req, res) => {
-	const post = {
-		id: req.body.id,
-	};
-
+exports.del = (req, res, post) => {
 	const sql = 'DELETE FROM posts WHERE id = :id';
 
 	return db
 		.execQuery(sql, { id: post.id })
+		.then((data) => {
+			if (post.id) {
+				res.json(data);
+			} else {
+				res.status(400).json({
+					message: `Not found id=${post.id}`,
+				});
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: err,
+			});
+		});
+};
+
+exports.upd = (req, res, post) => {
+	const sql = 'UPDATE posts SET title = :title, subtitle = :subtitle, text = :text WHERE id = :id';
+
+	return db
+		.execQuery(sql,
+			{
+				id: post.id, title: post.title, path: post.path, container_id: post.container_id,
+			})
 		.then((data) => {
 			if (post.id) {
 				res.json(data);

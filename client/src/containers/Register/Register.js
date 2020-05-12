@@ -9,6 +9,8 @@ import {
 	validateForm,
 } from '../../framework/form';
 
+import { Alert } from 'react-bootstrap';
+
 import Input from '../../components/UI/Input/Input';
 
 class Register extends Component {
@@ -106,13 +108,13 @@ class Register extends Component {
 		if (this.props.error) {
 			if (typeof this.props.error.data.errors == 'object') {
 				return (
-					<>
+					<Alert variant='danger'>
 						{this.props.error.data.message}
 						{' (' + this.props.error.data.errors[0]['msg'] + ')'}
-					</>
+					</Alert>
 				);
 			} else {
-				return <>{this.props.error.data.message}</>;
+				return <Alert variant='danger'>{this.props.error.data.message}</Alert>;
 			}
 		}
 	}

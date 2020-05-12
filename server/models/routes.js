@@ -19,11 +19,7 @@ exports.getAll = (req, res) => {
 		});
 };
 
-exports.getById = (req, res) => {
-	const route = {
-		id: req.params.id,
-	};
-
+exports.getById = (req, res, route) => {
 	const sql = 'SELECT * FROM routes WHERE id = :id';
 
 	return db
@@ -42,14 +38,7 @@ exports.getById = (req, res) => {
 		});
 };
 
-exports.upd = (req, res) => {
-	const route = {
-		id: req.body.id,
-		title: req.body.title,
-		path: req.body.path,
-		container_id: req.body.container_id,
-	};
-
+exports.upd = (req, res, route) => {
 	const sql = 'UPDATE routes SET title = :title, path = :path, container_id = :container_id WHERE id = :id';
 
 	return db
@@ -73,13 +62,7 @@ exports.upd = (req, res) => {
 		});
 };
 
-exports.add = (req, res) => {
-	const route = {
-		title: req.body.title,
-		path: req.body.path,
-		container_id: req.body.container_id,
-	};
-
+exports.add = (req, res, route) => {
 	const sql = 'INSERT INTO routes (title, path, container_id) VALUES(:title, :path, :container_id)';
 
 	return db
@@ -95,11 +78,7 @@ exports.add = (req, res) => {
 		});
 };
 
-exports.del = (req, res) => {
-	const route = {
-		id: req.body.id,
-	};
-
+exports.del = (req, res, route) => {
 	const sql = 'DELETE FROM routes WHERE id = :id';
 
 	return db

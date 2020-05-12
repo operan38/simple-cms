@@ -1,11 +1,18 @@
+const dotenv = require('dotenv');
+const path = require('path');
+
+const root = path.join.bind(this, __dirname);
+dotenv.config({ path: root('.env') });
+
+
 module.exports = {
 	db: {
-		host: 'localhost',
-		user: 'root',
-		password: '',
-		database: 'simple_cms',
+		host: process.env.HOST,
+		user: process.env.USER,
+		password: process.env.PASSWORD,
+		database: process.env.DATABASE,
 	},
-	jwtSecret: 'testJwt123',
-	port: 3001,
-	developerMode: true,
+	jwtSecret: process.env.JWT_TOKEN,
+	port: process.env.PORT || 3001,
+	developerMode: process.env.NODE_ENV === 'development',
 };

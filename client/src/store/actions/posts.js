@@ -12,6 +12,9 @@ import {
 	FETCH_ADD_POST_REQUEST,
 	FETCH_ADD_POST_SUCCESS,
 	FETCH_ADD_POST_ERROR,
+	FETCH_UPD_POST_REQUEST,
+	FETCH_UPD_POST_SUCCESS,
+	FETCH_UPD_POST_ERROR,
 } from './type';
 
 // GET
@@ -120,3 +123,5 @@ export function fetchAddPost(post) {
 		return { type: FETCH_ADD_POST_ERROR, error: e.response };
 	}
 }
+
+// UPD
