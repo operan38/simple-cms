@@ -15,59 +15,59 @@ const authenticateJWT = (req, res, next) => {
 	const authHeader = req.headers.authorization;
 
 	if (authHeader) {
-		// const token = authHeader.split(' ')[1];
-		const token = authHeader;
+		const token = authHeader.split(' ')[1];
 
 		console.log('authHeader: ', token);
 
 		jwt.verify(token, config.jwtSecret, (err, user) => {
 			if (err) {
-				return res.status(403).json({
+				res.status(403).json({
 					message: 'Доступ запрещен',
 				});
 			}
 
 			req.user = user;
-
 			console.log('user::::', user);
 
-			return next();
+			next();
 		});
 	} else {
-		return res.status(401);
+		res.status(401).json({
+			message: 'Для просмотра содержимого необходимо авторизоватся',
+		});
 	}
 };
 
 module.exports = (app) => {
 	router.post('/routes', routes.getRoutes);
-	router.post('/routes/add', routes.validRoute(), routes.addRoute);
-	router.post('/routes/del', routes.validRoute(), routes.delRoute);
-	router.post('/routes/upd', routes.validRoute(), routes.updRoute);
-	router.post('/route/:id', routes.getRoute);
+	router.post('/routes/add', authenticateJWT, routes.validRoute(), routes.addRoute);
+	router.post('/routes/del', authenticateJWT, routes.validRoute(), routes.delRoute);
+	router.post('/routes/upd', authenticateJWT, routes.validRoute(), routes.updRoute);
+	router.post('/route/:id', authenticateJWT, routes.getRoute);
 
-	router.post('/containers', containers.getContainers);
+	router.post('/containers', authenticateJWT, containers.getContainers);
 
-	router.post('/users', users.getUsers);
+	router.post('/users', authenticateJWT, users.getUsers);
 	router.post('/users/register', users.validRegister(), users.register);
 	router.post('/users/auth', users.validAuth(), users.auth);
-	router.post('/users/changePassword', users.changePassword);
-	router.post('/users/checkoutToken', users.checkoutToken);
-	router.post('/users/uploadPhoto', uploadImg.single('profileImg'), users.uploadPhoto);
-	router.post('/users/delPhoto', users.delPhoto);
-	router.post('/users/changeFIO', users.changeFIO);
-	router.post('/user/:id', users.getUser);
+	router.post('/users/changePassword', authenticateJWT, users.changePassword);
+	router.post('/users/checkoutToken', authenticateJWT, users.checkoutToken);
+	router.post('/users/uploadPhoto', [authenticateJWT, uploadImg], users.uploadPhoto);
+	router.post('/users/delPhoto', authenticateJWT, users.delPhoto);
+	router.post('/users/changeFIO', authenticateJWT, users.changeFIO);
+	router.post('/user/:id', authenticateJWT, users.getUser);
 
-	router.post('/posts', authenticateJWT, posts.getPostsLimit);
+	router.post('/posts', posts.getPostsLimit);
 	router.post('/posts/count', posts.getPostsCount);
-	router.post('/posts/add', posts.addPost);
-	router.post('/posts/upd', posts.updPost);
-	router.post('/posts/del', posts.delPost);
+	router.post('/posts/add', authenticateJWT, posts.addPost);
+	router.post('/posts/upd', authenticateJWT, posts.updPost);
+	router.post('/posts/del', authenticateJWT, posts.delPost);
 	router.post('/post/:id', posts.getPost);
 
-	router.post('/comments/add', comments.addComment);
-	router.post('/comments/del', comments.delComment);
-	router.post('/comments/post/del', comments.delCommentsByPostId);
-	router.post('/comments/post/:id', comments.getCommentsByPostId);
+	router.post('/comments/add', authenticateJWT, comments.addComment);
+	router.post('/comments/del', authenticateJWT, comments.delComment);
+	router.post('/comments/post/del', authenticateJWT, comments.delCommentsByPostId);
+	router.post('/comments/post/:id', authenticateJWT, comments.getCommentsByPostId);
 
 	router.post('/headerNav', headerNav.getHeaderNav);
 

@@ -33,7 +33,9 @@ class Users extends Component {
 					this.renderRoutes()
 				)}
 				{!this.props.loading && this.props.usersList.length === 0 ? (
-					<div className='w-100 text-center'>Список пуст</div>
+					<div className='w-100 text-center'>
+						{this.props.error ? this.props.error.data.message : 'Список пуст'}
+					</div>
 				) : (
 					''
 				)}

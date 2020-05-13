@@ -17,16 +17,7 @@ const CreateModal = (props) => {
 						<Card.Body>
 							<Row>
 								{props.children}
-								<Col>
-									<button
-										className='btn btn-success'
-										type='submit'
-										disabled={props.isFormValid}
-										onClick={props.handleSubmit}
-									>
-										Добавить
-									</button>
-								</Col>
+								{props.createBtn}
 							</Row>
 						</Card.Body>
 					</Accordion.Collapse>

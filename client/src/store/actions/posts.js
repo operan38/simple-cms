@@ -125,3 +125,26 @@ export function fetchAddPost(post) {
 }
 
 // UPD
+
+export function fetchUpdPost(post) {
+	return async (dispath) => {
+		dispath(request());
+
+		try {
+			const response = await httpAPI.post('/posts/upd', post);
+			dispath(success(response));
+		} catch (e) {
+			dispath(error(e));
+		}
+	};
+
+	function request() {
+		return { type: FETCH_UPD_POST_REQUEST };
+	}
+	function success(response) {
+		return { type: FETCH_UPD_POST_SUCCESS };
+	}
+	function error(e) {
+		return { type: FETCH_UPD_POST_ERROR, error: e.response };
+	}
+}

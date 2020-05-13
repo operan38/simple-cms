@@ -8,6 +8,10 @@ import notFoundPhoto from '../../assets/profile/notFoundPhoto.png';
 import FileUpload from '../../components/FileUpload/FileUpload';
 
 class Profile extends Component {
+	state = {
+		forms: {},
+	};
+
 	render() {
 		return (
 			<>
@@ -19,6 +23,7 @@ class Profile extends Component {
 						<Input className='mb-2' placeholder={'Отчество'}></Input>
 						<button className='btn btn-success'>Сохранить</button>
 					</Col>
+
 					<Col lg={6} xs={12}>
 						<h2 className='mb-2'>Изменение изображения</h2>
 						<img

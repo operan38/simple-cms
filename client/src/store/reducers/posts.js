@@ -93,6 +93,22 @@ export default function postsReducer(state = initialState, action) {
 				loading: false,
 				error: action.error,
 			};
+		case FETCH_UPD_POST_REQUEST:
+			return {
+				...state,
+				loading: true,
+			};
+		case FETCH_UPD_POST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+			};
+		case FETCH_UPD_POST_ERROR:
+			return {
+				...state,
+				loading: false,
+				error: action.error,
+			};
 		default:
 			return state;
 	}

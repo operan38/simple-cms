@@ -1,5 +1,9 @@
 import React from 'react';
 
+function isInvalid({ valid, touched }) {
+	return !valid && touched;
+}
+
 const Select = (props) => {
 	const cls = props.className;
 	const htmlFor = `${props.label}-${Math.random()}`;
@@ -17,6 +21,11 @@ const Select = (props) => {
 				id={htmlFor}
 				value={props.value}
 				onChange={props.onChange}
+				style={
+					isInvalid(props)
+						? { boxShadow: '0 0 4px rgba(255,0,0,0.6)', border: 'none' }
+						: {}
+				}
 			>
 				<option></option>
 				{props.options
@@ -32,6 +41,11 @@ const Select = (props) => {
 					  })
 					: ''}
 			</select>
+			{isInvalid(props) ? (
+				<span className='text-danger'>{props.errorMessage}</span>
+			) : (
+				''
+			)}
 		</div>
 	);
 };

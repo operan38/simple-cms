@@ -28,6 +28,7 @@ class RouteEditModal extends Component {
 						type: 'text',
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
+						errorMessage: 'Введите заголовок',
 					},
 					{ required: true, defaultValid: true }
 				),
@@ -38,6 +39,7 @@ class RouteEditModal extends Component {
 						type: 'text',
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
+						errorMessage: 'Введите путь',
 					},
 					{ required: true, defaultValid: true }
 				),
@@ -47,6 +49,7 @@ class RouteEditModal extends Component {
 						label: 'Контейнер',
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
+						errorMessage: 'Выберите контейнер',
 					},
 					{ required: true, defaultValid: true }
 				),

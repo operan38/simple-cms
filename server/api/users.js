@@ -119,13 +119,21 @@ exports.checkoutToken = (req, res) => {
 };
 
 exports.changePassword = async (req, res) => {
+	const {
+		token, userId, oldPassword, newPassword,
+	} = req.body;
 
+	jwt.verify(token, config.jwtSecret, (err, user) => {
+		if (err) throw err;
+	});
 };
 
 exports.changeFIO = async (req, res) => {
 	try {
 		const user = {
-			...req.body,
+			surname: req.body.surname,
+			firstname: req.body.firstname,
+			patronymic: req.body.patronymic,
 		};
 		const result = await usersModel.updFIO(req, res, user);
 		return res.json(result);
@@ -138,6 +146,13 @@ exports.changeFIO = async (req, res) => {
 
 exports.getUsers = async (req, res) => {
 	try {
+		const { admin } = req.user;
+		if (admin === 0) {
+			return res.status(403).json({
+				message: 'Доступ запрещен',
+			});
+		}
+
 		const result = await usersModel.getAll(req, res);
 		return res.json(result);
 	} catch (err) {

@@ -4,17 +4,15 @@ function isInvalid({ valid, touched }) {
 	return !valid && touched;
 }
 
-const Input = (props) => {
-	const inputType = props.type || 'text';
+const Textarea = (props) => {
 	const cls = props.className ? props.className : '';
-	const htmlFor = `${inputType}-${Math.random()}`;
+	const htmlFor = `${Math.random()}`;
 
 	return (
 		<div className={props.parrentDivClassName}>
 			{props.label ? <label htmlFor={htmlFor}>{props.label}</label> : ''}
-			<input
+			<textarea
 				className={'form-control ' + cls}
-				type={inputType}
 				id={htmlFor}
 				placeholder={props.placeholder}
 				value={props.value}
@@ -35,4 +33,4 @@ const Input = (props) => {
 	);
 };
 
-export default Input;
+export default Textarea;

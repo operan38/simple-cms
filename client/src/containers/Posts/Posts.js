@@ -7,6 +7,7 @@ import { fetchDelCommentsByPostId } from '../../store/actions/comments';
 
 import Pagination from '../../components/Pagination/Pagination';
 import Loader from '../../components/UI/Loader/Loader';
+import PostCreator from './PostCreator';
 import notFoundPhoto from '../../assets/notFoundPhoto.jpg';
 
 class Posts extends Component {
@@ -72,6 +73,7 @@ class Posts extends Component {
 		return (
 			<div>
 				<h1>Список постов</h1>
+				<PostCreator />
 
 				{this.props.loading && this.props.postsList.length === 0 ? (
 					<Loader />
@@ -80,16 +82,16 @@ class Posts extends Component {
 				)}
 
 				{!this.props.loading && this.props.postsList.length === 0 ? (
-					<div className='w-100 text-center'>Список пуст</div>
+					<div className='w-100 text-center'>
+						{this.props.error ? this.props.error.data.message : 'Список пуст'}
+					</div>
 				) : (
 					''
 				)}
 
-				{!this.props.loading && this.props.postsList.length !== 0 ? (
-					this.renderPosts()
-				) : (
-					<Loader />
-				)}
+				{!this.props.loading && this.props.postsList.length !== 0
+					? this.renderPosts()
+					: ''}
 
 				<Pagination
 					pageSize={4}

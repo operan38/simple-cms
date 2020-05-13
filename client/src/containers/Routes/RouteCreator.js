@@ -28,6 +28,7 @@ class RouteCreator extends Component {
 						type: 'text',
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
+						errorMessage: 'Введите заголовок',
 					},
 					{ required: true }
 				),
@@ -38,6 +39,7 @@ class RouteCreator extends Component {
 						type: 'text',
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
+						errorMessage: 'Введите путь',
 					},
 					{ required: true }
 				),
@@ -47,6 +49,7 @@ class RouteCreator extends Component {
 						label: 'Контейнер',
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
+						errorMessage: 'Выберите контейнер',
 					},
 					{ required: true }
 				),
@@ -142,8 +145,18 @@ class RouteCreator extends Component {
 			<CreateModal
 				title={'Новый маршрут'}
 				children={this.renderInputs()}
-				isFormValid={!this.state.isFormValid}
-				handleSubmit={this.addRouteHandler}
+				createBtn={
+					<Col xs='12'>
+						<button
+							className='btn btn-success'
+							type='submit'
+							disabled={!this.state.isFormValid}
+							onClick={this.addRouteHandler}
+						>
+							Добавить
+						</button>
+					</Col>
+				}
 			/>
 		);
 	}

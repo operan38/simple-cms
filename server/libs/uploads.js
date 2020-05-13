@@ -22,6 +22,6 @@ const uploadImg = multer({
 		cb(null, false);
 		return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
 	},
-});
+}).single('profileImg');
 
 module.exports = { uploadImg };

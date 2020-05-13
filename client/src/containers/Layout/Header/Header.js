@@ -72,8 +72,8 @@ class Header extends Component {
 								<Nav.Link as={NavLink} to='/posts'>
 									Посты
 								</Nav.Link>
-								<Nav.Link>Link 2</Nav.Link>
-								<Nav.Link>Link 3</Nav.Link>
+								{/*<Nav.Link>Link 2</Nav.Link>
+								<Nav.Link>Link 3</Nav.Link>*/}
 							</div>
 						</Col>
 						<Col xs={12} md={3}>
