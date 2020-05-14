@@ -43,6 +43,7 @@ export function clearControlsValue(formControls) {
 	Object.keys(formControls).map((controlName, index) => {
 		formControls[controlName].value = '';
 		formControls[controlName].valid = false;
+		formControls[controlName].touched = false;
 		return formControls;
 	});
 

@@ -112,7 +112,7 @@ exports.upd = (req, res, post) => {
 	return db
 		.execQuery(sql,
 			{
-				id: post.id, title: post.title, path: post.path, container_id: post.container_id,
+				id: post.id, title: post.title, subtitle: post.subtitle, text: post.text,
 			})
 		.then((data) => {
 			if (post.id) {

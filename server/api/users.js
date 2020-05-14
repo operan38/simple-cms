@@ -1,7 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
-const fs = require('fs');
+
+
+const Resize = require('../libs/file/Resize');
+const { delFile } = require('../libs/file/uploads');
 
 const usersModel = require('../models/users');
 const config = require('../config');
@@ -177,29 +180,24 @@ exports.getUser = async (req, res) => {
 };
 
 exports.uploadPhoto = async (req, res, next) => {
-	const url = `${req.protocol}://${req.get('host')}`;
+	/* const fileDel = await delFile();
+	console.log('fileDel:', fileDel); */
+
+	const fileUpload = new Resize(50, 50);
+	const filename = await fileUpload.save(req.file.buffer);
+
+	// const url = `${req.protocol}://${req.get('host')}`;
 
 	const user = {
 		id: req.body.id,
-		main_photo: `/uploads/${req.file.filename}`,
+		main_photo: `/uploads/${filename}`,
 	};
 
 	const resulst = await usersModel.updMainPhoto(req, res, user);
-	return res.send(resulst);
+	return res.json(resulst);
 };
 
 exports.delPhoto = (req, res, next) => {
-	fs.stat('./uploads/21e104e4-76fa-4929-9bc5-7858980a5777-4.png', (err, stats) => {
-		console.log(stats);// here we got all information of file in stats variable
-
-		if (err) {
-			res.json(err);
-		} else {
-			fs.unlink('./uploads/21e104e4-76fa-4929-9bc5-7858980a5777-4.png', (errLink) => {
-				if (errLink) return res.json(errLink);
-				console.log('file deleted successfully');
-				return res.json('file deleted successfully');
-			});
-		}
-	});
+	const result = delFile(req, res, '6af49ada-dcf8-4e49-9dac-319800069103-typo_berlin_2008_img_logo-575x575.png');
+	return res.json(result);
 };

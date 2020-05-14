@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const jwt = require('jsonwebtoken');
-const { uploadImg } = require('../libs/uploads');
+const { uploadImg } = require('../libs/file/uploads');
 
 const config = require('../config');
 const routes = require('./routes');
@@ -53,7 +53,7 @@ module.exports = (app) => {
 	router.post('/users/changePassword', authenticateJWT, users.changePassword);
 	router.post('/users/checkoutToken', authenticateJWT, users.checkoutToken);
 	router.post('/users/uploadPhoto', [authenticateJWT, uploadImg], users.uploadPhoto);
-	router.post('/users/delPhoto', authenticateJWT, users.delPhoto);
+	router.post('/users/delPhoto', users.delPhoto);
 	router.post('/users/changeFIO', authenticateJWT, users.changeFIO);
 	router.post('/user/:id', authenticateJWT, users.getUser);
 

@@ -14,12 +14,13 @@ class Default extends Component {
 		return (
 			<div>
 				<h1>Default контейнер</h1>
-				{!this.props.loading && this.props.list.length !== 0 ? (
-					<h3>Title: {this.props.list.route.title}</h3>
-				) : (
-					<Loader />
-				)}
-				<br></br>
+				<div>
+					{!this.props.loading && this.props.list.length !== 0 ? (
+						<h3>Title: {this.props.list.route.title}</h3>
+					) : (
+						<Loader />
+					)}
+				</div>
 				<NavLink to='/admin/routes'>К списку маршрутов</NavLink>
 			</div>
 		);

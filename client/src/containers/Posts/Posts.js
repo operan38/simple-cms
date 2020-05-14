@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { fetchPosts, fetchDelPost } from '../../store/actions/posts';
+import {
+	fetchPosts,
+	fetchDelPost,
+	fetchPostById,
+} from '../../store/actions/posts';
 import { fetchDelCommentsByPostId } from '../../store/actions/comments';
+
+import {
+	hideDelModal,
+	showDelModal,
+	showEditModal,
+} from '../../store/actions/modal';
 
 import Pagination from '../../components/Pagination/Pagination';
 import Loader from '../../components/UI/Loader/Loader';
+import DeleteModal from '../../components/UI/Modal/DeleteModal';
+
 import PostCreator from './PostCreator';
-import notFoundPhoto from '../../assets/notFoundPhoto.jpg';
+import PostItem from './PostItem';
+import PostEditModal from './PostEditModal';
 
 class Posts extends Component {
 	onChangePage = async (limit, offset) => {
@@ -19,52 +31,42 @@ class Posts extends Component {
 		this.props.fetchDelCommentsByPostId(id);
 	};
 
+	submitDelPostHandler = (id) => {
+		// Подтвердить удаление и закрыть окно удаления
+		this.props.fetchDelCommentsByPostId(id).then(() => {
+			this.props.fetchDelPost(id);
+			this.props.hideDelModal();
+		});
+	};
+
+	cancelDelPostHandler = () => {
+		// Закрыть окно удаления (отменить)
+		this.props.hideDelModal();
+	};
+
+	delPostHandler = (id) => {
+		// Открыть окно удаления
+		this.props.showDelModal(id);
+	};
+
+	editPostHandler = (id) => {
+		// Получить выбранный пост и открыть окно редактирования
+		this.props.fetchPostById(id).then(() => {
+			this.props.showEditModal();
+		});
+	};
+
 	renderPosts() {
 		return this.props.postsList.map((post, index) => {
 			return (
-				<div key={index} className='mb-3 border p-2'>
-					<div className='d-flex justify-content-between align-items-center'>
-						<div className='d-flex align-items-center'>
-							<div>
-								<Link to={'/post/' + post.id}>
-									<img src={notFoundPhoto} alt=''></img>
-								</Link>
-							</div>
-							<div style={{ maxWidth: '300px' }}>
-								<Link to={'/post/' + post.id}>{post.title}</Link>
-								<p>{post.subtitle}</p>
-							</div>
-						</div>
-
-						<div className='d-flex flex-column'>
-							<div className='mb-2 text-right'>
-								<button type='button' className='btn btn-primary'>
-									Редактировать
-								</button>
-							</div>
-							<div className='mb-2 text-right'>
-								<button
-									type='button'
-									className='btn btn-warning mr-2'
-									onClick={() => this.delPostCommentsHandler(post.id)}
-								>
-									Удалить все комментарии
-								</button>
-								<button type='button' className='btn btn-danger'>
-									Удалить пост
-								</button>
-							</div>
-							<div className='text-right'>
-								<div>
-									<span>Дата создания: {post.created}</span>
-								</div>
-								<div>
-									<span>Дата изменения: </span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<PostItem
+					key={index}
+					post={post}
+					editPostHandler={this.editPostHandler}
+					delPostCommentsHandler={this.delPostCommentsHandler}
+					delPostHandler={this.delPostHandler}
+					loading={this.props.editModal.loading}
+				/>
 			);
 		});
 	}
@@ -73,7 +75,21 @@ class Posts extends Component {
 		return (
 			<div>
 				<h1>Список постов</h1>
+				<DeleteModal
+					title={'Удаление поста'}
+					show={this.props.delModal.show}
+					id={this.props.delModal.id}
+					handleSubmit={this.submitDelPostHandler}
+					handleClose={this.cancelDelPostHandler}
+					children={
+						<div>
+							Вы уверены что хотите удалить выбранный пост и все комментарии?
+						</div>
+					}
+				/>
 				<PostCreator />
+				{this.props.editModal.show ? <PostEditModal /> : ''}
+				{this.props.editModal.loading ? <Loader /> : ''}
 
 				{this.props.loading && this.props.postsList.length === 0 ? (
 					<Loader />
@@ -111,14 +127,20 @@ function mapStateToProps(state) {
 		count: state.posts.count,
 		loading: state.posts.loading,
 		error: state.posts.error,
+		editModal: state.modal.editModal,
+		delModal: state.modal.delModal,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchPosts: (limit, offset) => dispatch(fetchPosts(limit, offset)),
+		fetchPostById: (id) => dispatch(fetchPostById(id)),
 		fetchDelCommentsByPostId: (id) => dispatch(fetchDelCommentsByPostId(id)),
 		fetchDelPost: (id) => dispatch(fetchDelPost(id)),
+		showEditModal: () => dispatch(showEditModal()),
+		showDelModal: (id) => dispatch(showDelModal(id)),
+		hideDelModal: () => dispatch(hideDelModal()),
 	};
 }
 

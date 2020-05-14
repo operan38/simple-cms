@@ -33,7 +33,11 @@ class FileUpload extends Component {
 							<input type='file' onChange={this.onFileChange} />
 						</div>
 						<div className='form-group'>
-							<button className='btn btn-success' type='submit'>
+							<button
+								className='btn btn-success'
+								type='submit'
+								disabled={this.props.disabled}
+							>
 								Загрузить
 							</button>
 						</div>

@@ -1,5 +1,6 @@
 const multer = require('multer');
-const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
+/* const { v4: uuidv4 } = require('uuid');
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -10,10 +11,12 @@ const storage = multer.diskStorage({
 		console.log('fileName', fileName);
 		cb(null, `${uuidv4()}-${fileName}`);
 	},
-});
+}); */
+
 
 const uploadImg = multer({
-	storage,
+	/* storage, */
+	limits: { fileSize: 4 * 1024 * 1024 },
 	fileFilter: (req, file, cb) => {
 		if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
 			cb(null, true);
@@ -24,4 +27,20 @@ const uploadImg = multer({
 	},
 }).single('profileImg');
 
-module.exports = { uploadImg };
+const delFile = async (req, res, path) => {
+	fs.stat(`./uploads/${path}`, (err, stats) => {
+		console.log(stats);// here we got all information of file in stats variable
+
+		if (err) {
+			return res.json(err);
+		}
+
+		fs.unlink(`./uploads/${path}`, (errLink) => {
+			if (errLink) return res.json(errLink);
+			console.log('file deleted successfully');
+			return res.json('file deleted successfully');
+		});
+	});
+};
+
+module.exports = { uploadImg, delFile };

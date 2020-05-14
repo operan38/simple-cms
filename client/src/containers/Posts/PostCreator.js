@@ -28,6 +28,7 @@ class PostCreator extends Component {
 						type: 'text',
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
+						errorMessage: 'Введите заголовок',
 					},
 					{ required: true }
 				),
@@ -38,6 +39,7 @@ class PostCreator extends Component {
 						type: 'text',
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
+						errorMessage: 'Введите подзаголовок',
 					},
 					{ required: true }
 				),
@@ -47,6 +49,7 @@ class PostCreator extends Component {
 						label: 'Текст',
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
+						errorMessage: 'Введите текст',
 					},
 					{ required: true }
 				),
@@ -81,7 +84,26 @@ class PostCreator extends Component {
 		});
 	}
 
-	addPostHandler = () => {};
+	addPostHandler = () => {
+		const post = {
+			title: this.state.formControls.title.value,
+			subtitle: this.state.formControls.subtitle.value,
+			text: this.state.formControls.text.value,
+			//main_photo: this.state.formControls.main_photo.value,
+		};
+
+		this.props.fetchAddPost(post);
+		this.clearControlsValue();
+	};
+
+	clearControlsValue() {
+		const formControls = { ...this.state.formControls }; // Выносим объект из state
+
+		this.setState({
+			formControls: clearControlsValue(formControls),
+			isFormValid: false,
+		});
+	}
 
 	renderInputs() {
 		return Object.keys(this.state.formControls).map((controlName, index) => {
