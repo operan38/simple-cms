@@ -17,43 +17,6 @@ exports.validRegister = () => [
 
 exports.validAuth = () => [check('login', 'Введите логин').exists(), check('password', 'Введите пароль').exists()];
 
-exports.register = async (req, res) => {
-	try {
-		const errors = validationResult(req);
-
-		if (!errors.isEmpty()) {
-			console.error(errors);
-			return res.status(400).json({
-				errors: errors.array(),
-				message: 'Некорректные данные при регистрации',
-			});
-		}
-
-		const {
-			login, password, surname, firstname, patronymic,
-		} = req.body;
-		const candidate = await usersModel.getByLogin(req, res, login);
-
-		if (candidate) {
-			console.error('Пользователь с таким логином уже существует');
-			return res.status(400).json({ message: 'Пользователь с таким логином уже существует' });
-		}
-
-		const hashedPassword = await bcrypt.hash(password, 1);
-		const user = {
-			login, password: hashedPassword, surname, firstname, patronymic,
-		};
-
-		await usersModel.add(req, res, user);
-
-		return res.status(200).json();
-	} catch (err) {
-		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова :${err}`,
-		});
-	}
-};
-
 const generateToken = (user) => {
 	const payload = {
 		id: user.id,
@@ -74,16 +37,67 @@ const refreshToken = (req, res, userId, token) => {
 		if (err) throw err;
 
 		// Если такой пользователь сущестувет
-		const user = await usersModel.getById(req, res, { id: userId });
+		const user = await usersModel.getById({ id: userId });
 
-		const newToken = generateToken(user);
+		if (user.length !== 0) {
+			const newToken = generateToken(user[0]);
 
-		// Обновить и вернуть новый токен
-		res.json({
-			userId,
-			token: newToken,
+			// Обновить и вернуть новый токен
+			if (newToken) {
+				res.json({
+					userId,
+					token: newToken,
+				});
+			}
+		}
+
+		return res.status(400).json({
+			message: `Not found id=${user.id}`,
 		});
 	});
+};
+
+exports.register = async (req, res) => {
+	try {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			console.error(errors);
+			return res.status(400).json({
+				errors: errors.array(),
+				message: 'Некорректные данные при регистрации',
+			});
+		}
+
+		const {
+			login, password, surname, firstname, patronymic,
+		} = req.body;
+
+		const resultCandidate = await usersModel.getByLogin(login);
+
+		if (resultCandidate[0]) {
+			console.error('Пользователь с таким логином уже существует');
+			return res.status(400).json({ message: 'Пользователь с таким логином уже существует' });
+		}
+
+		const hashedPassword = await bcrypt.hash(password, 1);
+
+		const user = {
+			login,
+			password: hashedPassword,
+			surname,
+			firstname,
+			patronymic,
+		};
+
+		await usersModel.add(req, res, user);
+
+		return res.status(200).json();
+	} catch (err) {
+		return res.status(500).json({
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
+		});
+	}
 };
 
 exports.auth = async (req, res) => {
@@ -99,11 +113,8 @@ exports.auth = async (req, res) => {
 
 		const { login, password } = req.body;
 
-		// console.log('body', login);
-
-		const user = await usersModel.getByLogin(req, res, login);
-
-		// console.log('user', user);
+		const result = await usersModel.getByLogin(login);
+		const user = result[0];
 
 		if (!user) {
 			return res.status(400).json({ message: 'Неверный логин или пароль' });
@@ -123,7 +134,7 @@ exports.auth = async (req, res) => {
 		});
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
@@ -138,6 +149,34 @@ exports.changePassword = async (req, res) => {
 	const {
 		token, userId, oldPassword, newPassword,
 	} = req.body;
+
+	if (newPassword === oldPassword) {
+		return res.status(400).json({ message: 'Старый пароль не должен совпадать с новым' });
+	}
+
+	const user = await usersModel.getById({ id: userId });
+
+	if (user.length !== 0) {
+		const hashedNewPassword = await bcrypt.hash(newPassword, 1);
+		const hashedOldPassword = await bcrypt.hash(oldPassword, 1);
+
+		if (user[0].password === hashedOldPassword) {
+			const result = await usersModel.updPassword({ userId, hashedNewPassword });
+
+			if (result) {
+				return res.status(200).json({ message: 'Пароль успешно изменен' });
+			}
+
+			return res.status(400).json({ message: result });
+		}
+
+		console.log(user[0].password);
+		console.log(hashedOldPassword);
+
+		return res.status(400).json({ message: 'Старый пароль указан неверно' });
+	}
+
+	return res.status(400).json({ message: 'Пользователь не найден' });
 };
 
 exports.changeFIO = async (req, res) => {
@@ -149,14 +188,14 @@ exports.changeFIO = async (req, res) => {
 			patronymic: req.body.patronymic,
 			token: req.body.token,
 		};
-		const result = await usersModel.updFIO(req, res, user);
+		await usersModel.updFIO(user);
 
 		return res.json({
 			message: 'Данные успешно обновлены',
 		});
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
@@ -184,8 +223,15 @@ exports.getUser = async (req, res) => {
 		const user = {
 			id: req.body.id || req.params.id,
 		};
-		const result = await usersModel.getById(req, res, user);
-		return res.json(result);
+		const result = await usersModel.getById(user);
+
+		if (result.length !== 0) {
+			return res.json(result[0]);
+		}
+
+		return res.status(400).json({
+			message: `Not found id=${user.id}`,
+		});
 	} catch (err) {
 		return res.status(500).json({
 			message: `Что то пошло не так, попробуйте снова: ${err}`,
@@ -197,10 +243,8 @@ exports.uploadPhoto = async (req, res, next) => {
 	/* const fileDel = await delFile();
 	console.log('fileDel:', fileDel); */
 
-	const fileUpload = new Resize(50, 50);
+	const fileUpload = new Resize(50, 50, '.jpg');
 	const filename = await fileUpload.save(req.file.buffer);
-
-	// const url = `${req.protocol}://${req.get('host')}`;
 
 	const user = {
 		id: req.body.id,
@@ -214,8 +258,4 @@ exports.uploadPhoto = async (req, res, next) => {
 exports.delPhoto = (req, res, next) => {
 	const result = delFile(req, res, '6af49ada-dcf8-4e49-9dac-319800069103-typo_berlin_2008_img_logo-575x575.png');
 	return res.json(result);
-};
-
-exports.logout = (req, res) => {
-	res.send('Logout successful');
 };

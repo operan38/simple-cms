@@ -37,7 +37,6 @@ export default function profileReducer(state = initialState, action) {
 			return {
 				...state,
 				formGeneral: {
-					...state.formGeneral,
 					loading: false,
 					success: action.success,
 				},
@@ -46,7 +45,6 @@ export default function profileReducer(state = initialState, action) {
 			return {
 				...state,
 				formGeneral: {
-					...state.formGeneral,
 					loading: false,
 					error: action.error,
 				},
@@ -54,26 +52,53 @@ export default function profileReducer(state = initialState, action) {
 		case FETCH_UPD_USER_PASSWORD_REQUEST:
 			return {
 				...state,
+				formPassword: {
+					loading: true,
+					success: null,
+				},
 			};
 		case FETCH_UPD_USER_PASSWORD_SUCCESS:
 			return {
 				...state,
+				formPassword: {
+					loading: false,
+					success: action.success,
+				},
 			};
 		case FETCH_UPD_USER_PASSWORD_ERROR:
 			return {
 				...state,
+				formPassword: {
+					loading: false,
+					error: action.error,
+				},
 			};
 		case FETCH_UPD_USER_PHOTO_REQUEST:
 			return {
 				...state,
+				formPhoto: {
+					...state.formPhoto,
+					loading: true,
+					success: null,
+				},
 			};
 		case FETCH_UPD_USER_PHOTO_SUCCESS:
 			return {
 				...state,
+				formPhoto: {
+					...state.formPhoto,
+					loading: false,
+					success: action.success,
+				},
 			};
 		case FETCH_UPD_USER_PHOTO_ERROR:
 			return {
 				...state,
+				formPhoto: {
+					...state.formPhoto,
+					loading: false,
+					error: action.error,
+				},
 			};
 		default:
 			return state;

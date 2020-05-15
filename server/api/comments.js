@@ -5,11 +5,17 @@ exports.getCommentsByPostId = async (req, res) => {
 		const comment = {
 			post_id: req.params.id,
 		};
-		const result = await commentsModel.getByPostId(req, res, comment);
-		return res.json(result);
+		const result = await commentsModel.getByPostId(comment);
+		if (comment.post_id) {
+			return res.json(result);
+		}
+
+		return res.status(400).json({
+			message: 'Not found post_id',
+		});
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
@@ -19,11 +25,17 @@ exports.delCommentsByPostId = async (req, res) => {
 		const comment = {
 			post_id: req.body.id,
 		};
-		const result = await commentsModel.delByPostId(req, res, comment);
-		return res.json(result);
+		const result = await commentsModel.delByPostId(comment);
+		if (comment.post_id) {
+			return res.json(result);
+		}
+
+		return res.status(400).json({
+			message: 'Not found post_id',
+		});
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
@@ -37,11 +49,11 @@ exports.addComment = async (req, res) => {
 			author: req.body.author,
 			message: req.body.message,
 		};
-		const result = await commentsModel.add(req, res, comment);
+		const result = await commentsModel.add(comment);
 		return res.json(result);
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
@@ -51,11 +63,17 @@ exports.delComment = async (req, res) => {
 		const comment = {
 			id: req.body.id,
 		};
-		const result = await commentsModel.del(req, res, comment);
-		return res.json(result);
+		const result = await commentsModel.del(comment);
+		if (comment.id) {
+			return res.json(result);
+		}
+
+		return res.status(400).json({
+			message: 'Not found id',
+		});
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };

@@ -29,7 +29,7 @@ const authenticateJWT = (req, res, next) => {
 			}
 
 			req.user = user;
-			console.log('user::::', user);
+			console.log('user::::', user.id);
 
 			next();
 		});
@@ -57,7 +57,6 @@ module.exports = (app) => {
 	router.post('/users/uploadPhoto', [authenticateJWT, uploadImg], users.uploadPhoto);
 	router.post('/users/delPhoto', users.delPhoto);
 	router.post('/users/changeFIO', authenticateJWT, users.changeFIO);
-	router.post('/users/logout', users.logout);
 	router.post('/user/:id', authenticateJWT, users.getUser);
 
 	router.post('/posts', posts.getPostsLimit);

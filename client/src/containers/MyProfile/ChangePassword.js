@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import {
 	createControl,
@@ -6,6 +7,10 @@ import {
 	validateForm,
 } from '../../framework/form';
 
+import { fetchUpdUserPassword } from '../../store/actions/profile';
+
+import ErrorAlertForm from '../../components/UI/Alert/ErrorAlertForm';
+import SuccessAlertForm from '../../components/UI/Alert/SuccessAlertForm';
 import Input from '../../components/UI/Input/Input';
 
 class ChangePassword extends Component {
@@ -37,6 +42,19 @@ class ChangePassword extends Component {
 			},
 		};
 	}
+
+	updPasswordHandler = () => {
+		const token = localStorage.getItem('token');
+
+		const user = {
+			id: this.props.id,
+			newPassword: this.state.formControls.newPassword.value,
+			oldPassword: this.state.formControls.oldPassword.value,
+			token,
+		};
+
+		this.props.fetchUpdUserPassword(user);
+	};
 
 	onChangeHandler(e, controlName) {
 		const formControls = { ...this.state.formControls }; // Выносим объект из state
@@ -86,8 +104,14 @@ class ChangePassword extends Component {
 		return (
 			<>
 				<h2 className='mb-2'>Изменение пароля</h2>
+				<ErrorAlertForm error={this.props.error} />
+				<SuccessAlertForm success={this.props.success} />
 				{this.renderInputs()}
-				<button className='btn btn-success' disabled={!this.state.isFormValid}>
+				<button
+					className='btn btn-success'
+					onClick={this.updPasswordHandler}
+					disabled={!this.state.isFormValid}
+				>
 					Сохранить
 				</button>
 			</>
@@ -95,4 +119,18 @@ class ChangePassword extends Component {
 	}
 }
 
-export default ChangePassword;
+function mapStateToProps(state) {
+	return {
+		id: state.auth.payload ? state.auth.payload.id : '',
+		error: state.profile.formPassword.error,
+		success: state.profile.formPassword.success,
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		fetchUpdUserPassword: (user) => dispatch(fetchUpdUserPassword(user)),
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);

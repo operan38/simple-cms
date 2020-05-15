@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { Link } from 'react-router-dom';
+
 import {
 	fetchCommentsByPostId,
 	fetchAddComment,
@@ -96,7 +98,12 @@ class CommentsPost extends Component {
 			return (
 				<div className='mb-3 border p-2' key={index}>
 					<div className='d-flex justify-content-between'>
-						<div>Автор: {comment.value.author}</div>
+						<div>
+							Автор:{' '}
+							<Link to={'/profile/' + comment.value.id}>
+								{comment.value.author}
+							</Link>
+						</div>
 					</div>
 					<p>Cообщение: {comment.value.message}</p>
 					<textarea

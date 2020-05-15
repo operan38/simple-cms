@@ -1,8 +1,6 @@
 const { check, validationResult } = require('express-validator');
 const postsModel = require('../models/posts');
 
-exports.validPost = () => [];
-
 exports.addPost = async (req, res) => {
 	try {
 		const post = {
@@ -10,11 +8,11 @@ exports.addPost = async (req, res) => {
 			subtitle: req.body.subtitle,
 			text: req.body.text,
 		};
-		const result = await postsModel.add(req, res, post);
+		const result = await postsModel.add(post);
 		return res.json(result);
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
@@ -24,11 +22,17 @@ exports.delPost = async (req, res) => {
 		const post = {
 			id: req.body.id,
 		};
-		const result = await postsModel.del(req, res, post);
-		return res.json(result);
+		const result = await postsModel.del(post);
+		if (post.id) {
+			return res.json(result);
+		}
+
+		return res.status(400).json({
+			message: 'Not found id',
+		});
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
@@ -41,11 +45,17 @@ exports.updPost = async (req, res) => {
 			subtitle: req.body.subtitle,
 			text: req.body.text,
 		};
-		const result = await postsModel.upd(req, res, post);
-		return res.json(result);
+		const result = await postsModel.upd(post);
+		if (post.id) {
+			return res.json(result);
+		}
+
+		return res.status(400).json({
+			message: 'Not found id',
+		});
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
@@ -55,33 +65,41 @@ exports.getPost = async (req, res) => {
 		const post = {
 			id: req.params.id,
 		};
-		const result = await postsModel.getById(req, res, post);
-		return res.json(result);
+		const result = await postsModel.getById(post);
+
+		if (result.length !== 0) {
+			return res.json(result[0]);
+		}
+
+		return res.status(400).json({
+			message: `Not found id=${post.id}`,
+		});
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
 
 exports.getPosts = async (req, res) => {
 	try {
-		const result = await postsModel.getAll(req, res);
+		const result = await postsModel.getAll();
 		return res.json(result);
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
 
 exports.getPostsCount = async (req, res) => {
 	try {
-		const result = await postsModel.getAllCount(req, res);
-		return res.json(result);
+		const result = await postsModel.getAllCount();
+
+		return res.json(result[0].count);
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
@@ -93,18 +111,11 @@ exports.getPostsLimit = async (req, res) => {
 			offset: req.body.offset,
 		};
 
-		/* const { admin } = req.user;
-		if (admin === 0) {
-			return res.status(403).json({
-				message: 'Доступ запрещен',
-			});
-		} */
-
-		const result = await postsModel.getAllLimit(req, res, post);
+		const result = await postsModel.getAllLimit(post);
 		return res.json(result);
 	} catch (err) {
 		return res.status(500).json({
-			message: `Что то пошло не так, попробуйте снова: ${err}`,
+			message: `Что то пошло не так, попробуйте снова: (${err})`,
 		});
 	}
 };
