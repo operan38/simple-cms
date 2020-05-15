@@ -10,7 +10,7 @@ import {
 	clearControlsValue,
 } from '../../framework/form';
 
-import CreateModal from '../../components/UI/Modal/CreateModal';
+import CreateAccordion from '../../components/UI/Accordion/CreateAccordion';
 import Input from '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select';
 
@@ -142,7 +142,7 @@ class RouteCreator extends Component {
 
 	render() {
 		return (
-			<CreateModal
+			<CreateAccordion
 				title={'Новый маршрут'}
 				children={this.renderInputs()}
 				createBtn={

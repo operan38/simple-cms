@@ -59,8 +59,11 @@ class Header extends Component {
 		);
 
 		return (
-			<header style={{ boxShadow: '7px 7px 5px rgba(0,0,0,0.1)' }}>
-				<Container>
+			<header
+				className='document-header'
+				style={{ boxShadow: '7px 7px 5px rgba(0,0,0,0.1)' }}
+			>
+				<Container fluid className='section-container'>
 					<Row>
 						<Col xs={12} md={2}>
 							<div className='d-flex align-items-center'>

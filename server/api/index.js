@@ -17,13 +17,15 @@ const authenticateJWT = (req, res, next) => {
 	if (authHeader) {
 		const token = authHeader.split(' ')[1];
 
-		console.log('authHeader: ', token);
+		// console.log('authHeader: ', token);
 
 		jwt.verify(token, config.jwtSecret, (err, user) => {
 			if (err) {
 				res.status(403).json({
 					message: 'Доступ запрещен',
 				});
+
+				console.log('err::::', err);
 			}
 
 			req.user = user;
@@ -55,6 +57,7 @@ module.exports = (app) => {
 	router.post('/users/uploadPhoto', [authenticateJWT, uploadImg], users.uploadPhoto);
 	router.post('/users/delPhoto', users.delPhoto);
 	router.post('/users/changeFIO', authenticateJWT, users.changeFIO);
+	router.post('/users/logout', users.logout);
 	router.post('/user/:id', authenticateJWT, users.getUser);
 
 	router.post('/posts', posts.getPostsLimit);

@@ -29,7 +29,7 @@ class PostEditModal extends Component {
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
 					},
-					{ required: true, defaultValid: true }
+					{ required: true }
 				),
 				subtitle: createControl(
 					{
@@ -39,7 +39,7 @@ class PostEditModal extends Component {
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
 					},
-					{ required: true, defaultValid: true }
+					{ required: true }
 				),
 				text: createControl(
 					{
@@ -48,7 +48,7 @@ class PostEditModal extends Component {
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
 					},
-					{ required: true, defaultValid: true }
+					{ required: true }
 				),
 				/*main_photo: createControl(
 					{
@@ -70,15 +70,21 @@ class PostEditModal extends Component {
 
 	loadControlsData() {
 		const formControls = { ...this.state.formControls }; // Выносим объект из state
+		let isFormValid = false;
 
-		formControls.title.value = this.props.post ? this.props.post.title : '';
-		formControls.subtitle.value = this.props.post
-			? this.props.post.subtitle
-			: '';
-		formControls.text.value = this.props.post ? this.props.post.text : '';
+		if (this.props.post) {
+			formControls.title.value = this.props.post.title;
+			formControls.title.valid = true;
+			formControls.subtitle.value = this.props.post.subtitle;
+			formControls.subtitle.valid = true;
+			formControls.text.value = this.props.post.text;
+			formControls.text.valid = true;
+			isFormValid = true;
+		}
 
 		this.setState({
 			formControls,
+			isFormValid,
 		});
 	}
 

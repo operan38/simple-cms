@@ -18,14 +18,14 @@ exports.getAll = (req, res) => {
 exports.getById = (req, res, user) => {
 	const sql = 'SELECT * FROM users WHERE id = :id';
 
+
 	return db
 		.execQuery(sql, { id: user.id })
 		.then((data) => {
-			if (data.length) { res.json(data[0]); } else {
-				res.status(400).json({
-					message: `Not found id=${user.id}`,
-				});
-			}
+			if (data.length) { return data[0]; }
+			res.status(400).json({
+				message: `Not found id=${user.id}`,
+			});
 		})
 		.catch((err) => {
 			res.status(500).json({
@@ -35,7 +35,7 @@ exports.getById = (req, res, user) => {
 };
 
 exports.getByLogin = (req, res, login) => db
-	.execQuery('SELECT id, login, password, admin, main_photo FROM users WHERE login = :login', { login })
+	.execQuery('SELECT id, login, password, surname, firstname, patronymic, admin, main_photo FROM users WHERE login = :login', { login })
 	.then((data) => {
 		if (login) {
 			return data[0];

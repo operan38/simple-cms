@@ -9,9 +9,8 @@ import {
 	validateForm,
 } from '../../framework/form';
 
-import { Alert } from 'react-bootstrap';
-
 import Input from '../../components/UI/Input/Input';
+import ErrorAlertForm from '../../components/UI/Alert/ErrorAlertForm';
 
 class Register extends Component {
 	state = {
@@ -104,26 +103,11 @@ class Register extends Component {
 		});
 	}
 
-	renderErrors() {
-		if (this.props.error) {
-			if (typeof this.props.error.data.errors == 'object') {
-				return (
-					<Alert variant='danger'>
-						{this.props.error.data.message}
-						{' (' + this.props.error.data.errors[0]['msg'] + ')'}
-					</Alert>
-				);
-			} else {
-				return <Alert variant='danger'>{this.props.error.data.message}</Alert>;
-			}
-		}
-	}
-
 	render() {
 		return (
 			<div>
 				<div className='d-flex flex-column align-items-center mt-5'>
-					<div className='text-danger'>{this.renderErrors()}</div>
+					<ErrorAlertForm error={this.props.error} />
 					<div>
 						{this.renderInputs()}
 						<button

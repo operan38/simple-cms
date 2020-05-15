@@ -9,6 +9,7 @@ import './App.scss';
 
 import RoutesList from './RoutesList';
 import Header from './containers/Layout/Header/Header';
+import Footer from './containers/Layout/Footer/Footer';
 
 class App extends Component {
 	componentDidMount() {
@@ -18,16 +19,17 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className='app'>
+			<>
 				<Header />
-				<Container>
+				<Container fluid className='document-content section-container'>
 					<Row>
 						<Col>
 							<RoutesList />
 						</Col>
 					</Row>
 				</Container>
-			</div>
+				<Footer />
+			</>
 		);
 	}
 }

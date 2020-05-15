@@ -54,6 +54,38 @@ exports.register = async (req, res) => {
 	}
 };
 
+const generateToken = (user) => {
+	const payload = {
+		id: user.id,
+		login: user.login,
+		password: user.password,
+		surname: user.surname,
+		firstname: user.firstname,
+		patronymic: user.patronymic,
+		admin: user.admin,
+		main_photo: user.main_photo,
+	};
+
+	return jwt.sign(payload, config.jwtSecret, { expiresIn: '1h' });
+};
+
+const refreshToken = (req, res, userId, token) => {
+	jwt.verify(token, config.jwtSecret, async (err) => {
+		if (err) throw err;
+
+		// Если такой пользователь сущестувет
+		const user = await usersModel.getById(req, res, { id: userId });
+
+		const newToken = generateToken(user);
+
+		// Обновить и вернуть новый токен
+		res.json({
+			userId,
+			token: newToken,
+		});
+	});
+};
+
 exports.auth = async (req, res) => {
 	try {
 		const errors = validationResult(req);
@@ -83,15 +115,7 @@ exports.auth = async (req, res) => {
 			return res.status(400).json({ message: 'Неверный логин или пароль' });
 		}
 
-		const payload = {
-			id: user.id,
-			login: user.login,
-			password: user.password,
-			admin: user.admin,
-			main_photo: user.main_photo,
-		};
-
-		const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '1h' });
+		const token = generateToken(user);
 
 		return res.status(200).json({
 			userId: user.id,
@@ -107,39 +131,29 @@ exports.auth = async (req, res) => {
 exports.checkoutToken = (req, res) => {
 	const { token, userId } = req.body;
 
-	jwt.verify(token, config.jwtSecret, (err) => {
-		if (err) throw err;
-
-		// Если такой пользователь сущестувет
-		// const id = users.getById(req, res, userId);
-
-		// Вернуть токен
-		res.json({
-			userId,
-			token,
-		});
-	});
+	refreshToken(req, res, userId, token);
 };
 
 exports.changePassword = async (req, res) => {
 	const {
 		token, userId, oldPassword, newPassword,
 	} = req.body;
-
-	jwt.verify(token, config.jwtSecret, (err, user) => {
-		if (err) throw err;
-	});
 };
 
 exports.changeFIO = async (req, res) => {
 	try {
 		const user = {
+			id: req.body.id,
 			surname: req.body.surname,
 			firstname: req.body.firstname,
 			patronymic: req.body.patronymic,
+			token: req.body.token,
 		};
 		const result = await usersModel.updFIO(req, res, user);
-		return res.json(result);
+
+		return res.json({
+			message: 'Данные успешно обновлены',
+		});
 	} catch (err) {
 		return res.status(500).json({
 			message: `Что то пошло не так, попробуйте снова: ${err}`,
@@ -200,4 +214,8 @@ exports.uploadPhoto = async (req, res, next) => {
 exports.delPhoto = (req, res, next) => {
 	const result = delFile(req, res, '6af49ada-dcf8-4e49-9dac-319800069103-typo_berlin_2008_img_logo-575x575.png');
 	return res.json(result);
+};
+
+exports.logout = (req, res) => {
+	res.send('Logout successful');
 };

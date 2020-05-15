@@ -71,6 +71,7 @@ export function authSuccess(payload, userId) {
 export function logout() {
 	localStorage.removeItem('token');
 	localStorage.removeItem('userId');
+	httpAPI.defaults.headers.common['Authorization'] = '';
 
 	return {
 		type: AUTH_LOGOUT,

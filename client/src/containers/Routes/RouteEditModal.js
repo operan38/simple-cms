@@ -19,7 +19,7 @@ class RouteEditModal extends Component {
 		super(props);
 
 		this.state = {
-			isFormValid: true,
+			isFormValid: false,
 			formControls: {
 				title: createControl(
 					{
@@ -30,7 +30,7 @@ class RouteEditModal extends Component {
 						className: 'mb-2',
 						errorMessage: 'Введите заголовок',
 					},
-					{ required: true, defaultValid: true }
+					{ required: true }
 				),
 				path: createControl(
 					{
@@ -41,7 +41,7 @@ class RouteEditModal extends Component {
 						className: 'mb-2',
 						errorMessage: 'Введите путь',
 					},
-					{ required: true, defaultValid: true }
+					{ required: true }
 				),
 				container_id: createControl(
 					{
@@ -51,7 +51,7 @@ class RouteEditModal extends Component {
 						className: 'mb-2',
 						errorMessage: 'Выберите контейнер',
 					},
-					{ required: true, defaultValid: true }
+					{ required: true }
 				),
 			},
 		};
@@ -63,15 +63,21 @@ class RouteEditModal extends Component {
 
 	loadControlsData() {
 		const formControls = { ...this.state.formControls }; // Выносим объект из state
+		let isFormValid = false;
 
-		formControls.title.value = this.props.route ? this.props.route.title : '';
-		formControls.path.value = this.props.route ? this.props.route.path : '';
-		formControls.container_id.value = this.props.route
-			? this.props.route.container_id
-			: '';
+		if (this.props.route) {
+			formControls.title.value = this.props.route.title;
+			formControls.title.valid = true;
+			formControls.path.value = this.props.route.path;
+			formControls.path.valid = true;
+			formControls.container_id.value = this.props.route.container_id;
+			formControls.container_id.valid = true;
+			isFormValid = true;
+		}
 
 		this.setState({
 			formControls,
+			isFormValid,
 		});
 	}
 

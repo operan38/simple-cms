@@ -27,6 +27,15 @@ table {
     width: 100%;
 }
 
+#root {
+    height:  inherit;
+    display: inherit;
+    flex-flow: inherit;
+    /* Firefox bug fix styles */
+    min-width: inherit;
+    min-height: inherit;
+}
+
 @media (max-width: 992px) {
     body {
         height: auto;

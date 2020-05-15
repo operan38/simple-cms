@@ -43,8 +43,6 @@ class Post extends Component {
 function mapStateToProps(state) {
 	return {
 		post: state.posts.post,
-		/*commentsList: state.comments.post.commentsList,
-		commentsLoading: state.comments.post.loading,*/
 		loading: state.posts.loading,
 		error: state.posts.error,
 	};
@@ -53,9 +51,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchPostById: (id) => dispatch(fetchPostById(id)),
-		/*fetchCommentsByPostId: (postId) => dispatch(fetchCommentsByPostId(postId)),
-		fetchAddCommentByPostId: (comment) =>
-			dispatch(fetchAddCommentByPostId(comment)),*/
 	};
 }
 

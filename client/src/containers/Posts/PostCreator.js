@@ -12,7 +12,7 @@ import {
 
 import Input from '../../components/UI/Input/Input';
 import Textarea from '../../components/UI/Textarea/Textarea';
-import CreateModal from '../../components/UI/Modal/CreateModal';
+import CreateAccordion from '../../components/UI/Accordion/CreateAccordion';
 
 class PostCreator extends Component {
 	constructor(props) {
@@ -153,7 +153,7 @@ class PostCreator extends Component {
 	render() {
 		return (
 			<>
-				<CreateModal
+				<CreateAccordion
 					title={'Новый пост'}
 					children={this.renderInputs()}
 					createBtn={

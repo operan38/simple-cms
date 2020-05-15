@@ -10,6 +10,7 @@ import postsReducer from './reducers/posts';
 import modalReducer from './reducers/modal';
 import commentsReducer from './reducers/comments';
 import headerNavReducer from './reducers/headerNav';
+import profileReducer from './reducers/profile';
 
 export default combineReducers({
 	routes: routesReducer,
@@ -22,4 +23,5 @@ export default combineReducers({
 	modal: modalReducer,
 	comments: commentsReducer,
 	headerNav: headerNavReducer,
+	profile: profileReducer,
 });
