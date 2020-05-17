@@ -44,6 +44,7 @@ exports.updPost = async (req, res) => {
 			title: req.body.title,
 			subtitle: req.body.subtitle,
 			text: req.body.text,
+			updated: req.body.updated,
 		};
 		const result = await postsModel.upd(post);
 		if (post.id) {

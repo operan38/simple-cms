@@ -1,4 +1,5 @@
 import httpAPI from '../../axios/http-api';
+import httpUploadFile from '../../axios/http-uploadFile';
 import {
 	FETCH_UPD_USER_FIO_REQUEST,
 	FETCH_UPD_USER_FIO_SUCCESS,
@@ -62,7 +63,7 @@ export function fetchUpdUserPhoto(user) {
 		dispath(request());
 
 		try {
-			const response = await httpAPI.post('/users/uploadPhoto', user);
+			const response = await httpUploadFile.post('/users/uploadPhoto', user);
 			dispath(success(response.data));
 		} catch (e) {
 			dispath(error(e.response));

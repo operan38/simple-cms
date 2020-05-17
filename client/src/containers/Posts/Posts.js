@@ -34,8 +34,10 @@ class Posts extends Component {
 	submitDelPostHandler = (id) => {
 		// Подтвердить удаление и закрыть окно удаления
 		this.props.fetchDelCommentsByPostId(id).then(() => {
-			this.props.fetchDelPost(id);
-			this.props.hideDelModal();
+			this.props.fetchDelPost(id).then(() => {
+				window.location.reload();
+			});
+			//this.props.hideDelModal();
 		});
 	};
 

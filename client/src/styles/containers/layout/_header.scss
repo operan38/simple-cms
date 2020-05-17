@@ -1,0 +1,31 @@
+.header__logo {
+    display: flex;
+    align-items: center;
+}
+
+.header__user {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+}
+
+.header__top-menu {
+    align-self: center;
+}
+
+@include media-breakpoint-down(md) {
+    .header__logo {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .header__top-menu {
+        margin-bottom: 10px;
+    }
+
+    .header__user {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+}

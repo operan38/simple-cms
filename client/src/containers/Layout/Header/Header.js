@@ -66,22 +66,17 @@ class Header extends Component {
 				<Container fluid className='section-container'>
 					<Row>
 						<Col xs={12} md={2}>
-							<div className='d-flex align-items-center'>
-								<div>
-									<NavLink to='/'>
-										<img src={logo} alt=''></img>
-									</NavLink>
-								</div>
-								<div className='pl-2'></div>
+							<div className='header__logo'>
+								<NavLink to='/'>
+									<img src={logo} alt=''></img>
+								</NavLink>
 							</div>
 						</Col>
-						<Col xs={12} md={7} className='align-self-center'>
+						<Col xs={12} md={7} className='header__top-menu'>
 							<HeaderNav {...this.props} />
 						</Col>
 						<Col xs={12} md={3}>
-							<div className='d-flex justify-content-end align-items-center h-100'>
-								{userBtn}
-							</div>
+							<div className='header__user'>{userBtn}</div>
 						</Col>
 					</Row>
 				</Container>

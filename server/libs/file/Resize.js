@@ -13,8 +13,8 @@ class Resize {
 	}
 
 	async save(buffer) {
-		const filename = Resize.filename();
-		const filepath = this.filepath(filename);
+		const filename = this.getFileName();
+		const filepath = this.getFilePath(filename);
 
 		await sharp(buffer)
 			.resize(this.width, this.height, {})
@@ -23,12 +23,13 @@ class Resize {
 		return filename;
 	}
 
-	static filename() {
+	getFileName() {
 		return `${uuidv4()}${this.exp}`;
 	}
 
-	filepath(filename) {
+	getFilePath(filename) {
 		return path.resolve(`${this.folder}/${filename}`);
 	}
 }
+
 module.exports = Resize;

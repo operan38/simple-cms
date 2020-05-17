@@ -1,6 +1,8 @@
-import httpUploadFile from '../../axios/http-uploadFile';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Col, Row } from 'react-bootstrap';
+
+import { fetchUpdUserPhoto } from '../../store/actions/profile';
 
 class FileUpload extends Component {
 	constructor(props) {
@@ -20,8 +22,9 @@ class FileUpload extends Component {
 		const formData = new FormData();
 		formData.append('profileImg', this.state.profileImg);
 		formData.append('id', this.props.id);
-		httpUploadFile.post('/users/uploadPhoto', formData).then((res) => {
-			console.log(res);
+
+		this.props.fetchUpdUserPhoto(formData).then(() => {
+			window.location.reload();
 		});
 	};
 
@@ -53,4 +56,14 @@ class FileUpload extends Component {
 	}
 }
 
-export default FileUpload;
+function mapStateToProps(state) {
+	return {};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		fetchUpdUserPhoto: (user) => dispatch(fetchUpdUserPhoto(user)),
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FileUpload);

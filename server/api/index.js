@@ -55,7 +55,6 @@ module.exports = (app) => {
 	router.post('/users/changePassword', authenticateJWT, users.changePassword);
 	router.post('/users/checkoutToken', authenticateJWT, users.checkoutToken);
 	router.post('/users/uploadPhoto', [authenticateJWT, uploadImg], users.uploadPhoto);
-	router.post('/users/delPhoto', users.delPhoto);
 	router.post('/users/changeFIO', authenticateJWT, users.changeFIO);
 	router.post('/user/:id', authenticateJWT, users.getUser);
 

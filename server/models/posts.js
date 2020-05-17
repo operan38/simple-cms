@@ -61,12 +61,16 @@ exports.del = (post) => {
 };
 
 exports.upd = (post) => {
-	const sql = 'UPDATE posts SET title = :title, subtitle = :subtitle, text = :text WHERE id = :id';
+	const sql = 'UPDATE posts SET title = :title, subtitle = :subtitle, text = :text, updated = :updated WHERE id = :id';
 
 	return db
 		.execQuery(sql,
 			{
-				id: post.id, title: post.title, subtitle: post.subtitle, text: post.text,
+				id: post.id,
+				title: post.title,
+				subtitle: post.subtitle,
+				text: post.text,
+				updated: post.updated,
 			})
 		.then((data) => data)
 		.catch((err) => err);

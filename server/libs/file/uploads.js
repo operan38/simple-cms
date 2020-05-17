@@ -27,19 +27,16 @@ const uploadImg = multer({
 	},
 }).single('profileImg');
 
-const delFile = async (req, res, path) => {
-	fs.stat(`./uploads/${path}`, (err, stats) => {
-		console.log(stats);// here we got all information of file in stats variable
+const delFile = async (path) => {
+	fs.stat(`.${path}`, (err, stats) => {
+		console.log('stats: ', stats);// here we got all information of file in stats variable
 
-		if (err) {
-			return res.json(err);
-		}
-
-		fs.unlink(`./uploads/${path}`, (errLink) => {
-			if (errLink) return res.json(errLink);
-			console.log('file deleted successfully');
-			return res.json('file deleted successfully');
+		fs.unlink(`.${path}`, (errLink) => {
+			if (errLink) return console.log(errLink);
+			return console.log('file deleted successfully');
 		});
+
+		return err;
 	});
 };
 

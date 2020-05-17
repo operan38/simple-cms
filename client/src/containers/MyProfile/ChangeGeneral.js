@@ -101,7 +101,9 @@ class ChangeGeneral extends Component {
 			token,
 		};
 
-		this.props.fetchUpdUserFIO(user);
+		this.props.fetchUpdUserFIO(user).then(() => {
+			window.location.reload();
+		});
 	};
 
 	renderInputs() {

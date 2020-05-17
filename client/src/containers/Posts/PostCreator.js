@@ -82,8 +82,11 @@ class PostCreator extends Component {
 			//main_photo: this.state.formControls.main_photo.value,
 		};
 
-		this.props.fetchAddPost(post);
-		this.clearControlsValue();
+		this.props.fetchAddPost(post).then(() => {
+			window.location.reload();
+		});
+
+		//this.clearControlsValue();
 	};
 
 	clearControlsValue() {

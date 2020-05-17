@@ -108,15 +108,22 @@ class PostEditModal extends Component {
 	}
 
 	updPostHandler = () => {
+		const d = new Date();
+
 		const post = {
 			id: this.props.post.id,
 			title: this.state.formControls.title.value,
 			subtitle: this.state.formControls.subtitle.value,
 			text: this.state.formControls.text.value,
+			updated:
+				d.toISOString().split('T')[0] + ' ' + d.toTimeString().split(' ')[0],
 		};
 
-		this.props.fetchUpdPost(post);
-		this.props.hideEditModal();
+		this.props.fetchUpdPost(post).then(() => {
+			window.location.reload();
+		});
+
+		//this.props.hideEditModal();
 	};
 
 	renderInputs() {

@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 import rootReducer from './store/rootReducer';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 
 import App from './App';

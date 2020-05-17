@@ -239,25 +239,27 @@ exports.getUser = async (req, res) => {
 	}
 };
 
-exports.uploadPhoto = async (req, res, next) => {
-	/* const fileDel = await delFile();
-	console.log('fileDel:', fileDel); */
+exports.uploadPhoto = async (req, res) => {
+	const user = {
+		id: req.body.id,
+	};
+
+	const resultId = await usersModel.getById({ id: user.id });
+
+	if (resultId[0].main_photo) {
+		const fileDel = await delFile(resultId[0].main_photo);
+		console.log('fileDel', fileDel);
+		console.log('main_photo', resultId[0].main_photo);
+	}
 
 	const fileUpload = new Resize(50, 50, '.jpg');
 	const filename = await fileUpload.save(req.file.buffer);
 
-	const user = {
-		id: req.body.id,
-		main_photo: `/uploads/${filename}`,
-	};
+	user.main_photo = `/uploads/${filename}`;
 
-	const resulst = await usersModel.updMainPhoto(user);
+	await usersModel.updMainPhoto(user);
+
 	return res.status(200).json({
 		message: 'Фото загружено',
 	});
-};
-
-exports.delPhoto = (req, res, next) => {
-	const result = delFile(req, res, '6af49ada-dcf8-4e49-9dac-319800069103-typo_berlin_2008_img_logo-575x575.png');
-	return res.json(result);
 };

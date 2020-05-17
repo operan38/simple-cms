@@ -4,14 +4,16 @@ import { connect } from 'react-redux';
 
 import { fetchPostById } from '../../store/actions/posts';
 
+import { formatDayMonthYear } from '../../framework/date';
+
 import CommentsPost from '../../components/Comments/CommentsPost';
+import notFoundPhoto from '../../assets/notFoundPhoto.jpg';
 
 import Loader from '../../components/UI/Loader/Loader';
 
 class Post extends Component {
 	componentDidMount() {
 		this.props.fetchPostById(this.props.match.params.id);
-		//this.props.fetchCommentsByPostId(this.props.match.params.id);
 	}
 
 	renderPost() {
@@ -19,8 +21,9 @@ class Post extends Component {
 			<div className='mb-3 border p-2'>
 				<Link to={'/posts'}>К списку постов</Link>
 				<h1>{this.props.post.title}</h1>
+				<img src={notFoundPhoto} alt=''></img>
 				<p>{this.props.post.text}</p>
-				<span>{this.props.post.created}</span>
+				<span>{formatDayMonthYear(this.props.post.created)}</span>
 			</div>
 		);
 	}
