@@ -67,7 +67,7 @@ class CommentsPost extends Component {
 				<div key={index}>
 					<div>В ответ: {author}</div>
 					<p>Cообщение: {comment.value.message}</p>
-					<textarea
+					{/*<textarea
 						className='form-control mb-2'
 						placeholder='Сообщение'
 						value={this.state.message}
@@ -80,7 +80,7 @@ class CommentsPost extends Component {
 						disabled={!this.props.isAuthenticated || this.state.message === ''}
 					>
 						Ответить
-					</button>
+					</button>*/}
 					{comment.children ? (
 						<div className='border p-2'>
 							{this.subComments(comment.children, comment.value.author)}
@@ -106,7 +106,7 @@ class CommentsPost extends Component {
 						</div>
 					</div>
 					<p>Cообщение: {comment.value.message}</p>
-					<textarea
+					{/*<textarea
 						className='form-control mb-2'
 						placeholder='Сообщение'
 						value={this.state.message}
@@ -119,7 +119,7 @@ class CommentsPost extends Component {
 						disabled={!this.props.isAuthenticated || this.state.message === ''}
 					>
 						Ответить
-					</button>
+					</button>*/}
 					{comment.children ? (
 						<div className='border p-2'>
 							{this.subComments(comment.children, comment.value.author)}

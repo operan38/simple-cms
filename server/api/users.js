@@ -251,8 +251,10 @@ exports.uploadPhoto = async (req, res, next) => {
 		main_photo: `/uploads/${filename}`,
 	};
 
-	const resulst = await usersModel.updMainPhoto(req, res, user);
-	return res.json(resulst);
+	const resulst = await usersModel.updMainPhoto(user);
+	return res.status(200).json({
+		message: 'Фото загружено',
+	});
 };
 
 exports.delPhoto = (req, res, next) => {

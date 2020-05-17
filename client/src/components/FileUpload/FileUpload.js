@@ -6,11 +6,12 @@ class FileUpload extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			profileImg: '',
+			profileImg: null,
 		};
 	}
 
 	onFileChange = (e) => {
+		console.log(e.target.files[0]);
 		this.setState({ profileImg: e.target.files[0] });
 	};
 
@@ -36,7 +37,11 @@ class FileUpload extends Component {
 							<button
 								className='btn btn-success'
 								type='submit'
-								disabled={this.props.disabled}
+								disabled={
+									this.state.profileImg !== null && this.state.profileImg
+										? false
+										: true
+								}
 							>
 								Загрузить
 							</button>

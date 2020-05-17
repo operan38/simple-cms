@@ -53,16 +53,6 @@ class PostCreator extends Component {
 					},
 					{ required: true }
 				),
-				main_photo: createControl(
-					{
-						tag: 'Input',
-						type: 'file',
-						label: 'Фото',
-						parrentDivClassName: 'w-100',
-						className: 'mb-2',
-					},
-					{ required: false }
-				),
 			},
 		};
 	}
