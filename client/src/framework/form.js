@@ -4,7 +4,7 @@ export function createControl(config, validation) {
 		validation,
 		valid: validation.required === false ? true : !validation,
 		touched: false,
-		value: '',
+		value: config.value ? config.value : '',
 	};
 }
 

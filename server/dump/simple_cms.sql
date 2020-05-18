@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 17 2020 г., 14:52
+-- Время создания: Май 18 2020 г., 10:37
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.1.32
 
@@ -54,7 +54,9 @@ INSERT INTO `comments` (`id`, `post_id`, `parent_id`, `type`, `author`, `message
 (8, 1, 0, 'post', 'test11', 'sdfsdfsdfdsfsdfds', 1, '2020-05-15 11:38:57', NULL),
 (9, 1, 0, 'post', 'test11', 'dfgtdfg', 1, '2020-05-15 11:40:32', NULL),
 (10, 1, 0, 'post', 'test', 'dfsdfsdgsd', 1, '2020-05-15 12:48:42', NULL),
-(11, 2, 0, 'post', 'test', '123456', 1, '2020-05-17 06:59:44', NULL);
+(11, 2, 0, 'post', 'test', '123456', 1, '2020-05-17 06:59:44', NULL),
+(12, 26, 0, 'post', 'test', '123456', 1, '2020-05-18 05:54:18', NULL),
+(13, 28, 0, 'post', 'test', '89898', 1, '2020-05-18 06:08:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -155,7 +157,10 @@ INSERT INTO `posts` (`id`, `title`, `subtitle`, `text`, `main_photo`, `public`, 
 (22, 'Тестовый пост 22', 'Краткое описание', 'Подробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.', NULL, 1, '2020-04-30 18:11:00', NULL),
 (23, 'Тестовый пост 23', 'Краткое описание', 'Подробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.', NULL, 1, '2020-04-30 18:11:00', NULL),
 (24, 'Тестовый пост 24', 'Краткое описание', 'Подробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.', NULL, 1, '2020-04-30 18:11:00', NULL),
-(25, 'Тестовый пост 25', 'Краткое описание', 'Подробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.', NULL, 1, '2020-04-30 18:11:00', NULL);
+(25, 'Тестовый пост 25', 'Краткое описание', 'Подробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.\r\nПодробное описание.', NULL, 1, '2020-04-30 18:11:00', NULL),
+(26, '12342143', '111111111111111111111', '<h2>21214124214</h2>', NULL, 1, '2020-05-18 05:19:22', '2020-05-18 05:53:30'),
+(27, '123', '1234', '<ol><li>12345</li><li>22</li><li>12345</li><li>5162161</li><li>4234324</li></ol>', NULL, 1, '2020-05-18 05:35:19', NULL),
+(28, 'заголовок', '12345', '<ol><li>sdfjhdsfjksdhfkjsdfjk</li><li>1234145124</li><li>dsfdsfdsf</li><li>sdfdsgsdgkgkds</li><li>sgdskgsdkgsdgkjds</li></ol>', NULL, 1, '2020-05-18 06:07:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -203,7 +208,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `surname`, `firstname`, `patronymic`, `login`, `password`, `mail`, `main_photo`, `admin`) VALUES
-(1, 'fdgdgd21312312', 'asdas', 'dsf', 'test', '$2a$04$R/Ew51bt4yuXrM7sHkYMFe5L1V3fdhrF0oxY.JltD.x1ugmvrtFJq', NULL, '/uploads/71565d13-71c1-4f05-8f4b-8f90fb151a33.jpg', 0),
+(1, 'fdgdgd21312312', 'asdas', 'dsf', 'test', '$2a$04$R/Ew51bt4yuXrM7sHkYMFe5L1V3fdhrF0oxY.JltD.x1ugmvrtFJq', NULL, '/uploads/5d5a24db-5fff-4272-90be-9a1de86f8aaf.jpg', 0),
 (2, 'test2', '213213', '123213', 'test2', '$2a$04$G3nk2H8yQel4j.PTW851.ukTPjx1uZ9G0djUnMeC1xb.dndh9Pe5e', NULL, NULL, 1),
 (3, '', '', '', 'test4', '$2a$04$shjDmoBgHJVpKyqLOkLk9eeEfYXoI/MYb1MaoZ2CImf0.k4GfHCjy', NULL, '/uploads/c68275e7-2c70-4e4c-abc9-617100e8359a-4.png', 0),
 (4, '', '', '', 'test5', '$2a$04$0jFOpBFqVtNh/V6eMgD9qOqIV5AXy1DXG/XVT1cRr6Nf8h.hBDJRi', NULL, NULL, 0),
@@ -216,7 +221,8 @@ INSERT INTO `users` (`id`, `surname`, `firstname`, `patronymic`, `login`, `passw
 (11, '', '', '', 'te', '$2a$04$Mjo.zjU4yVkG/IKWl9nYpuFY4Y5j3oSYd0Qo/0W2T80I1AbJXElMG', NULL, NULL, 0),
 (12, '', '', '', 'tes', '$2a$04$fGLXQbriw8fMXxJnXeNQhuL81MuXp6ogOLn45dBwE2j6pueF4e8Ty', NULL, NULL, 0),
 (13, '', '', '', 't', '$2a$04$89c1.jpf.rZFvU3u98LPDOFMMlZaUZiEvDHz/lFJjTaV/igG.C8v6', NULL, NULL, 0),
-(14, '', '', '', 'tgyt', '$2a$04$dKWjCy7cTSbrlFwmR.F9.uiMRNnJ14WCjnRpOuq0ziL4Iyjo7JIv.', NULL, NULL, 0);
+(14, '', '', '', 'tgyt', '$2a$04$dKWjCy7cTSbrlFwmR.F9.uiMRNnJ14WCjnRpOuq0ziL4Iyjo7JIv.', NULL, NULL, 0),
+(15, '', '', '', 'test15', '$2a$04$SPmZgcKEG0ptDXHrHPmsaO/V4/wLoPr9Y6JN1dR8ybHt.tdNij6Ha', NULL, NULL, 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -274,7 +280,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `components`
@@ -298,7 +304,7 @@ ALTER TABLE `header_nav`
 -- AUTO_INCREMENT для таблицы `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT для таблицы `routes`
@@ -310,7 +316,7 @@ ALTER TABLE `routes`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

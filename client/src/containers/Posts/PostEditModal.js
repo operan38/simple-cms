@@ -12,7 +12,6 @@ import {
 
 import EditModal from '../../components/UI/Modal/EditModal';
 import Input from '../../components/UI/Input/Input';
-import Textarea from '../../components/UI/Textarea/Textarea';
 
 class PostEditModal extends Component {
 	constructor(props) {
@@ -41,25 +40,6 @@ class PostEditModal extends Component {
 					},
 					{ required: true }
 				),
-				text: createControl(
-					{
-						tag: 'Textarea',
-						label: 'Текст',
-						parrentDivClassName: 'w-100',
-						className: 'mb-2',
-					},
-					{ required: true }
-				),
-				/*main_photo: createControl(
-					{
-						tag: 'Input',
-						type: 'file',
-						label: 'Фото',
-						parrentDivClassName: 'w-100',
-						className: 'mb-2',
-					},
-					{ required: true, defaultValid: true }
-				),*/
 			},
 		};
 	}
@@ -77,8 +57,6 @@ class PostEditModal extends Component {
 			formControls.title.valid = true;
 			formControls.subtitle.value = this.props.post.subtitle;
 			formControls.subtitle.valid = true;
-			formControls.text.value = this.props.post.text;
-			formControls.text.valid = true;
 			isFormValid = true;
 		}
 
@@ -114,13 +92,13 @@ class PostEditModal extends Component {
 			id: this.props.post.id,
 			title: this.state.formControls.title.value,
 			subtitle: this.state.formControls.subtitle.value,
-			text: this.state.formControls.text.value,
+			text: this.props.post.text,
 			updated:
 				d.toISOString().split('T')[0] + ' ' + d.toTimeString().split(' ')[0],
 		};
 
 		this.props.fetchUpdPost(post).then(() => {
-			window.location.reload();
+			//window.location.reload();
 		});
 
 		//this.props.hideEditModal();
@@ -137,22 +115,6 @@ class PostEditModal extends Component {
 					<Col key={controlName + index} xs='12' lg='12'>
 						<Input
 							type={control.type}
-							className={control.className}
-							parrentDivClassName={control.parrentDivClassName}
-							placeholder={control.placeholder}
-							value={control.value}
-							valid={control.valid}
-							touched={control.touched}
-							errorMessage={control.errorMessage}
-							label={control.label}
-							onChange={(e) => this.onChangeHandler(e, controlName)}
-						/>
-					</Col>
-				);
-			} else if (tag === 'Textarea') {
-				data = (
-					<Col key={controlName + index} xs='12'>
-						<Textarea
 							className={control.className}
 							parrentDivClassName={control.parrentDivClassName}
 							placeholder={control.placeholder}

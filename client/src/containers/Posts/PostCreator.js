@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Col } from 'react-bootstrap';
 
+import ReactQuill from 'react-quill';
+
 import { fetchAddPost } from '../../store/actions/posts';
 import {
 	createControl,
@@ -11,7 +13,6 @@ import {
 } from '../../framework/form';
 
 import Input from '../../components/UI/Input/Input';
-import Textarea from '../../components/UI/Textarea/Textarea';
 import CreateAccordion from '../../components/UI/Accordion/CreateAccordion';
 
 class PostCreator extends Component {
@@ -20,6 +21,7 @@ class PostCreator extends Component {
 
 		this.state = {
 			isFormValid: false,
+			quillValue: '',
 			formControls: {
 				title: createControl(
 					{
@@ -40,16 +42,6 @@ class PostCreator extends Component {
 						parrentDivClassName: 'w-100',
 						className: 'mb-2',
 						errorMessage: 'Введите подзаголовок',
-					},
-					{ required: true }
-				),
-				text: createControl(
-					{
-						tag: 'Textarea',
-						label: 'Текст',
-						parrentDivClassName: 'w-100',
-						className: 'mb-2',
-						errorMessage: 'Введите текст',
 					},
 					{ required: true }
 				),
@@ -74,12 +66,17 @@ class PostCreator extends Component {
 		});
 	}
 
+	onChangeQuillHandler = (content, delta, source, editor) => {
+		this.setState({
+			quillValue: editor.getHTML(),
+		});
+	};
+
 	addPostHandler = () => {
 		const post = {
 			title: this.state.formControls.title.value,
 			subtitle: this.state.formControls.subtitle.value,
-			text: this.state.formControls.text.value,
-			//main_photo: this.state.formControls.main_photo.value,
+			text: this.state.quillValue,
 		};
 
 		this.props.fetchAddPost(post).then(() => {
@@ -121,22 +118,6 @@ class PostCreator extends Component {
 						/>
 					</Col>
 				);
-			} else if (tag === 'Textarea') {
-				data = (
-					<Col key={controlName + index} xs='12'>
-						<Textarea
-							className={control.className}
-							parrentDivClassName={control.parrentDivClassName}
-							placeholder={control.placeholder}
-							value={control.value}
-							valid={control.valid}
-							touched={control.touched}
-							errorMessage={control.errorMessage}
-							label={control.label}
-							onChange={(e) => this.onChangeHandler(e, controlName)}
-						/>
-					</Col>
-				);
 			}
 
 			return data;
@@ -148,7 +129,18 @@ class PostCreator extends Component {
 			<>
 				<CreateAccordion
 					title={'Новый пост'}
-					children={this.renderInputs()}
+					children={
+						<>
+							{this.renderInputs()}
+							<Col xs='12' className='mb-2'>
+								<ReactQuill
+									theme='snow'
+									value={this.state.quillValue}
+									onChange={this.onChangeQuillHandler}
+								/>
+							</Col>
+						</>
+					}
 					createBtn={
 						<Col xs='12'>
 							<button

@@ -90,9 +90,9 @@ exports.register = async (req, res) => {
 			patronymic,
 		};
 
-		await usersModel.add(req, res, user);
+		const result = await usersModel.add(user);
 
-		return res.status(200).json();
+		return res.status(200).json(result);
 	} catch (err) {
 		return res.status(500).json({
 			message: `Что то пошло не так, попробуйте снова: (${err})`,
