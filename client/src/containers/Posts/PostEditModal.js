@@ -98,7 +98,7 @@ class PostEditModal extends Component {
 		};
 
 		this.props.fetchUpdPost(post).then(() => {
-			//window.location.reload();
+			window.location.reload();
 		});
 
 		//this.props.hideEditModal();
