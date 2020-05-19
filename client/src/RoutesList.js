@@ -2,6 +2,8 @@ import React, { Component, Suspense, lazy } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
+import { withAuth, withAdmin } from './hoc/withAccess';
+
 import Loader from './components/UI/Loader/Loader';
 
 const Custom = lazy(() => import('./containers/Custom/Custom'));
@@ -48,17 +50,13 @@ class RoutesList extends Component {
 						<Redirect from='/reg' to='/' />
 					)}
 
-					{this.props.isAuthenticated ? (
-						<Route path='/my-profile' component={MyProfile} />
-					) : (
-						<Redirect from='/my-profile' to='/' />
-					)}
+					<Route path='/my-profile' component={withAuth(MyProfile)} />
 
-					<Route path='/admin/routes' component={Routes} />
-					<Route path='/admin/users' component={Users} />
+					<Route path='/admin/routes' component={withAdmin(Routes)} />
+					<Route path='/admin/users' component={withAdmin(Users)} />
 
 					<Route path='/posts' component={Posts} />
-					<Route path='/post/:id' component={Post} />
+					<Route path='/post/:id' component={withAuth(Post)} />
 
 					{this.props.routesList.length !== 0 ? this.updateRoutesList() : ''}
 

@@ -25,11 +25,7 @@ class Post extends Component {
 
 	componentDidMount() {
 		this.props.fetchPostById(this.props.match.params.id).then(() => {
-			this.setState({
-				quilValue: this.props.post.text,
-			});
-
-			console.log(this.state.quilValue);
+			this.onChangeQuillHandler(this.props.post.text);
 		});
 	}
 
@@ -37,8 +33,6 @@ class Post extends Component {
 		this.setState({
 			editMode: true,
 		});
-
-		console.log(this.state.editMode);
 	};
 
 	cancelEditHandler = () => {
@@ -48,28 +42,29 @@ class Post extends Component {
 	};
 
 	submitEditHandler = () => {
-		//const d = new Date();
+		const d = new Date();
 
-		/*const post = {
+		const post = {
 			id: this.props.post.id,
 			title: this.props.post.title,
 			subtitle: this.props.post.subtitle,
 			text: this.state.quillValue,
 			updated:
 				d.toISOString().split('T')[0] + ' ' + d.toTimeString().split(' ')[0],
-		};*/
+		};
 
 		this.setState({
 			editMode: false,
 		});
 
-		//this.props.fetchUpdPost(post);
+		this.props.fetchUpdPost(post);
 	};
 
-	onChangeQuillHandler = (content, delta, source, editor) => {
+	onChangeQuillHandler = (html) => {
 		this.setState({
-			quillValue: editor.getHTML(),
+			quillValue: html,
 		});
+		console.log(html);
 	};
 
 	renderPost() {
@@ -97,15 +92,11 @@ class Post extends Component {
 									</button>
 								</div>
 
-								{this.state.quillDefaultValue !== '' ? (
-									<ReactQuill
-										theme='snow'
-										value={this.state.quillValue}
-										onChange={this.onChangeQuillHandler}
-									/>
-								) : (
-									''
-								)}
+								<ReactQuill
+									theme='snow'
+									value={this.state.quillValue}
+									onChange={this.onChangeQuillHandler}
+								/>
 							</>
 						) : (
 							<>
@@ -119,7 +110,7 @@ class Post extends Component {
 								</div>
 								<div
 									style={{ position: 'relative' }}
-									dangerouslySetInnerHTML={{ __html: this.props.post.text }}
+									dangerouslySetInnerHTML={{ __html: this.state.quillValue }}
 								></div>
 							</>
 						)}
