@@ -1,9 +1,8 @@
 const router = require('express').Router();
 
-const jwt = require('jsonwebtoken');
 const { uploadImg } = require('../libs/file/uploads');
+const { authenticateJWT } = require('../libs/authJwt');
 
-const config = require('../config');
 const routes = require('./routes');
 const containers = require('./containers');
 const comments = require('./comments');
@@ -11,40 +10,11 @@ const users = require('./users');
 const posts = require('./posts');
 const headerNav = require('./headerNav');
 
-const authenticateJWT = (req, res, next) => {
-	const authHeader = req.headers.authorization;
-
-	if (authHeader) {
-		const token = authHeader.split(' ')[1];
-
-		// console.log('authHeader: ', token);
-
-		jwt.verify(token, config.jwtSecret, (err, user) => {
-			if (err) {
-				res.status(403).json({
-					message: 'Доступ запрещен',
-				});
-
-				console.log('err::::', err);
-			}
-
-			req.user = user;
-			console.log('user::::', user.id);
-
-			next();
-		});
-	} else {
-		res.status(401).json({
-			message: 'Для просмотра содержимого необходимо авторизоватся',
-		});
-	}
-};
-
 module.exports = (app) => {
 	router.post('/routes', routes.getRoutes);
-	router.post('/routes/add', authenticateJWT, routes.validRoute(), routes.addRoute);
-	router.post('/routes/del', authenticateJWT, routes.validRoute(), routes.delRoute);
-	router.post('/routes/upd', authenticateJWT, routes.validRoute(), routes.updRoute);
+	router.post('/routes/add', [authenticateJWT, routes.validRoute()], routes.addRoute);
+	router.post('/routes/del', [authenticateJWT, routes.validRoute()], routes.delRoute);
+	router.post('/routes/upd', [authenticateJWT, routes.validRoute()], routes.updRoute);
 	router.post('/route/:id', authenticateJWT, routes.getRoute);
 
 	router.post('/containers', authenticateJWT, containers.getContainers);
