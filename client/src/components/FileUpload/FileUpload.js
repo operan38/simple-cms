@@ -13,7 +13,6 @@ class FileUpload extends Component {
 	}
 
 	onFileChange = (e) => {
-		console.log(e.target.files[0]);
 		this.setState({ profileImg: e.target.files[0] });
 	};
 
@@ -56,14 +55,10 @@ class FileUpload extends Component {
 	}
 }
 
-function mapStateToProps(state) {
-	return {};
-}
-
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchUpdUserPhoto: (user) => dispatch(fetchUpdUserPhoto(user)),
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FileUpload);
+export default connect(null, mapDispatchToProps)(FileUpload);

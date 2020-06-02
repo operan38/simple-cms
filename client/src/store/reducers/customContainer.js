@@ -1,5 +1,5 @@
 import {
-	FETCH_CUSTOM_CONTAINER_START,
+	FETCH_CUSTOM_CONTAINER_REQUEST,
 	FETCH_CUSTOM_CONTAINER_SUCCESS,
 	FETCH_CUSTOM_CONTAINER_ERROR,
 } from '../actions/type';
@@ -12,7 +12,7 @@ const initialState = {
 
 export default function customContainerReducer(state = initialState, action) {
 	switch (action.type) {
-		case FETCH_CUSTOM_CONTAINER_START:
+		case FETCH_CUSTOM_CONTAINER_REQUEST:
 			return {
 				...state,
 				loading: true,

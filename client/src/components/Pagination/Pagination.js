@@ -187,6 +187,8 @@ class Pagination extends Component {
 Pagination.propTypes = {
 	onChangePage: propTypes.func.isRequired,
 	initialPage: propTypes.number,
+	countItems: propTypes.number,
+	pageSize: propTypes.number,
 };
 
 Pagination.defaultProps = {

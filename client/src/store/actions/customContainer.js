@@ -1,6 +1,6 @@
 import httpCustom from '../../axios/http-custom';
 import {
-	FETCH_CUSTOM_CONTAINER_START,
+	FETCH_CUSTOM_CONTAINER_REQUEST,
 	FETCH_CUSTOM_CONTAINER_SUCCESS,
 	FETCH_CUSTOM_CONTAINER_ERROR,
 } from './type';
@@ -9,33 +9,23 @@ import {
 
 export function fetchCustomContainerByPath(path) {
 	return async (dispath) => {
-		dispath(fetchCustomContainerStart());
+		dispath(request());
 
 		try {
 			const response = await httpCustom.post(path);
-			dispath(fetchCustomContainerSuccess(response.data));
+			dispath(success(response.data));
 		} catch (e) {
-			dispath(fetchCustomContainerError(e));
+			dispath(error(e));
 		}
 	};
-}
 
-export function fetchCustomContainerStart() {
-	return {
-		type: FETCH_CUSTOM_CONTAINER_START,
-	};
-}
-
-export function fetchCustomContainerSuccess(list) {
-	return {
-		type: FETCH_CUSTOM_CONTAINER_SUCCESS,
-		list,
-	};
-}
-
-export function fetchCustomContainerError(e) {
-	return {
-		type: FETCH_CUSTOM_CONTAINER_ERROR,
-		error: e,
-	};
+	function request() {
+		return { type: FETCH_CUSTOM_CONTAINER_REQUEST };
+	}
+	function success(list) {
+		return { type: FETCH_CUSTOM_CONTAINER_SUCCESS, list };
+	}
+	function error(e) {
+		return { type: FETCH_CUSTOM_CONTAINER_ERROR, error: e.response };
+	}
 }

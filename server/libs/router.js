@@ -2,10 +2,8 @@ const express = require('express');
 const urlApi = require('url');
 
 const router = express.Router();
-const config = require('../config');
 
 const routes = require('../models/routes');
-// const sections = require('../models/sections');
 
 const routesMap = [];
 
@@ -39,41 +37,28 @@ const isRouteExsists = (path) => Object.values(routesMap).find((route) => getURL
     }
 } */
 
-// eslint-disable-next-line consistent-return
 router.use(async (req, res, next) => {
 	try {
 		const decodePath = decodeURI(req.path);
 		const fullPath = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
 		const fragmentsPath = urlApi.parse(fullPath);
 
-		// console.log(getUrlParams(fragmentsUrl.search));
-
 		const routesList = await routes.getOnlyAll();
-		// let componetsList = await model.componets.get();
-
-		// console.log(componetsList);
-
-		// console.log(fragmentsUrl);
 
 		if (!routesList) {
 			next();
 		}
 
 		[...routesList].reduce((object, item) => {
-			// eslint-disable-next-line no-param-reassign
-			item.pathKey = item.path;
-			// eslint-disable-next-line no-param-reassign
-			item.path = item.path.replace(/:id/g, '([a-zA-Z0-9-]+)');
-			// eslint-disable-next-line no-param-reassign
-			object[item.pathKey] = item;
+			const currentItem = item;
+			const currentObj = object;
+			currentItem.pathKey = item.path;
+			currentItem.path = currentItem.path.replace(/:id/g, '([a-zA-Z0-9-]+)');
+			currentObj[item.pathKey] = item;
 			return object;
 		}, routesMap);
 
 		const route = isRouteExsists(decodePath);
-
-		// console.log(routesMap);
-
-		// console.log(route);
 
 		if (route) {
 			const param = getURLPattern(route.path).exec(decodePath).slice(1);
@@ -86,32 +71,11 @@ router.use(async (req, res, next) => {
 
 			dataView.route = route;
 			return res.json({ ...dataView });
-
-			// getSection(res, route);
 		}
-
 		return next();
 	} catch (e) {
-		next(e);
+		return next(e);
 	}
 });
-
-/* let getSection = (res, route) => {
-
-    return sections.getById(route.id).then((section) => {
-        let dataView = {};
-
-        dataView.route = route;
-        dataView.section = section;
-
-        //return res.render('index', { ...dataView });
-
-
-        return res.json({...dataView});
-
-    }).catch((e) => {
-        return res.json("Section: " + e);
-    });;
-} */
 
 module.exports = router;
